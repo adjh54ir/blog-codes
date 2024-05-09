@@ -1,0 +1,3 @@
+openai:
+  model: text-davinci-001
+  secret-key: sk-xxxxxx
