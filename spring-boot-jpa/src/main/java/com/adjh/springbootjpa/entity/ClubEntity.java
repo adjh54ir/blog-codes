@@ -35,6 +35,11 @@ public class ClubEntity {
     @Column(name = "club_desc")
     private String clubDesc;
 
+
+    @Comment("동아리 회장 이름")
+    @Column(name = "club_captain_nm")
+    private String clubCaptainNm;
+
     @CreationTimestamp
     @Comment("동아리 설립일자")
     @Column(name = "est_date")

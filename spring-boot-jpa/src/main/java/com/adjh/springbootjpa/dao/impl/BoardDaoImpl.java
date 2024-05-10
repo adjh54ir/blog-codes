@@ -49,7 +49,7 @@ public class BoardDaoImpl implements BoardDao {
     public List<BoardDto> selectBoardList(BoardDto boardDto) {
 
         return queryFactory
-                .select(Projections.fields(BoardDto.class, qBoard.boardSq, qBoard.title, qBoard.content, qBoard.boardType))
+                .select(Projections.fields(BoardDto.class, qBoard.boardSq, qBoard.boardTitle, qBoard.boardContent, qBoard.boardType))
                 .from(qBoard)
                 .where(
                         eqTitle(boardDto.getTitle()),
@@ -70,7 +70,7 @@ public class BoardDaoImpl implements BoardDao {
     public long insertBoard(BoardDto boardDto) {
         return queryFactory
                 .insert(qBoard)
-                .columns(qBoard.title, qBoard.content)
+                .columns(qBoard.boardTitle, qBoard.boardContent)
                 .values(boardDto.getTitle(), boardDto.getContent())
                 .execute();
     }
@@ -88,11 +88,11 @@ public class BoardDaoImpl implements BoardDao {
 
         // title 값이 존재하는 경우 수행
         if (boardDto.getTitle() != null && !boardDto.getTitle().equals("")) {
-            updateClause.set(qBoard.title, boardDto.getTitle());
+            updateClause.set(qBoard.boardTitle, boardDto.getTitle());
         }
         // content 값이 존재하는 경우 수행
         if (boardDto.getContent() != null && !boardDto.getContent().equals("")) {
-            updateClause.set(qBoard.content, boardDto.getContent());
+            updateClause.set(qBoard.boardContent, boardDto.getContent());
         }
         return updateClause
                 .where(qBoard.boardSq.eq(boardDto.getBoardSq()))
@@ -123,7 +123,7 @@ public class BoardDaoImpl implements BoardDao {
      */
     private BooleanExpression eqTitle(String title) {
         if (StringUtils.isNullOrEmpty(title)) return null;
-        return qBoard.title.eq(title);
+        return qBoard.boardTitle.eq(title);
     }
 
     /**
@@ -134,6 +134,6 @@ public class BoardDaoImpl implements BoardDao {
      */
     private BooleanExpression eqContent(String content) {
         if (StringUtils.isNullOrEmpty(content)) return null;
-        return qBoard.content.containsIgnoreCase(content);
+        return qBoard.boardContent.containsIgnoreCase(content);
     }
 }
