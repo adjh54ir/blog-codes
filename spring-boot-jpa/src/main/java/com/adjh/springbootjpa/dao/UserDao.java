@@ -39,4 +39,7 @@ public interface UserDao {
 
     List<UserEntity> selectUserInfo(UserDto userDto);
 
+    List<UserEntity> selectUserClubAllList(UserDto userDto);
+
+
 }

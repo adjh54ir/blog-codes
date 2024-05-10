@@ -62,5 +62,11 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PostMapping("/userClubAll")
+    public ResponseEntity<List<UserEntity>> selectUserClubAll(@RequestBody UserDto userDto) {
+        List<UserEntity> result = userDao.selectUserClubAllList(userDto);
+        System.out.println("결과값 :: " + result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 }

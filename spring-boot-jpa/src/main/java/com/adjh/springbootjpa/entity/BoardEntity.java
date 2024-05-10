@@ -25,20 +25,20 @@ public class BoardEntity {
     @Column(name = "board_sq")
     private long boardSq;
 
-    @Column
-    private String title;
+    @Column(name="board_title")
+    private String boardTitle;
 
-    @Column
-    private String content;
+    @Column(name="board_content")
+    private String boardContent;
 
-    @Column
+    @Column(name="board_type")
     private String boardType;
 
     @Builder
-    public BoardEntity(long boardSq, String title, String content, String boardType) {
+    public BoardEntity(long boardSq, String boardTitle, String boardContent, String boardType) {
         this.boardSq = boardSq;
-        this.title = title;
-        this.content = content;
+        this.boardTitle = boardTitle;
+        this.boardContent = boardContent;
         this.boardType = boardType;
     }
 }

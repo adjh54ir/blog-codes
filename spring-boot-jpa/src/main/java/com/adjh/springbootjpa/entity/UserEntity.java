@@ -43,21 +43,20 @@ public class UserEntity implements Serializable {
     @Column(name = "user_st")
     private String userSt;
 
-    @Comment("동아리 시퀀스")
-    @Column(name = "club_sq")
-    private long clubSq;
-
+    //    @Comment("동아리 시퀀스")
+//    @Column(name = "club_sq")
+//    private long clubSq;
+//
+    @Transient
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userInfo")
     private List<OrderEntity> orders;
 
     @Builder(toBuilder = true)
-    public UserEntity(long userSq, String userId, String userNm, String userSt, long clubSq, List<OrderEntity> orders) {
+    public UserEntity(long userSq, String userId, String userNm, String userSt) {
         this.userSq = userSq;
         this.userId = userId;
         this.userNm = userNm;
         this.userSt = userSt;
-        this.clubSq = clubSq;
-        this.orders = orders;
     }
 }
 

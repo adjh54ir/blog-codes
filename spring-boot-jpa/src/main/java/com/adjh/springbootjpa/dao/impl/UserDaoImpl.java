@@ -41,6 +41,16 @@ public class UserDaoImpl implements UserDao {
     }
 
 
+    @Override
+    public List<UserEntity> selectUserClubAllList(UserDto userDto) {
+        return queryFactory
+                .select(qUser)
+                .from(qUser, qClub)
+                .where(qUser.userNm.eq(qClub.clubCaptainNm))
+                .fetch();
+    }
+
+
     /**
      * 사용자와 동아리 정보를 조회합니다(RIGHT JOIN)
      *
@@ -74,11 +84,12 @@ public class UserDaoImpl implements UserDao {
     public List<UserEntity> selectUserInfo(UserDto userDto) {
         return queryFactory
                 .selectFrom(qUser)
-                .join(qUser.orders)
-                .fetchJoin()
+//                .join(qUser.orders)
+//                .fetchJoin()
                 .where(qUser.userSq.eq(userDto.getUserSq()))
                 .fetch();
     }
+
 
     /**
      * 사용자와 동아리 정보를 조회합니다.(LEFT JOIN)
