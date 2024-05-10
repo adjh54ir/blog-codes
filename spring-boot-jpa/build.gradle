@@ -1,0 +1,71 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.adjh'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+// 프로젝트에서 사용하는 전역 변수를 설정
+ext {
+    set('queryDslVersion', "5.0.0")
+}
+
+dependencies {
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    // [Global Level]
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'             // Spring Boot JDBC + HikariCP
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.mysql:mysql-connector-j:8.3.0'
+
+
+    // [Compile & Runtime Level]
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // [Annotation Level]
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // [Test Level]
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    // 5. QueryDSL과 관련된 라이브러리들이 컴파일 시점에만 필요하도록 설정합니다. 또한, QueryDSL 설정을 컴파일 클래스패스에 추가합니다.
+    querydsl.extendsFrom compileClasspath
+}
+
+// 1. Q-Class를 생성할 디렉토리 경로를 설정합니다.
+def queryDslSrcDir = 'src/main/generated/querydsl/'
+
+// 2. JavaCompile Task를 수행하는 경우 생성될 소스코드의 출력 디렉토리를 queryDslSrcDir로 설정합니다.
+tasks.withType(JavaCompile).configureEach {
+    options.getGeneratedSourceOutputDirectory().set(file(queryDslSrcDir))
+}
+
+// 3. 소스 코드로 인식할 디렉토리에 경로에 Q-Class 파일을 추가합니다. 이렇게 하면 Q-Class가 일반 Java 클래스처럼 취급되어 컴파일과 실행 시 클래스패스에 포함됩니다.
+sourceSets {
+    main.java.srcDirs += [queryDslSrcDir]
+}
+
+// 4. clean Task를 수행하는 경우 지정한 디렉토리를 삭제하도록 설정합니다. : 자동 생성된 Q-Class를 제거합니다.
+clean {
+    delete file(queryDslSrcDir)
+}
