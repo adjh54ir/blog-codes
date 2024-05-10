@@ -46,10 +46,10 @@ spring.profiles.active=multiflex-xxx
 
 | End point                                          | HTTP METHOD | 설명                                                                                   |
 |----------------------------------------------------|:------------|--------------------------------------------------------------------------------------|
-| http://localhost:8000//api/v1/chatGpt/modelList    | GET         | 사용 가능한 모델리스트를 조회합니다                                                                  |
-| http://localhost:8000//api/v1/chatGpt/model        | GET         | 유효한 모델인지 확인합니다.                                                                      |
-| http://localhost:8000//api/v1/chatGpt/legacyPrompt | POST        | 레거시 모델(gpt-3.5-turbo-instruct, babbage-002, davinci-002)을 사용하여 프롬프트를 입력하고 결과값을 받습니다. |
-| http://localhost:8000//api/v1/chatGpt/prompt       | POST        | 새로운 모델(gpt-4, gpt-4 turbo, gpt-3.5-turbo)을 사용하여 프롬프트를 입력하여 결과값을 받습니다.                |
+| http://localhost:8000/api/v1/chatGpt/modelList    | GET         | 사용 가능한 모델리스트를 조회합니다                                                                  |
+| http://localhost:8000/api/v1/chatGpt/model        | GET         | 유효한 모델인지 확인합니다.                                                                      |
+| http://localhost:8000/api/v1/chatGpt/legacyPrompt | POST        | 레거시 모델(gpt-3.5-turbo-instruct, babbage-002, davinci-002)을 사용하여 프롬프트를 입력하고 결과값을 받습니다. |
+| http://localhost:8000/api/v1/chatGpt/prompt       | POST        | 새로운 모델(gpt-4, gpt-4 turbo, gpt-3.5-turbo)을 사용하여 프롬프트를 입력하여 결과값을 받습니다.                |
 
     ⭕️ Request Format
 
