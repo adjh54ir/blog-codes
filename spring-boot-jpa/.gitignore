@@ -7,7 +7,6 @@
 /src/main/resources/config/application-multiflex-oauth.yml
 /logs/
 /src/main/generated/querydsl
-/src/main/resources/config
 ### Eclipse ###
 .metadata
 bin/
