@@ -35,7 +35,6 @@ dependencies {
 
     // [Compile & Runtime Level]
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'org.postgresql:postgresql'
 
     // [Annotation Level]
     annotationProcessor 'org.projectlombok:lombok'
