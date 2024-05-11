@@ -41,6 +41,22 @@ public class UserDaoImpl implements UserDao {
     }
 
 
+    /**
+     * @param userDto
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserEntity> selectUserInfo(UserDto userDto) {
+        return queryFactory
+                .selectFrom(qUser)
+//                .join(qUser.orders)
+//                .fetchJoin()
+                .where(qUser.userSq.eq(userDto.getUserSq()))
+                .fetch();
+    }
+
+
     @Override
     public List<UserEntity> selectUserClubAllList(UserDto userDto) {
         return queryFactory
@@ -72,21 +88,6 @@ public class UserDaoImpl implements UserDao {
                 .from(qClub)
                 .rightJoin(qUserClubMap).on(qClub.clubSq.eq(qUserClubMap.clubSq))
                 .rightJoin(qUser).on(qUserClubMap.userSq.eq(qUser.userSq))
-                .fetch();
-    }
-
-    /**
-     * @param userDto
-     * @return
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<UserEntity> selectUserInfo(UserDto userDto) {
-        return queryFactory
-                .selectFrom(qUser)
-//                .join(qUser.orders)
-//                .fetchJoin()
-                .where(qUser.userSq.eq(userDto.getUserSq()))
                 .fetch();
     }
 
