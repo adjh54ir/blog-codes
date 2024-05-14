@@ -42,7 +42,7 @@ public interface UserPlusJpaRepository extends JpaRepository<UserEntity, Long> {
     /* ==============================================================================
      * ================================= NamedQuery 사용예시
      * ==============================================================================*/
-    List<UserEntity> selectNamedUserList(UserDto userDto);
-
-    List<UserEntity> selectNamedUserDetail(UserDto userDto);
+//    List<UserEntity> selectNamedUserList(UserDto userDto);
+//
+//    List<UserEntity> selectNamedUserDetail(UserDto userDto);
 }

@@ -1,0 +1,16 @@
+####################################################################################
+# '개발(multiflex-scheduler-develop)', '운영(multiflex-scheduler-develop)' 설정 파일입니다.
+#####################################################################################
+
+# Spring boot Server Configuration
+server:
+  port: 7001
+
+devtools:
+  # Auto Restart
+  restart:
+    enabled: true
+# logging slf4j
+logging:
+  # default Logging 프레임워크 설정 파일을 참조
+  config: classpath:log4j2/log4j2-local.yml

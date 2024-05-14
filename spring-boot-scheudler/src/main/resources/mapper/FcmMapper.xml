@@ -1,0 +1,16 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.adjh54.scheduler.mapper.FcmMapper">
+
+    <!-- FCM 전송을 위한 디바이스 정보 조회-->
+    <select id="selectFcmSendList" resultType="FcmSendDeviceDto">
+        SELECT		t2.device_token
+        FROM 		tb_user t1
+        INNER JOIN 	tb_user_device t2
+        ON 			t1.user_sq = t2.user_sq
+        INNER JOIN 	tb_user_device_alarm t3
+        ON 			t2.device_sq = t3.device_sq
+    </select>
+
+
+</mapper>
