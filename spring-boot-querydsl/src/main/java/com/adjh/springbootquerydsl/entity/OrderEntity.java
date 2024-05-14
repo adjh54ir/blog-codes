@@ -1,4 +1,4 @@
-package com.adjh.springbootjpa.entity;
+package com.adjh.springbootquerydsl.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
