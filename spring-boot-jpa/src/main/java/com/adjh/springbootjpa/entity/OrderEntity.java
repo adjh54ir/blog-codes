@@ -42,7 +42,4 @@ public class OrderEntity {
     @CreationTimestamp
     private Timestamp orderDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_sq")
-    private UserEntity userInfo;
 }

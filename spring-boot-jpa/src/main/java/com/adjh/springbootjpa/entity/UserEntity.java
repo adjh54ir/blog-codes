@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * tb_user 테이블과 매핑 객체
@@ -19,10 +18,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-@NamedQueries({
-        @NamedQuery(name = "UserEntity.selectNamedUserList", query = "SELECT u FROM UserEntity u WHERE u.userNm = :userNm"),
-        @NamedQuery(name = "UserEntity.selectNamedUserDetail", query = "SELECT u FROM UserEntity u WHERE u.userId = :userId")
-})
 @Table(name = "tb_user")
 public class UserEntity implements Serializable {
     @Id
@@ -43,13 +38,6 @@ public class UserEntity implements Serializable {
     @Column(name = "user_st")
     private String userSt;
 
-    //    @Comment("동아리 시퀀스")
-//    @Column(name = "club_sq")
-//    private long clubSq;
-//
-    @Transient
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userInfo")
-    private List<OrderEntity> orders;
 
     @Builder(toBuilder = true)
     public UserEntity(long userSq, String userId, String userNm, String userSt) {

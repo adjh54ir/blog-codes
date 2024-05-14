@@ -1,0 +1,70 @@
+Configutation:
+  # 구성 이름
+  name: spring-boot-scheduler-local
+
+  # [Properties] 설정에 사용되는 속성들을 정의
+  Properties:
+    Property:
+      - name: "log-path"
+        value: "./logs"
+      - name: "charset-UTF-8"
+        value: "UTF-8"
+      - name: "layout-pattern"
+        value: "%style{%d${UTF-8}}{black} %highlight{%-5level} [%style{%t}{bright,blue}] %style{%C}{bright,yellow}: %msg%n%throwable"
+      - name: "info-log"
+        value: ${log-path}/tugboatScheduler/api-info.log
+      - name: "error-log"
+        value: ${log-path}/tugboatScheduler/api-error.log
+      - name: "auth-log"
+        value: ${log-path}/tugboatScheduler/api-auth.log
+      - name: "json-log"
+        value: ${log-path}/tugboatScheduler/api-json-info.log
+
+  # [Appenders] 로그 기록방식 정의
+  Appenders:
+    # [Appenders - Console] 콘솔에 로그를 출력하는 방식 정의
+    Console:
+      - name: console-appender
+        target: SYSTEM_OUT
+        PatternLayout:
+          pattern: ${layout-pattern}
+
+  # [Loggers] 로그 출력 범위를 정의
+  Loggers:
+    # [Loggers - Root] 모든 로그를 기록하는 최상위 로그를 정의
+    Root:
+      level: OFF
+      AppenderRef:
+        - ref: console-appender
+
+    # [Loggers - Loggers] 특정 패키지나 클래스에 대한 로그를 정의
+    Logger:
+      # 1. Spring Framework 로그 레벨 'INFO' 정의
+      - name: org.springframework
+        additivity: "false"
+        level: INFO
+        AppenderRef:
+          - ref: console-appender
+
+      # 2. Spring Framework 로그 레벨 'DEBUG' 정의
+      - name: com.adjh
+        additivity: "false"
+        level: DEBUG
+        AppenderRef:
+          - ref: console-appender
+
+      # 3. MyBatis 관련 로그 레벨 특정 패키지 외에는 모두 OFF
+      - name: jdbc
+        level: OFF
+      - name: jdbc.sqlonly
+        level: OFF
+      - name: jdbc.sqltiming
+        level: INFO
+      - name: jdbc.resultsettable
+        level: OFF
+      - name: jdbc.audit
+        level: OFF
+      - name: jdbc.resultset
+        level: OFF
+      - name: jdbc.connection
+        level: OFF

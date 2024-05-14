@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.adjh'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot Starter
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc:3.2.3'         // Spring Boot JDBC
+    implementation 'org.springframework.boot:spring-boot-starter-quartz:3.2.3'            // Spring Boot Quartz
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.2.3'               // Spring Boot Web
+    implementation 'org.springframework.boot:spring-boot-starter-validation:3.2.3'        // Spring Boot Validation
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2:3.2.3'            // Spring Boot Log4j2
+
+    // OpenSource
+    implementation 'com.google.firebase:firebase-admin:9.2.0'                             // Firebase Admin
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'                   // Jackson Databind
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.16.1'      // Jackson Yaml
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'                // jdbc-log4j2
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'            // MyBatis
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // Compile & Runtime Level
+    compileOnly 'org.projectlombok:lombok'                                              // Lombok
+    annotationProcessor 'org.projectlombok:lombok'                                      // Lombok
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'  // Spring Boot Configuration
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'                     // Spring Boot Devtool
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'              // Spring Boot Test
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
