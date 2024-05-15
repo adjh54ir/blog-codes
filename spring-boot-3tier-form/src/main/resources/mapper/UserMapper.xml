@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.adjh.springboot3tierform.dao.UserDao">
+    <!-- 사용자 리스트 조회 -->
+    <select id="selectUserList" resultType="UserDto">
+        SELECT *
+        FROM tb_user
+    </select>
+
+    <!-- 사용자 등록 -->
+    <insert id="insertUser" parameterType="UserDto">
+        INSERT INTO tb_user (user_id, user_nm, user_st)
+        VALUES (#{userId}, #{userNm}, #{userSt})
+    </insert>
+
+    <!-- 사용자 수정 -->
+    <update id="updateUser" parameterType="UserDto">
+        UPDATE tb_user
+        <set>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+            <if test="userNm != null">
+                user_nm = #{userNm}
+            </if>
+            <if test="userSt != null">
+                user_st = #{userSt}
+            </if>
+        </set>
+        WHERE user_sq = #{userSq}
+    </update>
+
+    <!-- 사용자 삭제 -->
+    <delete id="deleteUser" parameterType="UserDto">
+        DELETE
+        FROM tb_user
+        WHERE user_sq = #{userSq}
+    </delete>
+
+</mapper>
