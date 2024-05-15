@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.adjh'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    configureEach {
+        // spring-boot-starter-web 라이브러리에 포함되어 있는 logging의 종속성을 제외합니다.
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+ext {
+    set('bootVer', "3.2.5")
+    set('jacksonVer', "2.16.1")
+
+}
+
+dependencies {
+
+    // [Global Level]
+    implementation "org.springframework.boot:spring-boot-starter-web:${bootVer}"                // Spring Boot Web
+    implementation "org.springframework.boot:spring-boot-starter-data-jdbc:${bootVer}"          // Spring Boot JDBC + HikariCP
+    implementation "org.springframework.boot:spring-boot-starter-validation:${bootVer}"         // Spring Boot validation
+    implementation "org.springframework.boot:spring-boot-starter-log4j2:${bootVer}"             // Spring Boot Log4j2
+    implementation "org.springframework.boot:spring-boot-starter-aop:${bootVer}"                // Spring Boot AOP
+
+
+    // [Open Source]
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'                  // MyBatis
+    implementation 'org.springdoc:springdoc-openapi-ui:1.8.0'                                   // Swagger springdoc-ui
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'                      // MyBatis Query Formatter
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVer}"                  // Jackson Databind
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVer}"     // Jackson DatabindFormat Yaml
+
+
+    // [Compile & runtime Level]
+    compileOnly 'org.projectlombok:lombok'                                                      // Lombok
+    compileOnly "org.springframework.boot:spring-boot-devtools:${bootVer}"                      // Spring Boot Devtool
+    runtimeOnly 'org.postgresql:postgresql:42.7.3'                                              // PostgreSQL Driver
+
+    // [Annotation Level]
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${bootVer}"  // Spring Boot Configuration Processor
+
+    // [DEV & Test Level]
+    developmentOnly "org.springframework.boot:spring-boot-devtools:${bootVer}"                      // Spring Boot Devtool
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${bootVer}"               // Spring Boot JUnit
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"                                    // Spring Boot JUnit
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
