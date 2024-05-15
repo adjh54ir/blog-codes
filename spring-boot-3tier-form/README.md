@@ -15,7 +15,7 @@
 [2. 개발 환경에 따라 각각 환경 파일 구성 방법: application.properties](https://adjh54.tistory.com/200)    
 [3. 소프트웨어 아키텍처 10가지 패턴 -1 : 정의, 사용 사례](https://adjh54.tistory.com/453)      
 [4. 소프트웨어 아키텍처 10가지 패턴 -2 : 정의, 사용 사례](https://adjh54.tistory.com/454)    
-[6. 생성자 패턴 이해하기 : 점층적 생성자, 자바 빈즈, Builder 패턴)](https://adjh54.tistory.com/78)
+[6. 생성자 패턴 이해하기 : 점층적 생성자, 자바 빈즈, Builder 패턴)](https://adjh54.tistory.com/78)  
 [7. 메서드 체이닝(Method Chaining) , 플루언트 인터페이스(Fluent Interface), 빌더 패턴(Builder Pattern)](https://adjh54.tistory.com/440)    
 [8.RESTful API 설계 방법 -1 : 이해하기](https://adjh54.tistory.com/150)    
 [9.RESTful API 설계 방법 -2 : 구성하기](https://adjh54.tistory.com/151)    
@@ -72,7 +72,7 @@
 
 <br />
 
-3. 데이터 계층(Data Layer : Data Access, Database) : DAO
+3. 데이터 계층(Data Layer : Data Access, Database) : DAO, Database
     - 데이터베이스와 데이터베이스에 접근(Data Access)하여 데이터 처리하는 계층으로 수행이 됩니다.
     - 데이터베이스에 접근하여 데이터를 가져와 추가 데이터 조작을 수행하여 최종적으로 비즈니스 계층(Server)로 전달하는 역할을 수행합니다.
     - MyBatis를 이용하여 Dao와 Mapper간의 매핑을 통해서 객체(Object) 형태로 데이터를 반환 받습니다.

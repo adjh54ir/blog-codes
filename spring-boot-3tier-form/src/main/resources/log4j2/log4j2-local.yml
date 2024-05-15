@@ -1,6 +1,6 @@
 Configutation:
   # 구성 이름
-  name: multiflex-api-local
+  name: spring-boot-3tier-form-local
 
   # [Properties] 설정에 사용되는 속성들을 정의
   Properties:
@@ -70,7 +70,7 @@ Configutation:
   Loggers:
     # [Loggers - Root] 모든 로그를 기록하는 최상위 로그를 정의
     Root:
-      level: OFF
+      level: INFO
       AppenderRef:
         - ref: console-appender
         - ref: rolling-file-appender
@@ -87,7 +87,7 @@ Configutation:
           - ref: file-error-appender
 
       # 2. Spring Framework 로그 레벨 'DEBUG' 정의
-      - name: "com.adjh.sringboot3tierform"
+      - name: "com.adjh.springboot3tierform"
         additivity: "false"
         level: FALSE
         AppenderRef:
@@ -99,18 +99,18 @@ Configutation:
       - name: org.apache.ibatis
         level: trace
       - name: jdbc
-        level: OFF
+        level: TRACE
       - name: jdbc.sqlonly
-        level: INFO
+        level: TRACE
       - name: jdbc.sqltiming
         level: TRACE
       - name: jdbc.resultsettable
-        level: INFO
+        level: TRACE
       - name: jdbc.audit
-        level: OFF
+        level: TRACE
       - name: jdbc.resultset
-        level: OFF
+        level: TRACE
       - name: jdbc.connection
-        level: OFF
+        level: TRACE
 
 
