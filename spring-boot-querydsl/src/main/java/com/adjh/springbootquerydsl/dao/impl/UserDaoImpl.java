@@ -7,6 +7,7 @@ import com.adjh.springbootquerydsl.dto.UserOrderDto;
 import com.adjh.springbootquerydsl.dto.UserPassportDto;
 import com.adjh.springbootquerydsl.entity.*;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -38,6 +39,30 @@ public class UserDaoImpl implements UserDao {
 
     public UserDaoImpl(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
+    }
+
+
+    /**
+     * 주문한 사용자가 있는지 확인
+     *
+     * @param userDto
+     * @return
+     */
+    @Override
+    public List<UserDto> selectExistOrderUser(UserDto userDto) {
+        return queryFactory
+                .select(
+                        Projections.fields(UserDto.class
+                                , qUser.userId
+                                , qUser.userNm
+                                , qUser.userSt))
+                .from(qUser)
+                .where(qUser.userSq.in(
+                        JPAExpressions
+                                .select(qOrder.userSq)
+                                .from(qOrder)
+                ))
+                .fetch();
     }
 
 

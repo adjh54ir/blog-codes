@@ -11,30 +11,21 @@ import lombok.*;
  */
 @Getter
 @ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class UserDto {
 
     private Long userSq;
     private String userId;
     private String userNm;
     private String userSt;
-    private String passportSq;
-    private String passportId;
-    private String issueDate;
-    private String expiredDate;
-    private String sortOptions;
 
 
     @Builder(toBuilder = true)
-    public UserDto(Long userSq, String userId, String userNm, String userSt, String passportSq, String passportId, String issueDate, String expiredDate, String sortOptions) {
+
+    public UserDto(Long userSq, String userId, String userNm, String userSt) {
         this.userSq = userSq;
         this.userId = userId;
         this.userNm = userNm;
         this.userSt = userSt;
-        this.passportSq = passportSq;
-        this.passportId = passportId;
-        this.issueDate = issueDate;
-        this.expiredDate = expiredDate;
-        this.sortOptions = sortOptions;
     }
 }
