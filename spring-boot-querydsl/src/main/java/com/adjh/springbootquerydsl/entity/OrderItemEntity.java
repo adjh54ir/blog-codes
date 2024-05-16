@@ -26,7 +26,7 @@ public class OrderItemEntity {
 
     @Column(name = "order_sq")
     @Comment("주문 시퀀스")
-    private int orderSq;
+    private long orderSq;
 
     @Column(name = "product_id")
     @Comment("물품 아이디")

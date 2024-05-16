@@ -69,4 +69,18 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+
+    /**
+     * 주문한 사용자 리스트를 조회합니다.
+     *
+     * @param userDto
+     * @return
+     */
+    @PostMapping("/orderUser")
+    public ResponseEntity<List<UserDto>> orderUser(@RequestBody UserDto userDto) {
+        List<UserDto> result = userDao.selectExistOrderUser(userDto);
+        System.out.println("결과값 :: " + result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

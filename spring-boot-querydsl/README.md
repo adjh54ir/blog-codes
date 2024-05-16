@@ -103,17 +103,73 @@ VALUES ('볼링 동아리', '50년 역사를 자랑하는 볼링 동아리입니
 -- VALUES('카페 동아리', '얼어죽어도 아아만 마시는 카페 동아리입니다.', CURRENT_TIMESTAMP, "박철수");
 ```
 
-️
+<br/>
+<br/>
+
+### 3.2. 테이블 구조 및 Dummy 데이터 생성 : QueryDSL Subquery 관계
+
+> 1. 스칼라 서브쿼리 테이블 구조 : SELECT 절
+     <img src="https://github.com/adjh54ir/blog-codes/assets/70501374/065f1f73-40ea-432a-8d6b-f725aceb4544"/>
+
+<br/>
+
+> 2. 인라인 뷰 테이블 구조 : FROM 절
+     <img src="https://github.com/adjh54ir/blog-codes/assets/70501374/a8f2982d-712c-4be0-8fb8-7e7c3849ecb4"/>
+     ️
+
+<br/>
+
+> 3. 일반 서브쿼리 테이블 구조 : WHERE 절 / HAVING 절
+     <img src="https://github.com/adjh54ir/blog-codes/assets/70501374/d196c062-4643-4f63-a334-d79790dca29b"/>
+
+
+
+```sql
+
+-- 주문 테이블
+CREATE TABLE tb_order
+(
+    order_sq   int unsigned NOT NULL AUTO_INCREMENT COMMENT '주문 시퀀스',
+    user_sq    int unsigned NOT NULL COMMENT '사용자 시퀀스',
+    order_date TIMESTAMP NOT NULL COMMENT '주문일자',
+    PRIMARY KEY (order_sq)
+)
+
+-- 주문 항목 테이블
+CREATE TABLE tb_order_item
+(
+    order_item_sq int unsigned NOT NULL AUTO_INCREMENT COMMENT '물품 시퀀스',
+    order_sq      int unsigned NOT NULL COMMENT '주문 시퀀스',
+    product_id    VARCHAR(31) NOT NULL COMMENT '항목 아이디',
+    quantity      int unsigned NOT NULL COMMENT '항목 수량',
+    price         int unsigned NOT NULL COMMENT '항목 가격',
+    PRIMARY KEY (order_item_sq)
+)
+
+-- 주문 테이블 Dummy 데이터 
+INSERT INTO tb_order(user_sq, order_date)
+VALUES (1, current_timestamp());
+
+-- 주문 항목 테이블 Dummy 데이터
+INSERT INTO TB_ORDER_ITEM(order_sq, product_id, quantity, price)
+VALUES (1, 'P000001', 1, 1000);
+-- VALUES( 1, 'P000002', 33, 200);
+```
+
+
 
 ## 4. API Endpoint
 
-| End point                                        | HTTP METHOD | JPA 분류   | 설명                      |
-|--------------------------------------------------|:------------|:---------|-------------------------|
-| http://localhost:8000/api/v1/user/userPassports  | POST        | QueryDSL | 사용자와 여권의 INNER JOIN 예시  |
-| http://localhost:8000/api/v1/user/userClubs      | POST        | QueryDSL | 사용자와 동아리의 LEFT JOIN 예시  |
-| http://localhost:8000/api/v1/user/userClubsRight | POST        | QueryDSL | 사용자와 동아리의 RIGHT JOIN 예시 |
-| http://localhost:8000/api/v1/user/userInfo       | POST        | QueryDSL | 사용자의 FETCH JOIN 예시      |
-| http://localhost:8000/api/v1/user/userClubAll    | POST        | QueryDSL | 사용자의 THETA JOIN 예시      |
+| End point                                        | HTTP METHOD | QueryDSL 분류 | 설명                                          |
+|--------------------------------------------------|:------------|:------------|---------------------------------------------|
+| http://localhost:8000/api/v1/user/userPassports  | POST        | JOIN        | 사용자와 여권의 INNER JOIN 예시                      |
+| http://localhost:8000/api/v1/user/userClubs      | POST        | JOIN        | 사용자와 동아리의 LEFT JOIN 예시                      |
+| http://localhost:8000/api/v1/user/userClubsRight | POST        | JOIN        | 사용자와 동아리의 RIGHT JOIN 예시                     |
+| http://localhost:8000/api/v1/user/userInfo       | POST        | JOIN        | 사용자의 FETCH JOIN 예시                          |
+| http://localhost:8000/api/v1/user/userClubAll    | POST        | JOIN        | 사용자의 THETA JOIN 예시                          |
+| http://localhost:8000/api/v1/order/sumOrder      | POST        | SubQuery    | 주문에 대한 가격 * 수량의 합계 : 스칼라 서브쿼리 예시            |
+| http://localhost:8000/api/v1/order/sumOrder2     | POST        | SubQuery    | 주문에 대한 가격 * 수량의 합계 : JOIN을 이용한 예시(인라인 뷰 대체) |
+| http://localhost:8000/api/v1/user/orderUser      | POST        | SubQuery    | 주문한 사용자 리스트 : WHERE 서브쿼리 예시                 |
 
 
 

@@ -41,5 +41,6 @@ public interface UserDao {
 
     List<UserEntity> selectUserClubAllList(UserDto userDto);
 
+    List<UserDto> selectExistOrderUser(UserDto userDto);
 
 }
