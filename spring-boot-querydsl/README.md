@@ -113,7 +113,7 @@ VALUES ('볼링 동아리', '50년 역사를 자랑하는 볼링 동아리입니
 
 <br/>
 
-> 2. 인라인 뷰 테이블 구조 : FROM 절
+> 2. 인라인 뷰 테이블 구조 : FROM 절 / @Subselect 기반 FROM 절
      <img src="https://github.com/adjh54ir/blog-codes/assets/70501374/a8f2982d-712c-4be0-8fb8-7e7c3849ecb4"/>
      ️
 
@@ -121,8 +121,6 @@ VALUES ('볼링 동아리', '50년 역사를 자랑하는 볼링 동아리입니
 
 > 3. 일반 서브쿼리 테이블 구조 : WHERE 절 / HAVING 절
      <img src="https://github.com/adjh54ir/blog-codes/assets/70501374/d196c062-4643-4f63-a334-d79790dca29b"/>
-
-
 
 ```sql
 
@@ -156,20 +154,19 @@ VALUES (1, 'P000001', 1, 1000);
 -- VALUES( 1, 'P000002', 33, 200);
 ```
 
-
-
 ## 4. API Endpoint
 
-| End point                                        | HTTP METHOD | QueryDSL 분류 | 설명                                          |
-|--------------------------------------------------|:------------|:------------|---------------------------------------------|
-| http://localhost:8000/api/v1/user/userPassports  | POST        | JOIN        | 사용자와 여권의 INNER JOIN 예시                      |
-| http://localhost:8000/api/v1/user/userClubs      | POST        | JOIN        | 사용자와 동아리의 LEFT JOIN 예시                      |
-| http://localhost:8000/api/v1/user/userClubsRight | POST        | JOIN        | 사용자와 동아리의 RIGHT JOIN 예시                     |
-| http://localhost:8000/api/v1/user/userInfo       | POST        | JOIN        | 사용자의 FETCH JOIN 예시                          |
-| http://localhost:8000/api/v1/user/userClubAll    | POST        | JOIN        | 사용자의 THETA JOIN 예시                          |
-| http://localhost:8000/api/v1/order/sumOrder      | POST        | SubQuery    | 주문에 대한 가격 * 수량의 합계 : 스칼라 서브쿼리 예시            |
-| http://localhost:8000/api/v1/order/sumOrder2     | POST        | SubQuery    | 주문에 대한 가격 * 수량의 합계 : JOIN을 이용한 예시(인라인 뷰 대체) |
-| http://localhost:8000/api/v1/user/orderUser      | POST        | SubQuery    | 주문한 사용자 리스트 : WHERE 서브쿼리 예시                 |
+| End point                                        | HTTP METHOD | QueryDSL 분류 | 설명                                                 |
+|--------------------------------------------------|:------------|:------------|----------------------------------------------------|
+| http://localhost:8000/api/v1/user/userPassports  | POST        | JOIN        | 사용자와 여권의 INNER JOIN 예시                             |
+| http://localhost:8000/api/v1/user/userClubs      | POST        | JOIN        | 사용자와 동아리의 LEFT JOIN 예시                             |
+| http://localhost:8000/api/v1/user/userClubsRight | POST        | JOIN        | 사용자와 동아리의 RIGHT JOIN 예시                            |
+| http://localhost:8000/api/v1/user/userInfo       | POST        | JOIN        | 사용자의 FETCH JOIN 예시                                 |
+| http://localhost:8000/api/v1/user/userClubAll    | POST        | JOIN        | 사용자의 THETA JOIN 예시                                 |
+| http://localhost:8000/api/v1/order/sumOrder      | POST        | SubQuery    | 주문에 대한 가격 * 수량의 합계 : 스칼라 서브쿼리 예시                   |
+| http://localhost:8000/api/v1/order/sumOrder2     | POST        | SubQuery    | 주문에 대한 가격 * 수량의 합계 : JOIN을 이용한 예시(인라인 뷰 대체)        |
+| http://localhost:8000/api/v1/order/sumOrder2     | POST        | SubQuery    | 주문에 대한 가격 * 수량의 합계 : @Subsselect 이용한 예시 (인라인 뷰 대체) |
+| http://localhost:8000/api/v1/user/orderUser      | POST        | SubQuery    | 주문한 사용자 리스트 : WHERE 서브쿼리 예시                        |
 
 
 

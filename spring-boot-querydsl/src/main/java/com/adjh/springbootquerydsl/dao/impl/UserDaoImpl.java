@@ -50,6 +50,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public List<UserDto> selectExistOrderUser(UserDto userDto) {
+
         return queryFactory
                 .select(
                         Projections.fields(UserDto.class
@@ -63,6 +64,8 @@ public class UserDaoImpl implements UserDao {
                                 .from(qOrder)
                 ))
                 .fetch();
+
+
     }
 
 
