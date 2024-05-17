@@ -17,4 +17,6 @@ public interface OrderDao {
 
     OrderDto selectOrderSumItem2(OrderDto orderDto);
 
+    OrderDto selectOrderSumItem3(OrderDto orderDto);
+
 }

@@ -4,6 +4,7 @@ import com.adjh.springbootquerydsl.dao.OrderDao;
 import com.adjh.springbootquerydsl.dto.OrderDto;
 import com.adjh.springbootquerydsl.entity.QOrderEntity;
 import com.adjh.springbootquerydsl.entity.QOrderItemEntity;
+import com.adjh.springbootquerydsl.entity.QOrderItemSubEntity;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
@@ -30,6 +31,28 @@ public class OrderDaoImpl implements OrderDao {
 
     private final QOrderEntity qOrder = QOrderEntity.orderEntity;
     private final QOrderItemEntity qOrderItem = QOrderItemEntity.orderItemEntity;
+    private final QOrderItemSubEntity qOrderItemSubEntity = QOrderItemSubEntity.orderItemSubEntity;
+
+    /**
+     * 주문에 대한 합계를 구합니다.
+     *
+     * @param orderDto
+     * @return
+     */
+    @Override
+    public OrderDto selectOrderSumItem3(OrderDto orderDto) {
+        return queryFactory
+                .select(
+                        Projections.fields(OrderDto.class,
+                                qOrder.orderSq,
+                                qOrder.orderDate,
+                                qOrderItemSubEntity.totalPrice
+                        )
+                )
+                .from(qOrder, qOrderItemSubEntity)
+                .fetchOne();
+    }
+
 
 
     /**
@@ -41,7 +64,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     @Transactional
     public OrderDto selectOrderSumItem(OrderDto orderDto) {
-        OrderDto result = queryFactory
+        return queryFactory
                 .select(
                         Projections.fields(OrderDto.class,
                                 ExpressionUtils
@@ -55,7 +78,6 @@ public class OrderDaoImpl implements OrderDao {
                 .from(qOrder)
                 .where(qOrder.orderSq.eq(orderDto.getOrderSq()))
                 .fetchOne();
-        return result;
     }
 
     /**
@@ -67,7 +89,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     @Transactional
     public OrderDto selectOrderSumItem2(OrderDto orderDto) {
-        OrderDto result = queryFactory
+        return queryFactory
                 .select(
                         Projections.fields(OrderDto.class,
                                 qOrder.orderSq,
@@ -80,6 +102,7 @@ public class OrderDaoImpl implements OrderDao {
                 .where(qOrder.orderSq.eq(orderDto.getOrderSq()))
                 .groupBy(qOrder.orderSq)
                 .fetchOne();
-        return result;
+
     }
+
 }

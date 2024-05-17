@@ -52,4 +52,18 @@ public class OrderController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+
+    /**
+     * 주문에 대한 합계(가격 * 수량)
+     *
+     * @param orderDto
+     * @return
+     */
+    @PostMapping("/sumOrder3")
+    public ResponseEntity<OrderDto> selectSumOrder3(@RequestBody OrderDto orderDto) {
+        OrderDto result = orderDao.selectOrderSumItem3(orderDto);
+        System.out.println("결과값 :: " + result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }
