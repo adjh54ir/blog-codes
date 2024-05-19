@@ -1,4 +1,4 @@
-package com.adjh.javaalgorithm.controller.linear;
+package com.adjh.javaalgorithm.controller.datastruct;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 
 /**
- * 선형 탐색 알고리즘 > 큐
+ * 자료구조 > 큐
  *
  * @author : jonghoon
  * @link : https://adjh54.tistory.com/185
@@ -17,7 +17,7 @@ import java.util.*;
  * @since : 5/19/24
  */
 @RestController
-@RequestMapping("/api/v1/queue")
+@RequestMapping("/api/v1/datastruct/queue")
 public class QueueController {
 
     /**

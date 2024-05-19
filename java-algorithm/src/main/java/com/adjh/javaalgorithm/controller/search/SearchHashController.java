@@ -14,12 +14,12 @@ import java.util.Map;
  *
  * @author : jonghoon
  * @link : https://adjh54.tistory.com/490
- * @fileName : SearchHashAlgoController
+ * @fileName : SearchHashController
  * @since : 5/19/24
  */
 @RestController
-@RequestMapping("/api/v1/hash")
-public class SearchHashAlgoController {
+@RequestMapping("/api/v1/search/hash")
+public class SearchHashController {
 
     /**
      * [프로그래머스] Level1 - 폰켓몬
