@@ -1,4 +1,4 @@
-package com.adjh.javaalgorithm.controller.linear;
+package com.adjh.javaalgorithm.controller.datastruct;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Stack;
 
 /**
- * 선형 탐색 알고리즘 > 스텍
+ * 자료구조 > 스텍
  *
  * @author : jonghoon
  * @link : https://adjh54.tistory.com/185
@@ -17,7 +17,7 @@ import java.util.Stack;
  * @since : 5/19/24
  */
 @RestController
-@RequestMapping("/api/v1/stack")
+@RequestMapping("/api/v1/datastruct/stack")
 public class StackController {
 
     /**
