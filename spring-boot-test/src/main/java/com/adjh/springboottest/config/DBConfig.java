@@ -1,4 +1,4 @@
-package com.adjh.springboot3tierform.config;
+package com.adjh.springboottest.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -54,7 +54,7 @@ public class DBConfig {
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);                                                   // 데이터베이스와 연결을 위한 DataSource 지정
-        sessionFactory.setTypeAliasesPackage("com.adjh.springboot3tierform.model");
+        sessionFactory.setTypeAliasesPackage("com.adjh.springboot3tierform.dto");
         sessionFactory.setConfigLocation(new PathMatchingResourcePatternResolver().getResource("classpath:config/common-mybatis-config.xml"));
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         sessionFactory.setMapperLocations(resolver.getResources("mapper/*.xml"));      // 구성한 Mapper 파일의 경로를 지정
@@ -68,10 +68,9 @@ public class DBConfig {
      *
      * @param sqlSessionFactory
      * @return
-     * @throws Exception
      */
     @Bean
-    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) throws Exception {
+    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
         final SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
         return sqlSessionTemplate;
     }

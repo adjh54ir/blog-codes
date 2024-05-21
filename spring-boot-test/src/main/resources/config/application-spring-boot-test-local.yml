@@ -1,0 +1,20 @@
+# 로컬(LOCAL) 환경 설정 파일 입니다.
+
+# Spring boot Server Configuration
+server:
+  port: 8002
+
+spring:
+  # PostgreSQL DB 설정
+  datasource:
+    hikari:
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      username: localmaster
+      password: qwer1234
+      jdbc-url: jdbc:log4jdbc:mysql://127.0.0.1/testdb?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+      pool-name: Hikari Connection Pool  # Alias
+      maximum-pool-size: 5
+
+
+
+

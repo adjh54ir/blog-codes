@@ -27,7 +27,6 @@ repositories {
 ext {
     set('bootVer', "3.2.5")
     set('jacksonVer', "2.16.1")
-
 }
 
 dependencies {

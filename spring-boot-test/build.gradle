@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.adjh'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+ext {
+    set('bootVer', "3.2.5")
+    set('jacksonVer', "2.16.1")
+}
+
+
+dependencies {
+    // [Global Level]
+    implementation "org.springframework.boot:spring-boot-starter:${bootVer}"
+    implementation "org.springframework.boot:spring-boot-starter-web:${bootVer}"        // Spring Boot Web
+    implementation "org.springframework.boot:spring-boot-starter-data-jdbc:${bootVer}"  // Spring Boot JDBC + HikariCP
+
+    // [Opensource]
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'                  // MyBatis
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'              // MyBatis Query Formatter
+    implementation 'com.mysql:mysql-connector-j:8.3.0'                                  // MySQL
+
+
+    compileOnly 'org.projectlombok:lombok'                                              // Lombok
+
+    annotationProcessor 'org.projectlombok:lombok'                                      // Lombok
+
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${bootVer}"   // Spring Boot JUnit
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"                        // Spring Boot JUnit
+    testImplementation 'org.mockito:mockito-core:5.8.0'                                 // Mockito
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
