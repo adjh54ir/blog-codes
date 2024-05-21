@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/v1/search/greedy")
-public class SearchGreedyController {
+public class GreedyController {
 
 
     /**
