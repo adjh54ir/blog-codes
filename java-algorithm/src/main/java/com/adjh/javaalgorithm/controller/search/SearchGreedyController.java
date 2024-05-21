@@ -32,7 +32,7 @@ public class SearchGreedyController {
      * @since 2023.06.24
      */
     @PostMapping("/1")
-    public ResponseEntity<Object> changeMoney() {
+    public ResponseEntity<Object> question1() {
 
         Integer[] coins = {100, 10, 500, 50};   // 동전 종류
         int money = 1260;                       // 거스름돈
@@ -67,7 +67,7 @@ public class SearchGreedyController {
      * @since 2023.06.24
      */
     @PostMapping("/2")
-    public ResponseEntity<Object> changeMoney(int n, int[] lost, int[] reserve) {
+    public ResponseEntity<Object> question2(int n, int[] lost, int[] reserve) {
         int answer = n - lost.length; // 체육복이 없는 학생 수
 
         // 1. 선택 절차
