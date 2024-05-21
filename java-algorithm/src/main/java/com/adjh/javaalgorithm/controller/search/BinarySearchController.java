@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v1/search/binary")
-public class SearchBinaryController {
+public class BinarySearchController {
 
     /**
      * 이분탐색

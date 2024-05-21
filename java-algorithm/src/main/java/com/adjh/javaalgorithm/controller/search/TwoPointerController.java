@@ -18,7 +18,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("/api/v1/search/twoPointer")
-public class SearchTwoPointerController {
+public class TwoPointerController {
 
 
     /**

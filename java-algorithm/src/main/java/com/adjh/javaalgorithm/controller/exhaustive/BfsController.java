@@ -1,5 +1,6 @@
 package com.adjh.javaalgorithm.controller.exhaustive;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +50,7 @@ public class BfsController {
             }
         }
 
-        return new ResponseEntity<>(ar, HttpStatus.OK);
+        return new ResponseEntity<>(answer, HttpStatus.OK);
 
     }
 

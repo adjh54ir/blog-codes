@@ -19,7 +19,19 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/v1/search/hash")
-public class SearchHashController {
+public class HashSearchController {
+
+    /**
+     * [프로그래머스] default
+     *
+     * @return
+     * @link https://school.programmers.co.kr/learn/courses/30/lessons/1845
+     */
+    @PostMapping("/0")
+    public ResponseEntity<Object> question0() {
+        int answer = 0;
+        return new ResponseEntity<>(answer, HttpStatus.OK);
+    }
 
     /**
      * [프로그래머스] Level1 - 폰켓몬
@@ -87,6 +99,40 @@ public class SearchHashController {
                 answer = entry.getKey();
             }
         }
+        return new ResponseEntity<>(answer, HttpStatus.OK);
+    }
+
+    /**
+     * [프로그래머스] level2 - 전화번호 목록
+     *
+     * @return
+     * @link https://school.programmers.co.kr/learn/courses/30/lessons/42577
+     */
+    @PostMapping("/3")
+    public ResponseEntity<Object> question3() {
+        boolean answer = true;
+
+//        String[] phone_book = {"119", "97674223", "1195524421"};
+        String[] phone_book = {"123", "456", "789"};
+
+        Map<Integer, Object> resultMap = new HashMap<>();
+        // 1. List 값을 HashMap에 넣습니다. (key : index, value: 요소)
+        for (int i = 0; i < phone_book.length; i++) {
+            resultMap.put(i, phone_book[i]);
+        }
+        // 2. List를 순회합니다. : List 요소 출력
+        for (int i = 0; i < phone_book.length; i++) {
+            // 3. 요소의 길이만큼 순회합니다 : 단어 출력
+            for (int j = 0; j < phone_book[i].length(); j++) {
+                // 4. Map의 요소와 List 내의 요소의 단어들의 접두사를 비교하여 동일하다면 false 값 반환
+                if (resultMap.containsValue(phone_book[i].substring(0, j))) {
+                    answer = false;
+                }
+            }
+        }
+
+
+        System.out.println("initInt :: " + resultMap);
 
 
         return new ResponseEntity<>(answer, HttpStatus.OK);
