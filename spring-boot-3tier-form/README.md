@@ -15,17 +15,17 @@
 [2. 개발 환경에 따라 각각 환경 파일 구성 방법: application.properties](https://adjh54.tistory.com/200)    
 [3. 소프트웨어 아키텍처 10가지 패턴 -1 : 정의, 사용 사례](https://adjh54.tistory.com/453)      
 [4. 소프트웨어 아키텍처 10가지 패턴 -2 : 정의, 사용 사례](https://adjh54.tistory.com/454)    
-[6. 생성자 패턴 이해하기 : 점층적 생성자, 자바 빈즈, Builder 패턴)](https://adjh54.tistory.com/78)  
-[7. 메서드 체이닝(Method Chaining) , 플루언트 인터페이스(Fluent Interface), 빌더 패턴(Builder Pattern)](https://adjh54.tistory.com/440)    
+[6. 생성자 패턴 이해하기 : 점층적 생성자, 자바 빈즈, Builder 패턴)](https://adjh54.tistory.com/78)    
+[7. 메서드 체이닝(Method Chaining) , 플루언트 인터페이스(Fluent Interface), 빌더 패턴(Builder Pattern)](https://adjh54.tistory.com/440)      
 [8.RESTful API 설계 방법 -1 : 이해하기](https://adjh54.tistory.com/150)    
 [9.RESTful API 설계 방법 -2 : 구성하기](https://adjh54.tistory.com/151)    
 [10. Spring Web Annotation 이해하고 사용하기 -1 : 환경 구성](https://adjh54.tistory.com/311)      
 [11. Spring Web Annotation 이해하고 사용하기 -2 : 요청 및 응답](https://adjh54.tistory.com/312)        
-[12. Spring Web Annotation 이해하고 사용하기 -3 : 예외 처리 및 주입](https://adjh54.tistory.com/313)
-[13. MacOS 환경에서 Java JDK 설정 및 변경하기 : homebrew, 다운로드 파일](https://adjh54.tistory.com/216)
-[14. MacOS에서 PostgreSQL 로컬 데이터베이스 구성 방법](https://adjh54.tistory.com/80)
-
-
+[12. Spring Web Annotation 이해하고 사용하기 -3 : 예외 처리 및 주입](https://adjh54.tistory.com/313)  
+[13. MacOS 환경에서 Java JDK 설정 및 변경하기 : homebrew, 다운로드 파일](https://adjh54.tistory.com/216)  
+[14. MacOS에서 PostgreSQL 로컬 데이터베이스 구성 방법](https://adjh54.tistory.com/80)    
+[15. Global Exception 이해하고 구성하기 : Controller Exception](https://adjh54.tistory.com/79)   
+[16. Business Exception 이해하고 구성하기 : Service Exception](https://adjh54.tistory.com/89)
 
 
 <br />
@@ -137,9 +137,14 @@
 
 ## 5. API Endpoint
 
-| End point                                       | HTTP METHOD | JPA 분류   | 설명                     |
-|-------------------------------------------------|:------------|:---------|------------------------|
-| http://localhost:8000/api/v1/user/userPassports | POST        | QueryDSL | 사용자와 여권의 INNER JOIN 예시 |
+| End point                               | HTTP METHOD | 설명              |
+|-----------------------------------------|:------------|-----------------|
+| http://localhost:8000/api/v1/user/users | POST        | 사용자 리스트를 조회합니다. |
+| http://localhost:8000/api/v1/user/user  | POST        | 사용자를 등록합니다.     |
+| http://localhost:8000/api/v1/user/user  | PUT         | 사용자를 수정합니다.     |
+| http://localhost:8000/api/v1/user/user  | DELETE      | 사용자를 삭제합니다.     |
+
+
 
 
 
