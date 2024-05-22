@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 탐색 알고리즘 > 해시 알고리즘
@@ -120,6 +119,7 @@ public class HashSearchController {
         for (int i = 0; i < phone_book.length; i++) {
             resultMap.put(i, phone_book[i]);
         }
+
         // 2. List를 순회합니다. : List 요소 출력
         for (int i = 0; i < phone_book.length; i++) {
             // 3. 요소의 길이만큼 순회합니다 : 단어 출력
@@ -130,9 +130,31 @@ public class HashSearchController {
                 }
             }
         }
+        return new ResponseEntity<>(answer, HttpStatus.OK);
+    }
 
+    /**
+     * [프로그래머스] 의상
+     *
+     * @return
+     * @link https://school.programmers.co.kr/learn/courses/30/lessons/42578
+     */
+    @PostMapping("/4")
+    public ResponseEntity<Object> question4() {
+        int answer = 0;
+        String[][] clothes = {{"yellow_hat", "headgear"}, {"blue_sunglasses", "eyewear"}, {"green_turban", "headgear"}};
 
-        System.out.println("initInt :: " + resultMap);
+        Map<String, Integer> resultMap = new HashMap<>();
+
+        for (String[] cloth : clothes) {
+            resultMap.put(cloth[1], resultMap.getOrDefault(cloth[1], 0) + 1);
+        }
+        for (Map.Entry<String, Integer> entry : resultMap.entrySet()) {
+            answer *= entry.getValue() + 1;
+        }
+
+        answer -= 1;
+        System.out.println("resultMap :: " + resultMap);
 
 
         return new ResponseEntity<>(answer, HttpStatus.OK);
