@@ -143,20 +143,25 @@ public class HashSearchController {
      */
     @PostMapping("/4")
     public ResponseEntity<Object> question4() {
-        int answer = 0;
+        int answer = 1;
         String[][] clothes = {{"yellow_hat", "headgear"}, {"blue_sunglasses", "eyewear"}, {"green_turban", "headgear"}};
 
+        // [STEP1] 2차원 배열을 HashMap 형태로 구성합니다 : 옷 종류(key), 옷 개수(Value)
         Map<String, Integer> resultMap = new HashMap<>();
-
         for (String[] cloth : clothes) {
+            // [STEP2] 해시 맵을 구성할때, 동일한 키 값이 존재하면(getOrDefault) 값을 1 더 해줍니다.
             resultMap.put(cloth[1], resultMap.getOrDefault(cloth[1], 0) + 1);
         }
+        System.out.println("resultMap :: " + resultMap); // resultMap :: {eyewear=1, headgear=2}
+
+        // [STEP3] 해시 맵을 순회합니다.
         for (Map.Entry<String, Integer> entry : resultMap.entrySet()) {
+            // [STEP4] 값에 1을 더하여 누적하여 곱해줍니다. : 중복되지 않는 키(옷 종류)의 합
             answer *= entry.getValue() + 1;
         }
 
+        // [STEP5] 아무것도 입지 않은 경우를 제외합니다.
         answer -= 1;
-        System.out.println("resultMap :: " + resultMap);
 
 
         return new ResponseEntity<>(answer, HttpStatus.OK);
@@ -175,38 +180,38 @@ public class HashSearchController {
         List<Integer> answerList = new ArrayList<>();
 
 
-        // [STEP1] 장르 별(genres) 플레이(plays) 횟수 합을 구합니다 : 동일한 장르를 묶어서 합합니다.
+        // [STEP1] 배열을 해시 맵으로 변환합니다.
         Map<String, Integer> totalGenresMap = new HashMap<>();
         for (int i = 0; i < genres.length; i++) {
+            // [STEP2] 장르 별(genres) 플레이(plays) 횟수의 합을 요소로 추가합니다. : 동일한 장르를 묶어서 합합니다.
             totalGenresMap.put(genres[i], totalGenresMap.getOrDefault(genres[i], 0) + plays[i]);
-            System.out.println("totalGenresMap :: " + totalGenresMap);          // {pop=3100, classic=1450}
         }
+        System.out.println("totalGenresMap :: " + totalGenresMap);          // {pop=3100, classic=1450}
 
-        // [STEP2] 장르 별(genres) 플레이(plays) 합이 큰 순서(내림차순)로 정렬 합니다.
+        // [STEP3] 장르 별(genres) 플레이(plays) 합이 큰 순서(내림차순)로 정렬 합니다.
         List<String> sortedList = new ArrayList<>(totalGenresMap.keySet());
         Collections.sort(sortedList, (v1, v2) -> totalGenresMap.get(v2).compareTo(totalGenresMap.get(v1)));
         System.out.println("정렬 리스트 :" + sortedList);    // ["pop", "classic"]
 
 
-        // [STEP3] 플레이 합이 큰 리스트 순서대로 순회 합니다.
+        // [STEP4] 플레이 합이 큰 리스트 순서대로 순회 합니다.
         for (String listItem : sortedList) {
 
-            // [STEP4] 맵 내에 인덱스(key), 플레이(play)를 저장합니다. : 이를 통해 장르 별 순서를 정합니다.
+            // [STEP5] 맵 내에 인덱스(key), 플레이(play)를 저장합니다. : 이를 통해 장르 별 순서를 정합니다.
             Map<Integer, Integer> genresMap = new HashMap<>();
             for (int i = 0; i < genres.length; i++) {
                 if (listItem.equals(genres[i])) {
                     genresMap.put(i, plays[i]);
                 }
             }
-            // System.out.println("genresMap :: "+ genresMap); // {1=600, 4=2500},  {0=500, 2=150, 3=800}
+            System.out.println("genresMap :: " + genresMap); // {1=600, 4=2500},  {0=500, 2=150, 3=800}
 
-            // [STEP5] 장르 별 순서 맵을 리스트로 변환하여 플레이 값(value)에 따라 정렬을 수행합니다.
+            // [STEP6] 장르 별 순서 맵을 리스트로 변환하여 플레이 값(value)에 따라 정렬을 수행합니다.
             List<Map.Entry<Integer, Integer>> list = new ArrayList<>(genresMap.entrySet());
             list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-
             System.out.println("list ::" + list); // [4=2500, 1=600], [3=800, 0=500, 2=150]
 
-            // [STEP6] 정렬된 리스트를 풀어 순서대로 값을 가져와 리스트에 담아서 최종 index를 구성합니다. (최대 장르별 2건만 들어갈 수 있음)
+            // [STEP7] 정렬된 리스트를 풀어 순서대로 값을 가져와 리스트에 담아서 최종 index를 구성합니다. (최대 장르별 2건만 들어갈 수 있음)
             int itemCnt = 0;
             for (Map.Entry<Integer, Integer> entry : list) {
                 if (itemCnt < 2) {
@@ -217,7 +222,7 @@ public class HashSearchController {
             }
         }
 
-        // [STEP7] 리스트를 배열로 구성하여 최종 결과값을 출력합니다.
+        // [STEP8] 리스트를 배열로 구성하여 최종 결과값을 출력합니다.
         int[] answer = new int[answerList.size()];
         for (int i = 0; i < answerList.size(); i++) answer[i] = answerList.get(i);
 
