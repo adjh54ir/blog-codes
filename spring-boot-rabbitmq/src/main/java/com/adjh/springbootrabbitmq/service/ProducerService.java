@@ -11,6 +11,11 @@ import com.adjh.springbootrabbitmq.dto.MessageDto;
  */
 public interface ProducerService {
 
-    // 메시지를 큐로 전송 합니다.
-    void sendMessage(MessageDto messageDto);
+    void directSendMessage(MessageDto messageDto);      // Direct Exchange 방식 이용
+
+    void fanoutSendMessage(MessageDto messageDto);      // Fanout Exchange 방식 이용
+
+    void headerSendMessage(MessageDto messageDto);      // Header Exchange 방식 이용
+
+    void topicSendMessage(MessageDto messageDto);       // Topic Exchange 방식 이용
 }
