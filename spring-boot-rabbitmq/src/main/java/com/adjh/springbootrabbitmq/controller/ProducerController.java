@@ -3,7 +3,6 @@ package com.adjh.springbootrabbitmq.controller;
 import com.adjh.springbootrabbitmq.dto.MessageDto;
 import com.adjh.springbootrabbitmq.service.ProducerService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +21,38 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/v1/producer")
 public class ProducerController {
-    @Autowired
-    private ProducerService producerService;
+
+    private final ProducerService producerService;
+
+    public ProducerController(ProducerService producerService) {
+        this.producerService = producerService;
+    }
+
+    /**
+     * 생산자(Proceduer)가 Direct Exchange 메시지를 전송합니다.
+     *
+     * @param messageDto
+     * @return
+     */
+    @PostMapping("/directMessage")
+    public ResponseEntity<?> directSendMessage(@RequestBody MessageDto messageDto) {
+        String result = "";
+        producerService.directSendMessage(messageDto);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    /**
+     * 생산자(Proceduer)가 Fanout Exchange 메시지를 전송합니다.
+     *
+     * @param messageDto
+     * @return
+     */
+    @PostMapping("/fanoutMessage")
+    public ResponseEntity<?> fanoutSendMessage(@RequestBody MessageDto messageDto) {
+        String result = "";
+        producerService.fanoutSendMessage(messageDto);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
     /**
      * 생산자(Proceduer)가 메시지를 전송합니다.
@@ -31,10 +60,24 @@ public class ProducerController {
      * @param messageDto
      * @return
      */
-    @PostMapping("/send")
-    public ResponseEntity<?> sendMessage(@RequestBody MessageDto messageDto) {
+    @PostMapping("/headersMessage")
+    public ResponseEntity<?> headerSendMessage(@RequestBody MessageDto messageDto) {
         String result = "";
-        producerService.sendMessage(messageDto);
+        producerService.headerSendMessage(messageDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    /**
+     * 생산자(Proceduer)가 메시지를 전송합니다.
+     *
+     * @param messageDto
+     * @return
+     */
+    @PostMapping("/topicMessage")
+    public ResponseEntity<?> topicSendMessage(@RequestBody MessageDto messageDto) {
+        String result = "";
+        producerService.topicSendMessage(messageDto);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }
