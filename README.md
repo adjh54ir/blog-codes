@@ -22,4 +22,5 @@
 | spring-boot-fcm                                                          | Spring Boot 기반의 Java 언어를 이용한 환경에서 디바이스를 대상으로 FCM 메시지를 전송하는 예시를 관리하는 레포지토리입니다.                                       | 최초 구성 완료 |
 | spring-boot-scheduler                                                    | Spring Boot 기반의 Java 언어를 이용하며 주요 Spring Boot Quartz 라이브러리를 활용하여 일정 시간 마다 FCM 메시지를 전송하는 예시를 관리하는 레포지토리입니다.     | 최초 구성 완료 |
 | spring-boot-test                                                         | Spring Boot 기반의 Java 언어를 이용하며 JUnit, MockMVC, Mokito를 활용한 예시를 관리하는 Repository입니다.                                                        | 진행중         |
-| spring-boot-rabbitmq                                                     | Spring Boot 기반의 Java 언어를 이용하여 RabbitMQ의 메시지 큐를 구성하는 Repository입니다                                                                         | 진행중         |
+| spring-boot-rabbitmq                                                     | Spring Boot 기반의 Java 언어를 이용하여 RabbitMQ의 메시지 큐를 구성하는 Repository입니다                                                                         | 최초 구성 완료         |
+| spring-boot-rabbitmq-consumer                                                     | Spring Boot 기반의 Java 언어를 이용하여 RabbitMQ의 메시지 큐를 수신하는 이벤트 소비자를 구성한 Repository입니다                                                                         | 최초 구성 완료         |
