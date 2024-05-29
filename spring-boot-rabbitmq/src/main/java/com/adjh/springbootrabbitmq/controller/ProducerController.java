@@ -55,7 +55,7 @@ public class ProducerController {
     }
 
     /**
-     * 생산자(Proceduer)가 메시지를 전송합니다.
+     * 생산자(Proceduer)가 Header Exchange 메시지를 전송합니다.
      *
      * @param messageDto
      * @return
@@ -68,7 +68,7 @@ public class ProducerController {
     }
 
     /**
-     * 생산자(Proceduer)가 메시지를 전송합니다.
+     * 생산자(Proceduer)가 Topic Exchange 메시지를 전송합니다.
      *
      * @param messageDto
      * @return
