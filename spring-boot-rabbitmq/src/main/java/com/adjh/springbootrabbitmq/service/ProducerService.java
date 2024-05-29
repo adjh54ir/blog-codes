@@ -3,7 +3,7 @@ package com.adjh.springbootrabbitmq.service;
 import com.adjh.springbootrabbitmq.dto.MessageDto;
 
 /**
- * Please explain the class!!
+ * 메시지 생성자의 Exchange 별 서비스 처리
  *
  * @author : jonghoon
  * @fileName : ProducerService
