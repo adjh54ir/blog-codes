@@ -1,12 +1,11 @@
 package com.adjh.springbootrabbitmqconsumer.component;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 /**
- * Please explain the class!!
+ * Order Service에 대한 이벤트 소비자를 구성합니다.
  *
  * @author : lee
  * @fileName : OrderComponent
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class OrderComponent {
 
     @RabbitListener(queues = "queue1")
