@@ -25,7 +25,7 @@
 | spring-boot                         | 3.2.5   |
 | spring-boot-starter-web             | 3.2.5   |
 | Lombok                              | -       |
-| com.google.firebase:firebase-admina | 9.2.0   |
+| com.google.firebase:firebase-admin | 9.2.0   |
 
 ## 2. 사용방법
 
