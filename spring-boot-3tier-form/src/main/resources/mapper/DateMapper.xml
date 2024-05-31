@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adjh.springboot3tierform.dao.DateDao">
+    <!-- 사용자 리스트 조회 -->
+    <select id="selectDateList" resultType="DateDto">
+        SELECT *
+        FROM tb_date
+    </select>
+
+
+</mapper>

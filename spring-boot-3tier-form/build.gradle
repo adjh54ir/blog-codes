@@ -50,8 +50,8 @@ dependencies {
     // [Compile & runtime Level]
     compileOnly 'org.projectlombok:lombok'                                                      // Lombok
     compileOnly "org.springframework.boot:spring-boot-devtools:${bootVer}"                      // Spring Boot Devtool
-    runtimeOnly 'org.postgresql:postgresql:42.7.3'                                              // PostgreSQL Driver
-
+//    runtimeOnly 'org.postgresql:postgresql:42.7.3'                                              // PostgreSQL Driver
+    implementation 'mysql:mysql-connector-java:8.0.33'                                          // MySQL Connector
     // [Annotation Level]
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${bootVer}"  // Spring Boot Configuration Processor
 
