@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        log.error("handleMethodArgumentNotValidException", ex);
+        System.out.println("handleMethodArgumentNotValidException" + ex);
         BindingResult bindingResult = ex.getBindingResult();
         StringBuilder stringBuilder = new StringBuilder();
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MissingRequestHeaderException.class)
     protected ResponseEntity<ErrorResponse> handleMissingRequestHeaderException(MissingRequestHeaderException ex) {
-        log.error("MissingRequestHeaderException", ex);
+        System.out.println("MissingRequestHeaderException" + ex);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.REQUEST_BODY_MISSING_ERROR, ex.getMessage());
         return new ResponseEntity<>(response, HTTP_STATUS_OK);
     }
@@ -86,7 +86,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     protected ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(
             HttpMessageNotReadableException ex) {
-        log.error("HttpMessageNotReadableException", ex);
+        System.out.println("HttpMessageNotReadableException" + ex);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.REQUEST_BODY_MISSING_ERROR, ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -100,7 +100,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     protected ResponseEntity<ErrorResponse> handleMissingRequestHeaderExceptionException(
             MissingServletRequestParameterException ex) {
-        log.error("handleMissingServletRequestParameterException", ex);
+        System.out.println("handleMissingServletRequestParameterException" + ex);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.MISSING_REQUEST_PARAMETER_ERROR, ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -114,7 +114,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpClientErrorException.BadRequest.class)
     protected ResponseEntity<ErrorResponse> handleBadRequestException(HttpClientErrorException e) {
-        log.error("HttpClientErrorException.BadRequest", e);
+        System.out.println("HttpClientErrorException.BadRequest" + e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.BAD_REQUEST_ERROR, e.getMessage());
         return new ResponseEntity<>(response, HTTP_STATUS_OK);
     }
@@ -128,7 +128,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     protected ResponseEntity<ErrorResponse> handleNoHandlerFoundExceptionException(NoHandlerFoundException e) {
-        log.error("handleNoHandlerFoundExceptionException", e);
+        System.out.println("handleNoHandlerFoundExceptionException" + e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_FOUND_ERROR, e.getMessage());
         return new ResponseEntity<>(response, HTTP_STATUS_OK);
     }
@@ -142,7 +142,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(NullPointerException.class)
     protected ResponseEntity<ErrorResponse> handleNullPointerException(NullPointerException e) {
-        log.error("handleNullPointerException", e);
+        System.out.println("handleNullPointerException" + e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.NULL_POINT_ERROR, e.getMessage());
         return new ResponseEntity<>(response, HTTP_STATUS_OK);
     }
@@ -155,7 +155,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(IOException.class)
     protected ResponseEntity<ErrorResponse> handleIOException(IOException ex) {
-        log.error("handleIOException", ex);
+        System.out.println("handleIOException" + ex);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.IO_ERROR, ex.getMessage());
         return new ResponseEntity<>(response, HTTP_STATUS_OK);
     }
@@ -169,7 +169,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(JsonParseException.class)
     protected ResponseEntity<ErrorResponse> handleJsonParseExceptionException(JsonParseException ex) {
-        log.error("handleJsonParseExceptionException", ex);
+        System.out.println("handleJsonParseExceptionException" + ex);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.JSON_PARSE_ERROR, ex.getMessage());
         return new ResponseEntity<>(response, HTTP_STATUS_OK);
     }
@@ -182,7 +182,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(JsonProcessingException.class)
     protected ResponseEntity<ErrorResponse> handleJsonProcessingException(JsonProcessingException ex) {
-        log.error("handleJsonProcessingException", ex);
+        System.out.println("handleJsonProcessingException" + ex);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.REQUEST_BODY_MISSING_ERROR, ex.getMessage());
         return new ResponseEntity<>(response, HTTP_STATUS_OK);
     }
@@ -199,9 +199,6 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BusinessExceptionHandler.class)
     public ResponseEntity<ErrorResponse> handleCustomException(BusinessExceptionHandler ex) {
-        log.debug("===========================================================");
-        log.debug("여기로 오는가?!");
-        log.debug("===========================================================");
 
         final ErrorResponse response = ErrorResponse.of(ErrorCode.BUSINESS_EXCEPTION_ERROR, ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -215,7 +212,6 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     protected final ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex) {
-        log.error("Exception", ex);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR, ex.getMessage());
         return new ResponseEntity<>(response, HTTP_STATUS_OK);
     }
