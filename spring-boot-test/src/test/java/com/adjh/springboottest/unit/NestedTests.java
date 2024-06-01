@@ -1,4 +1,4 @@
-package com.adjh.springboottest.unittest;
+package com.adjh.springboottest.unit;
 
 
 import org.junit.jupiter.api.Assertions;

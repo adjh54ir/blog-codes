@@ -1,4 +1,4 @@
-package com.adjh.springbootquerydsl.dto;
+package com.adjh.springboottest.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -17,15 +17,14 @@ import lombok.ToString;
 @NoArgsConstructor
 public class UserDto {
 
-    private Long userSq;
+    private int userSq;
     private String userId;
     private String userNm;
     private String userSt;
 
 
     @Builder(toBuilder = true)
-
-    public UserDto(Long userSq, String userId, String userNm, String userSt) {
+    public UserDto(int userSq, String userId, String userNm, String userSt) {
         this.userSq = userSq;
         this.userId = userId;
         this.userNm = userNm;

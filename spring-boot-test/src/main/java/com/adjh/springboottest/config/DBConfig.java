@@ -54,7 +54,7 @@ public class DBConfig {
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);                                                   // 데이터베이스와 연결을 위한 DataSource 지정
-        sessionFactory.setTypeAliasesPackage("com.adjh.springboot3tierform.dto");
+        sessionFactory.setTypeAliasesPackage("com.adjh.springboottest.dto");
         sessionFactory.setConfigLocation(new PathMatchingResourcePatternResolver().getResource("classpath:config/common-mybatis-config.xml"));
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         sessionFactory.setMapperLocations(resolver.getResources("mapper/*.xml"));      // 구성한 Mapper 파일의 경로를 지정
