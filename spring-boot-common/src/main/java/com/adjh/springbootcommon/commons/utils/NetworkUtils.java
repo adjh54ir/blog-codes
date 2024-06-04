@@ -1,6 +1,7 @@
 package com.adjh.springbootcommon.commons.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.NoArgsConstructor;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -18,6 +19,7 @@ import java.util.List;
  * @fileName : NetworkUtils
  * @since : 3/9/24
  */
+@NoArgsConstructor
 public class NetworkUtils {
     public NetworkUtils() {
     }

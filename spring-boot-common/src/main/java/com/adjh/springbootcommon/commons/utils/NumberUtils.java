@@ -1,5 +1,7 @@
 package com.adjh.springbootcommon.commons.utils;
 
+import lombok.NoArgsConstructor;
+
 import java.util.Arrays;
 
 /**
@@ -9,11 +11,8 @@ import java.util.Arrays;
  * @fileName : NumberUtils
  * @since : 2/16/24
  */
+@NoArgsConstructor
 public class NumberUtils {
-
-    NumberUtils() {
-
-    }
 
     /**
      * 10진법의 값을 변환할 진수와 전달하여서 각각의 진법에 맞게 변환해주는 함수

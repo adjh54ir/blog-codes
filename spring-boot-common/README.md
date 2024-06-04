@@ -11,6 +11,10 @@
 * [IP 주소 반환받는 방법 : 클라이언트 IP, 외부 IP, 내부 IP, 호스트 IP](https://adjh54.tistory.com/443)
 * [SecureRandom을 이용한 랜덤 문자열 생성 방법: 숫자, 문자, 특수문자 조합, 임시 비밀번호](https://adjh54.tistory.com/426)
 * [Spring Boot 환경에서 Jackson 모듈 활용하기 : JSON 파싱, 직렬화, 역 직렬화, JSON 파일 읽어오기/생성](https://adjh54.tistory.com/375)
+* [DB 날짜/시간 데이터 타입과 매핑 Java 자료형 이해하기 : java.sql, java.time 패키지 및 비교](https://adjh54.tistory.com/500)
+* [UUID 이해 및 사용방법](https://adjh54.tistory.com/142)
+
+<br/>
 
 ## 1. 개발환경
 
@@ -32,12 +36,15 @@
 
     ⭕️ 공통으로 사용되는 파일을 구성에 대한 설명입니다.
 
-| 파일                                    | 설명                               |
-|---------------------------------------|----------------------------------|
-| commons/constant/RegExpConstants.java | 자주 사용하는 정규식을 정의한 Class 파일입니다.    |
-| commons/enums/RegExpEnum.java         | 자주 사용되는 정규식을 Enum 파일로 지정한 파일입니다. |
-| commons/utils/ConvertUtils.java       | 데이터 형 변환에 사용되는 Utils 파일입니다.      |
-| commons/utils/EncryptUtils.java       | 암호화/복호화에 사용되는 Utils 파일입니다.       |
-| commons/utils/NetworkUtils.java       | Network와 관련되어 사용되는 Utils 파일입니다.  |
-| commons/utils/NumberUtils.java        | 숫자와 관련되는 Utils 파일입니다.            |
-| commons/utils/StringUtils.java        | 문자열과 관련되는 Utils 파일입니다.           |
+| 파일                                    | 설명                                                   |
+|---------------------------------------|------------------------------------------------------|
+| commons/constant/RegExpConstants.java | 자주 사용하는 정규식을 정의한 Class 파일입니다.                        |
+| commons/enums/RegExpEnum.java         | 자주 사용되는 정규식을 Enum 파일로 지정한 파일입니다.                     |
+| commons/utils/ConvertUtils.java       | 데이터 형 변환에 사용되는 Utils 파일입니다.                          |
+| commons/utils/EncryptUtils.java       | 암호화/복호화에 사용되는 Utils 파일입니다.                           |
+| commons/utils/NetworkUtils.java       | Network와 관련되어 사용되는 Utils 파일입니다.                      |
+| commons/utils/NumberUtils.java        | 숫자와 관련되는 Utils 파일입니다.                                |
+| commons/utils/StringUtils.java        | 문자열과 관련되는 Utils 파일입니다.                               |
+| commons/utils/UuidUtils.java          | UUID를 버전별로 사용해 볼 수 있는 Utils 파일입니다.                   |
+| dto/DateTypeSqlDto                    | 데이터베이스와 매핑되는 java.sql.* 패키지를 이용한 Object를 구성한 파일입니다.  |
+| dto/DateTypeTimeDto                   | 데이터베이스와 매핑되는 java.time.* 패키지를 이용한 Object를 구성한 파일입니다. |

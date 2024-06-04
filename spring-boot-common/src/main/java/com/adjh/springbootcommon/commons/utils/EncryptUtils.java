@@ -1,5 +1,9 @@
 package com.adjh.springbootcommon.commons.utils;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
 import java.util.Base64;
 
 /**
@@ -9,6 +13,7 @@ import java.util.Base64;
  * @fileName : EncryptUtils
  * @since : 2/16/24
  */
+@RequiredArgsConstructor
 public class EncryptUtils {
     /**
      * [공통함수] 문자열을 BASE64형으로 인코딩
