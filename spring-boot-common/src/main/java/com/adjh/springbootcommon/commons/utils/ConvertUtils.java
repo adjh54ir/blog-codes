@@ -2,6 +2,7 @@ package com.adjh.springbootcommon.commons.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NoArgsConstructor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -18,12 +19,8 @@ import java.util.Map;
  * @fileName : ConvertUtils
  * @since : 2/16/24
  */
+@NoArgsConstructor
 public class ConvertUtils {
-
-    ConvertUtils() {
-
-    }
-
     /**
      * [공통함수] Object 형을 Map 형태로 변환 함수
      *
@@ -31,6 +28,7 @@ public class ConvertUtils {
      * @return Map 형태로 반환함
      */
     public static Map<String, Object> convertObjectToMap(Object obj) {
+
         try {
             Field[] fields = obj.getClass().getDeclaredFields();
             Map<String, Object> resultMap = new HashMap<String, Object>();

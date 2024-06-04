@@ -1,5 +1,7 @@
 package com.adjh.springbootcommon.commons.utils;
 
+import lombok.NoArgsConstructor;
+
 import java.security.SecureRandom;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -12,11 +14,9 @@ import java.util.stream.IntStream;
  * @fileName : StringUtils
  * @since : 2/16/24
  */
+@NoArgsConstructor
 public class StringUtils {
 
-    StringUtils() {
-
-    }
 
     /**
      * [공통함수] UUID 생성 함수
