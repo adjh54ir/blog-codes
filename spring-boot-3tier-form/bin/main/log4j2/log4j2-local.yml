@@ -89,7 +89,7 @@ Configutation:
       # 2. Spring Framework 로그 레벨 'DEBUG' 정의
       - name: "com.adjh.springboot3tierform"
         additivity: "false"
-        level: FALSE
+        level: INFO
         AppenderRef:
           - ref: console-appender
           - ref: file-info-appender
@@ -97,20 +97,20 @@ Configutation:
 
       # 3. MyBatis 관련 로그 레벨 특정 패키지 외에는 모두 OFF
       - name: org.apache.ibatis
-        level: trace
+        level: INFO
       - name: jdbc
-        level: TRACE
+        level: INFO
       - name: jdbc.sqlonly
-        level: TRACE
+        level: INFO
       - name: jdbc.sqltiming
-        level: TRACE
+        level: INFO
       - name: jdbc.resultsettable
-        level: TRACE
+        level: INFO
       - name: jdbc.audit
-        level: TRACE
+        level: INFO
       - name: jdbc.resultset
-        level: TRACE
+        level: INFO
       - name: jdbc.connection
-        level: TRACE
+        level: INFO
 
 
