@@ -1,6 +1,5 @@
 package com.adjh.springbootrabbitmqconsumer.component;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
  * @fileName : OrderComponent
  * @since : 24. 5. 28.
  */
-@Slf4j
 @Component
 public class OrderComponent {
 
@@ -39,4 +37,5 @@ public class OrderComponent {
     public void receiveMessage5(String msg) {
         System.out.println("Queue5 내의 결과 값을 반환 받습니다 " + msg);
     }
+
 }

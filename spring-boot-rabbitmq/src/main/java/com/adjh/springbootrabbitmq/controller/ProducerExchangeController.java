@@ -1,7 +1,7 @@
 package com.adjh.springbootrabbitmq.controller;
 
 import com.adjh.springbootrabbitmq.dto.MessageDto;
-import com.adjh.springbootrabbitmq.service.ProducerService;
+import com.adjh.springbootrabbitmq.service.ProducerExchangeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/v1/producer")
-public class ProducerController {
+@RequestMapping(value = "/api/v1/producer/exchange")
+public class ProducerExchangeController {
 
-    private final ProducerService producerService;
+    private final ProducerExchangeService producerExchangeService;
 
-    public ProducerController(ProducerService producerService) {
-        this.producerService = producerService;
+    public ProducerExchangeController(ProducerExchangeService producerExchangeService) {
+        this.producerExchangeService = producerExchangeService;
     }
 
     /**
@@ -34,10 +34,10 @@ public class ProducerController {
      * @param messageDto
      * @return
      */
-    @PostMapping("/directMessage")
+    @PostMapping("/direct")
     public ResponseEntity<?> directSendMessage(@RequestBody MessageDto messageDto) {
         String result = "";
-        producerService.directSendMessage(messageDto);
+        producerExchangeService.directSendMessage(messageDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -47,10 +47,10 @@ public class ProducerController {
      * @param messageDto
      * @return
      */
-    @PostMapping("/fanoutMessage")
+    @PostMapping("/fanout")
     public ResponseEntity<?> fanoutSendMessage(@RequestBody MessageDto messageDto) {
         String result = "";
-        producerService.fanoutSendMessage(messageDto);
+        producerExchangeService.fanoutSendMessage(messageDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -60,10 +60,10 @@ public class ProducerController {
      * @param messageDto
      * @return
      */
-    @PostMapping("/headersMessage")
+    @PostMapping("/header")
     public ResponseEntity<?> headerSendMessage(@RequestBody MessageDto messageDto) {
         String result = "";
-        producerService.headerSendMessage(messageDto);
+        producerExchangeService.headerSendMessage(messageDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -73,11 +73,10 @@ public class ProducerController {
      * @param messageDto
      * @return
      */
-    @PostMapping("/topicMessage")
+    @PostMapping("/topic")
     public ResponseEntity<?> topicSendMessage(@RequestBody MessageDto messageDto) {
         String result = "";
-        producerService.topicSendMessage(messageDto);
+        producerExchangeService.topicSendMessage(messageDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
 }

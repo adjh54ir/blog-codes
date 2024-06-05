@@ -1,7 +1,7 @@
 package com.adjh.springbootrabbitmq.service.impl;
 
 import com.adjh.springbootrabbitmq.dto.MessageDto;
-import com.adjh.springbootrabbitmq.service.ProducerService;
+import com.adjh.springbootrabbitmq.service.ProducerExchangeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
  * Please explain the class!!
  *
  * @author : jonghoon
- * @fileName : ProducerServiceImpl
+ * @fileName : ProducerExchangeServiceImpl
  * @since : 5/25/24
  */
 @Service
 @RequiredArgsConstructor
-public class ProducerServiceImpl implements ProducerService {
+public class ProducerExchangeServiceImpl implements ProducerExchangeService {
 
     private final RabbitTemplate rabbitTemplate;
 

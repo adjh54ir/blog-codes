@@ -2,30 +2,33 @@ package com.adjh.springboot3tierform.model.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Year;
 
 /**
  * Please explain the class!!
  *
  * @author : lee
- * @fileName : DateDto
- * @since : 24. 5. 31.
+ * @fileName : DateInfoDto
+ * @since : 24. 6. 3.
  */
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DateDto {
+public class DateInfoDto {
     // 날짜 시퀀스
     private int dateSq;
 
     // 날짜 타입
-    private LocalDateTime dateType;
+    private LocalDate dateType;
 
     // 시간 타입
-    private LocalDateTime timeType;
+    private LocalTime timeType;
 
     // 연도 타입
-    private LocalDateTime yearType;
+    private Year yearType;
 
     // 타임스템프 타입
     private LocalDateTime timestampType;
@@ -37,7 +40,7 @@ public class DateDto {
     private LocalDateTime timestampMicrosecType;
 
     @Builder
-    public DateDto(int dateSq, LocalDateTime dateType, LocalDateTime timeType, LocalDateTime yearType, LocalDateTime timestampType, LocalDateTime timestampMilsecType, LocalDateTime timestampMicrosecType) {
+    public DateInfoDto(int dateSq, LocalDate dateType, LocalTime timeType, Year yearType, LocalDateTime timestampType, LocalDateTime timestampMilsecType, LocalDateTime timestampMicrosecType) {
         this.dateSq = dateSq;
         this.dateType = dateType;
         this.timeType = timeType;
@@ -47,5 +50,3 @@ public class DateDto {
         this.timestampMicrosecType = timestampMicrosecType;
     }
 }
-
-
