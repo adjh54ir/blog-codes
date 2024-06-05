@@ -17,7 +17,16 @@
 
 ## 1. 개발환경
 
+### 1.1. Exchange 종류 별 구성
+
 <img src="https://github.com/adjh54ir/blog-codes/assets/70501374/25101a53-f282-4a83-9794-e6f78619664e"/>
+
+<br />
+<br />
+
+### 1.2. Dead Letter 구성
+
+<img src="https://github.com/adjh54ir/blog-codes/assets/70501374/ac1a846f-014e-439b-aa4a-a1a13191a4c1"/>
 
 | 환경 분류                                       | 버전      |
 |---------------------------------------------|---------|
@@ -56,16 +65,25 @@
 
 <img src="https://github.com/adjh54ir/blog-codes/assets/70501374/4402a333-dbb3-4a86-bc5d-1654321ef428"/>
 
+<br />
+
+### 2.5. Dead Letter Exchange
+
+<img src="https://github.com/adjh54ir/blog-codes/assets/70501374/b8f71b00-cacb-46e5-b745-0633d0c702aa"/>
+
+
+
 
 <br />
 <br />
 
 ## 4. API Endpoint
 
-| End point                                            | HTTP METHOD | Exchange 분류      | 설명                                          |
-|------------------------------------------------------|:------------|:-----------------|---------------------------------------------|
-| http://localhost:8080/api/v1/producer/directMessage  | POST        | Direct Exchange  | 생산자(Proceduer)가 Direct Exchange 메시지를 전송합니다. |
-| http://localhost:8080/api/v1/producer/fanoutMessage  | POST        | Fanout Exchange  | 생산자(Proceduer)가 Fanout Exchange 메시지를 전송합니다. |
-| http://localhost:8080/api/v1/producer/headersMessage | POST        | Headers Exchange | 생산자(Proceduer)가 Header Exchange 메시지를 전송합니다. |
-| http://localhost:8080/api/v1/producer/topicMessage   | POST        | Topic Exchange   | 생산자(Proceduer)가 Topic Exchange 메시지를 전송합니다.  |
+| End point                                              | HTTP METHOD | 분류                           | 설명                                                                       |
+|--------------------------------------------------------|:------------|:-----------------------------|--------------------------------------------------------------------------|
+| http://localhost:8080/api/v1/producer/exchange/direct  | POST        | Direct Exchange              | 생산자(Proceduer)가 Direct Exchange 메시지를 전송합니다.                              |
+| http://localhost:8080/api/v1/producer/exchange/fanout  | POST        | Fanout Exchange              | 생산자(Proceduer)가 Fanout Exchange 메시지를 전송합니다.                              |
+| http://localhost:8080/api/v1/producer/exchange/headers | POST        | Headers Exchange             | 생산자(Proceduer)가 Header Exchange 메시지를 전송합니다.                              |
+| http://localhost:8080/api/v1/producer/exchange/topic   | POST        | Topic Exchange               | 생산자(Proceduer)가 Topic Exchange 메시지를 전송합니다.                               |
+| http://localhost:8080/api/v1/producer/exchange/topic   | POST        | Dead Letter Exchange & Queue | 생산자(Proceduer)의 메시지 전송 중 오류가 발생하여 Dead Letter Exchange를 통해 QUEUE에 적재합니다. |
 

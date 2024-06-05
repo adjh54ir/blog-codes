@@ -1,6 +1,7 @@
 package com.adjh.springboot3tierform.dao;
 
 import com.adjh.springboot3tierform.model.dto.DateDto;
+import com.adjh.springboot3tierform.model.dto.DateInfoDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,5 +15,7 @@ import java.util.List;
  */
 @Repository
 public interface DateDao {
-    List<DateDto> selectDateList(DateDto dateDto);
+    List<DateInfoDto> selectDateList();
+
+    int insertDate(DateDto dateDto);
 }

@@ -2,6 +2,7 @@ package com.adjh.springboot3tierform.dao.impl;
 
 import com.adjh.springboot3tierform.dao.DateDao;
 import com.adjh.springboot3tierform.model.dto.DateDto;
+import com.adjh.springboot3tierform.model.dto.DateInfoDto;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -24,8 +25,14 @@ public class DateDaoImpl implements DateDao {
     }
 
     @Override
-    public List<DateDto> selectDateList(DateDto dateDto) {
+    public List<DateInfoDto> selectDateList() {
         DateDao dd = sqlSession.getMapper(DateDao.class);
-        return dd.selectDateList(dateDto);
+        return dd.selectDateList();
+    }
+
+    @Override
+    public int insertDate(DateDto dateDto) {
+        DateDao dd = sqlSession.getMapper(DateDao.class);
+        return dd.insertDate(dateDto);
     }
 }
