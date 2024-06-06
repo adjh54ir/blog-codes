@@ -21,7 +21,7 @@ public class CvtStrToAsciiCodeModule {
      * [Short] 문자열(String)을 ASCII Code로 변환 방법 -1
      * - charAt() 함수를 이용하여 변환하는 방법
      *
-     * @param objArr
+     * @param str
      * @return
      */
     public int[] cvtStrToAsciiCode1(String str) {
