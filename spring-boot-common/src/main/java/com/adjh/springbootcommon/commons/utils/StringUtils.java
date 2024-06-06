@@ -53,7 +53,7 @@ public class StringUtils {
      * @param end   종료 범위
      * @return 랜덤한 숫자
      */
-    public static int generateRangeRandomNum(int start, int end) {
+    public static int generateRangeRandomNum(int start, int end) {`
         SecureRandom secureRandom = new SecureRandom();
         return start + secureRandom.nextInt(end + 1);
     }

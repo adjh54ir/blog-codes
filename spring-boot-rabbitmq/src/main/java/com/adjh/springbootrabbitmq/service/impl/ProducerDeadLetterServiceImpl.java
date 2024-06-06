@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
@@ -40,8 +41,20 @@ public class ProducerDeadLetterServiceImpl implements ProducerDeadLetterService 
             // [STEP2] 메시지 속성 지정
             MessageProperties messageProperties = new MessageProperties();
 
-            // [STEP3] 메시지의 Expiration 지정(TTL : 1초)
+            // 1. 메시지의 Expiration 지정(TTL : 1초)
             messageProperties.setExpiration("1000");
+
+            // 2. 메시지의 우선순위 지정
+            messageProperties.setPriority(2);
+
+            // 3. 데드 레터링 지정
+            messageProperties.setHeader("x-dead-letter-exchange", "my-dlx");
+
+            // 4. 큐 길이 제한 지정
+            messageProperties.setHeader("x-max-length", 1000);
+
+            // 5. 내구성 설정 지정
+            messageProperties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
 
             // [STEP4] 메시지 객체로 구성
             Message message = new Message(objectToJSON.getBytes(), messageProperties);
@@ -52,4 +65,5 @@ public class ProducerDeadLetterServiceImpl implements ProducerDeadLetterService 
             throw new RuntimeException(e);
         }
     }
+
 }
