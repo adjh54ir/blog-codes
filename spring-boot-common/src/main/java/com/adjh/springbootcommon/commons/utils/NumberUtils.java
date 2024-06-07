@@ -1,6 +1,7 @@
 package com.adjh.springbootcommon.commons.utils;
 
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 
@@ -11,7 +12,7 @@ import java.util.Arrays;
  * @fileName : NumberUtils
  * @since : 2/16/24
  */
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class NumberUtils {
 
     /**

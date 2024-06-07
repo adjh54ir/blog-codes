@@ -1,5 +1,7 @@
-package com.adjh.springbootshort.modules.convert;
+package com.adjh.springbootshort.modules.casting.datatype;
 
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
  * @since : 6/6/24
  */
 @Component
+@RequiredArgsConstructor
 public class CvtArrToListModule {
 
 
@@ -30,7 +33,7 @@ public class CvtArrToListModule {
      * @param objArr
      * @return
      */
-    public List<?> cvtArrayToList1(Object[] objArr) {
+    public static List<?> cvtArrayToList1(Object[] objArr) {
 
         // [배열 -> 컬렉션 함수] 배열 리스트(ArrayList) 선언 및 초기화합니다.
         List<?> strArrList = Arrays.asList(objArr);
@@ -45,7 +48,7 @@ public class CvtArrToListModule {
      * @param objArr
      * @return
      */
-    public List<?> cvtArrayToList2(Object[] objArr) {
+    public static List<?> cvtArrayToList2(Object[] objArr) {
         // [배열 -> 컬렉션 함수] 배열 리스트(ArrayList) 선언 및 초기화합니다.
         List<?> objList = new ArrayList<>(Arrays.asList(objArr));
         return objList;
@@ -58,7 +61,7 @@ public class CvtArrToListModule {
      * @param objArr
      * @return
      */
-    public List<?> cvtArrayToList3(Object[] objArr) {
+    public static List<?> cvtArrayToList3(Object[] objArr) {
         List<Object> objList = new ArrayList<>();
 
         for (Object s : objArr) {
@@ -74,7 +77,7 @@ public class CvtArrToListModule {
      * @param objArr
      * @return
      */
-    public List<?> cvtArrayToList4(Object[] objArr) {
+    public static List<?> cvtArrayToList4(Object[] objArr) {
         List<?> objList = Arrays.stream(objArr).collect(Collectors.toList());
         return objList;
     }
@@ -92,7 +95,7 @@ public class CvtArrToListModule {
      * @param intArr
      * @return
      */
-    public List<Integer> CvtIntArrToIntegerList1(int[] intArr) {
+    public static List<Integer> CvtIntArrToIntegerList1(int[] intArr) {
 
         List<Integer> integerList = new ArrayList<>();
 
@@ -109,7 +112,7 @@ public class CvtArrToListModule {
      * @param intArr
      * @return
      */
-    public List<Integer> cvtIntArrToIntegerList2(int[] intArr) {
+    public static List<Integer> cvtIntArrToIntegerList2(int[] intArr) {
         List<Integer> integerList = Arrays.stream(intArr).boxed().collect(Collectors.toList());
         return integerList;
     }

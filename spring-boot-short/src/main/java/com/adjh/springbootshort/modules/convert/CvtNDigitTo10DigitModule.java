@@ -1,5 +1,6 @@
 package com.adjh.springbootshort.modules.convert;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
  * @since : 6/6/24
  */
 @Component
+@RequiredArgsConstructor
 public class CvtNDigitTo10DigitModule {
 
     /**
@@ -20,7 +22,7 @@ public class CvtNDigitTo10DigitModule {
      * @param num
      * @return
      */
-    public String cvtNDigitTo10Digit(int num) {
+    public static String cvtNDigitTo10Digit(int num) {
 
         String rstStr = "";
         String bin = "1010";    // 2진법

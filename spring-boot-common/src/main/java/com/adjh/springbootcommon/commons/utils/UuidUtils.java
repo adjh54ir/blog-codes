@@ -1,6 +1,7 @@
 package com.adjh.springbootcommon.commons.utils;
 
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -15,7 +16,7 @@ import java.util.UUID;
  * @fileName : UuidUtils
  * @since : 6/4/24
  */
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class UuidUtils {
 
     /**

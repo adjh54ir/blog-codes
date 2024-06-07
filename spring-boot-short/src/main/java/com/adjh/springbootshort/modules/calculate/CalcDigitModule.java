@@ -1,5 +1,7 @@
 package com.adjh.springbootshort.modules.calculate;
 
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
  * @since : 6/6/24
  */
 @Component
+@RequiredArgsConstructor
 public class CalcDigitModule {
     /**
      * [Short] 10진법을 N 진법으로 변환하는 방법 변환하는 방법 -1
@@ -19,7 +22,7 @@ public class CalcDigitModule {
      * @param num
      * @return
      */
-    public String CalcDigit1(int num) {
+    public static String CalcDigit1(int num) {
         String str = "";
         int num1 = 10;
         int num2 = 20;

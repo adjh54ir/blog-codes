@@ -1,5 +1,6 @@
 package com.adjh.springbootshort.modules.convert;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -15,16 +16,17 @@ import java.util.List;
  * @since : 6/6/24
  */
 @Component
+@RequiredArgsConstructor
 public class CvtStrToAsciiCodeModule {
 
     /**
      * [Short] 문자열(String)을 ASCII Code로 변환 방법 -1
      * - charAt() 함수를 이용하여 변환하는 방법
      *
-     * @param objArr
+     * @param str
      * @return
      */
-    public int[] cvtStrToAsciiCode1(String str) {
+    public static int[] cvtStrToAsciiCode1(String str) {
 
         String[] helloStrArr = str.split("");
         int[] resultIntArr = new int[helloStrArr.length];
@@ -46,7 +48,7 @@ public class CvtStrToAsciiCodeModule {
      * @param str
      * @return
      */
-    public int[] cvtStrToAsciiCode2(String str) {
+    public static int[] cvtStrToAsciiCode2(String str) {
 
         byte[] bytes = str.getBytes(StandardCharsets.US_ASCII);
         int[] resultIntArr = new int[bytes.length];
