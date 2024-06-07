@@ -1,40 +1,23 @@
-package com.adjh.springbootcommon.commons.utils;
+package com.adjh.springbootshort.modules.calculate;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * 문자열을 이용하는 공통유틸입니다.
+ * SecureRandom을 이용한 랜덤 문자열 생성 방법
  *
- * @author : lee
- * @fileName : StringUtils
- * @since : 2/16/24
+ * @author : jonghoon
+ * @fileName : CalcSecureRandomModule
+ * @link : https://adjh54.tistory.com/426
+ * @since : 6/8/24
  */
+@Component
 @RequiredArgsConstructor
-public class StringUtils {
-
-
-    /**
-     * [공통함수] UUID 생성 함수
-     *
-     * @param isHyphen {boolean} 하이픈 사용 여부
-     * @return {string} UUID 값 반환
-     */
-    public static String makeUUID(boolean isHyphen) {
-        String result = "";
-        if (isHyphen) {
-            result = UUID.randomUUID().toString();
-        } else {
-            result = UUID.randomUUID().toString().replace("-", "");
-        }
-        return result;
-    }
-
+public class CalcSecureRandomModule {
     /**
      * 자릿수(digit) 만큼 랜덤한 숫자를 반환 받습니다.
      *
@@ -154,7 +137,6 @@ public class StringUtils {
         return builder.toString();
     }
 
-
     /**
      * 자릿수(length) 만큼 랜덤한 숫자 + 문자 + 특수문자 조합의 랜덤한 문자열을 출력합니다.
      *
@@ -182,58 +164,4 @@ public class StringUtils {
     }
 
 
-    /**
-     * 자릿수(length) 만큼 랜덤한 숫자 소문자 조합의 랜덤한 문자열을 출력합니다.
-     *
-     * @param length 문자의 범위
-     * @return String 숫자 + 소문자 조합의 랜덤한 문자열을 출력합니다.
-     */
-    public static String generateRandomTempPasswordType1(int length) {
-        SecureRandom secureRandom = new SecureRandom();
-        /*
-         * 1. 소문자의 범위: 97 ~ 122
-         * 2. 숫자의 범위 : 48 ~ 57
-         * -- 대문자의 범위(제외): 65 ~ 90
-         * -- 특수문자의 범위(제외): 33 ~ 47, 58 ~ 64, 91 ~ 96
-         */
-        String tempPassword =
-                IntStream.concat(
-                                IntStream.rangeClosed(48, 57),
-                                IntStream.rangeClosed(97, 122))
-                        .mapToObj(i -> String.valueOf((char) i))
-                        .collect(Collectors.joining());
-
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            builder.append(tempPassword.charAt(secureRandom.nextInt(tempPassword.length())));
-        }
-        return builder.toString();
-    }
-
-    /**
-     * 자릿수(length) 만큼 랜덤한 숫자 소문자 조합의 랜덤한 문자열을 출력합니다.
-     *
-     * @param length 문자의 범위
-     * @return String 숫자 + 소문자 조합의 랜덤한 문자열을 출력합니다.
-     */
-    public static String generateRandomTempPasswordType2(int length) {
-        SecureRandom secureRandom = new SecureRandom();
-        /*
-         * 1. 소문자의 범위 : 97 ~ 122
-         * 2. 대문자의 범위 : 65 ~ 90
-         * 3. 일부 허용 특수문자 : !@#$%^&_=+
-         */
-        String tempPasswordStr = IntStream.concat(
-                        IntStream.concat(
-                                IntStream.rangeClosed(65, 90),
-                                IntStream.rangeClosed(97, 122)),
-                        "!@#$%^&_=+".chars())
-                .mapToObj(i -> String.valueOf((char) i))
-                .collect(Collectors.joining());
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            builder.append(tempPasswordStr.charAt(secureRandom.nextInt(tempPasswordStr.length())));
-        }
-        return builder.toString();
-    }
 }
