@@ -2,6 +2,8 @@ package com.adjh.springbootshort.modules.sorting;
 
 import com.adjh.springbootshort.dto.UserDto;
 import lombok.Builder;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,6 +17,8 @@ import java.util.stream.Stream;
  * @link : https://adjh54.tistory.com/121
  * @since : 6/6/24
  */
+@Component
+@RequiredArgsConstructor
 public class SortArrListModule {
 
     /**
@@ -24,7 +28,7 @@ public class SortArrListModule {
      * @param objectList
      * @return
      */
-    public List<Object> sortingIntArr(List<Object> objectList) {
+    public static List<Object> sortingIntArr(List<Object> objectList) {
         List<String> sortedStrList = new ArrayList<>(Arrays.asList("apple", "banana", "cherry"));
 
         // [CASE1] 문자열 오름차순 정렬 -1 : Collections.sort() 이용
@@ -56,7 +60,7 @@ public class SortArrListModule {
      * @param objectList
      * @return
      */
-    public List<Object> sortingIntArr3(List<Object> objectList) {
+    public static List<Object> sortingIntArr3(List<Object> objectList) {
         /*
          * [CASE2] ArrayList 이용한 방법
          */
@@ -88,7 +92,7 @@ public class SortArrListModule {
      * @param objectList
      * @return
      */
-    public List<Object> sortingIntArr2(List<Object> objectList) {
+    public static List<Object> sortingIntArr2(List<Object> objectList) {
         List<UserDto> sortedUserDtoList = Arrays.asList(
                 UserDto.builder().userId("adjh54").userNm("lee").userPw("1234").userSt("S").build(),
                 UserDto.builder().userId("ckask123").userNm("kim").userPw("4321").userSt("S").build(),
@@ -117,7 +121,7 @@ public class SortArrListModule {
      * @param objectList
      * @return
      */
-    public List<Object> sortingIntArr4(List<Object> objectList) {
+    public static List<Object> sortingIntArr4(List<Object> objectList) {
 
         // 1. Object ArrayList Initialize
         List<UserDto> sortedUserDtoList = Arrays.asList(

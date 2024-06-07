@@ -46,5 +46,6 @@
 | commons/utils/NumberUtils.java        | 숫자와 관련되는 Utils 파일입니다.                                |
 | commons/utils/StringUtils.java        | 문자열과 관련되는 Utils 파일입니다.                               |
 | commons/utils/UuidUtils.java          | UUID를 버전별로 사용해 볼 수 있는 Utils 파일입니다.                   |
+| modules/PasswordModules.java          | 임시 비밀번호에 사용되는 모듈 파일입니다.                              |
 | dto/DateTypeSqlDto                    | 데이터베이스와 매핑되는 java.sql.* 패키지를 이용한 Object를 구성한 파일입니다.  |
 | dto/DateTypeTimeDto                   | 데이터베이스와 매핑되는 java.time.* 패키지를 이용한 Object를 구성한 파일입니다. |

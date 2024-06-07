@@ -1,5 +1,6 @@
 package com.adjh.springbootshort.modules.sorting;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import java.util.stream.Stream;
  * @since : 6/6/24
  */
 @Component
+@RequiredArgsConstructor
 public class SortArrModule {
 
     /**
@@ -26,7 +28,7 @@ public class SortArrModule {
      * @param objArr
      * @return
      */
-    public Object[] sortingIntArr(Object[] objArr) {
+    public static Object[] sortingIntArr(Object[] objArr) {
 
         Integer[] sortNumArr1 = {0, 1, 2, 3, 4};
         Integer[] sortNumArr2 = {10, 11, 1, 2, 4};
@@ -68,7 +70,7 @@ public class SortArrModule {
      * @param objArr
      * @return
      */
-    public Object[] sortingIntArr2(Object[] objArr) {
+    public static Object[] sortingIntArr2(Object[] objArr) {
         int[] sortNumArr4 = {0, 1, 2, 3, 4};
         int[] remakeNumArr = new int[sortNumArr4.length];
 
@@ -87,7 +89,7 @@ public class SortArrModule {
      * @param objArr
      * @return
      */
-    public Integer[] sortingIntArr3(int[] objArr) {
+    public static Integer[] sortingIntArr3(int[] objArr) {
         // 1. int[] -> Integer[] Boxing
         Integer[] integerArr = Arrays.stream(objArr).boxed().toArray(Integer[]::new);
 
@@ -104,7 +106,7 @@ public class SortArrModule {
      * @param objArr
      * @return
      */
-    public Object[] sortingIntArr4(Object[] objArr) {
+    public static Object[] sortingIntArr4(Object[] objArr) {
         // 1. Array Initialize
         int[] sortNumArr1 = {10, 11, 1, 2, 4};
         int[] sortNumArr2 = {0, 1, 2, 3, 4};
@@ -134,7 +136,7 @@ public class SortArrModule {
      * @param objArr
      * @return
      */
-    public Object[] sortingStrArr1(Object[] objArr) {
+    public static Object[] sortingStrArr1(Object[] objArr) {
         /*
          * 문자열의 정렬-1 : 대소문자를 구분하여 정렬하는 방식
          */
@@ -156,7 +158,7 @@ public class SortArrModule {
      * @param objArr
      * @return
      */
-    public Object[] sortingStrArr2(Object[] objArr) {
+    public static Object[] sortingStrArr2(Object[] objArr) {
         String[] strArr = {"5", "2", "10", "8"};
         int[] intArr = new int[strArr.length];
 
@@ -176,7 +178,7 @@ public class SortArrModule {
      * @param objArr
      * @return
      */
-    public Object[] sortingStrArr3(Object[] objArr) {
+    public static Object[] sortingStrArr3(Object[] objArr) {
         /*
          * 문자열의 정렬-2 : 대소문자 구분없이 정렬하는 방식
          */

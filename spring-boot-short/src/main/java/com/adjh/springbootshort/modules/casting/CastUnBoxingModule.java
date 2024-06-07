@@ -1,5 +1,6 @@
 package com.adjh.springbootshort.modules.casting;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import java.util.Comparator;
  * @since : 6/6/24
  */
 @Component
+@RequiredArgsConstructor
 public class CastUnBoxingModule {
 
     /**
@@ -23,7 +25,7 @@ public class CastUnBoxingModule {
      * @param integer
      * @return
      */
-    public int CastUnBoxing1(Integer integer) {
+    public static int CastUnBoxing1(Integer integer) {
         int rstInt = 0;
         /*
          * Java 1.5 이상 버전의 경우 - 오토 언박싱 (Auto UnBoxing)으로 별도의 수동적 처리 없이 UnBoxing 된다.
@@ -57,7 +59,7 @@ public class CastUnBoxingModule {
      * @param integerArr
      * @return
      */
-    public int[] CastUnBoxing2(Integer[] integerArr) {
+    public static int[] CastUnBoxing2(Integer[] integerArr) {
         int[] numArr = Arrays.stream(integerArr).mapToInt(Integer::intValue).toArray();
         return numArr;
     }
