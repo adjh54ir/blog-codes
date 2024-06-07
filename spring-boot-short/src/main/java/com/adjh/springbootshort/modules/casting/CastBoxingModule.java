@@ -1,5 +1,7 @@
 package com.adjh.springbootshort.modules.casting;
 
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -15,6 +17,7 @@ import java.util.stream.Stream;
  * @since : 6/6/24
  */
 @Component
+@RequiredArgsConstructor
 public class CastBoxingModule {
 
 
@@ -25,7 +28,7 @@ public class CastBoxingModule {
      * @param num
      * @return
      */
-    public Integer CastBoxing(int num) {
+    public static Integer CastBoxing(int num) {
         Integer rstInteger = 0;
 
         /*
@@ -78,7 +81,7 @@ public class CastBoxingModule {
      * @param numArr
      * @return
      */
-    public Integer[] CastBoxing2(int[] numArr) {
+    public static Integer[] CastBoxing2(int[] numArr) {
         Integer[] resultIntegerArr = Arrays.stream(numArr).boxed().sorted(Comparator.reverseOrder()).toArray(Integer[]::new);
         return resultIntegerArr;
     }

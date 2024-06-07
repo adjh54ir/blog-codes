@@ -1,5 +1,6 @@
 package com.adjh.springbootshort.modules.convert;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
  * @since : 6/6/24
  */
 @Component
+@RequiredArgsConstructor
 public class Cvt10DigitToNDigitModule {
 
     /**
@@ -20,7 +22,7 @@ public class Cvt10DigitToNDigitModule {
      * @param num
      * @return
      */
-    public String cvt10DigitToNDigit1(int num) {
+    public static String cvt10DigitToNDigit1(int num) {
 
         String rstStr = "";
         /*

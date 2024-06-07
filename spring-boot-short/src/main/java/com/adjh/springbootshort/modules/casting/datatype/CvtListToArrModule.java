@@ -1,5 +1,7 @@
-package com.adjh.springbootshort.modules.convert;
+package com.adjh.springbootshort.modules.casting.datatype;
 
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.List;
  * @since : 6/6/24
  */
 @Component
+@RequiredArgsConstructor
 public class CvtListToArrModule {
 
     // **********************************************************************************************
@@ -28,7 +31,7 @@ public class CvtListToArrModule {
      * @param objArr
      * @return
      */
-    public Object[] cvtListToArr1(List<Object> objArr) {
+    public static Object[] cvtListToArr1(List<Object> objArr) {
         List<Object> objectList = Arrays.asList(objArr);
         // 1. [컬렉션 함수 -> 배열] 배열의 사이즈를 지정하고 값을 넣어줍니다.
         String[] rstArr = objectList.toArray(new String[objectList.size()]);
@@ -42,7 +45,7 @@ public class CvtListToArrModule {
      * @param objArr
      * @return
      */
-    public Object[] cvtListToArr2(List<Object> objArr) {
+    public static Object[] cvtListToArr2(List<Object> objArr) {
 
         List<Object> objectList = new ArrayList<>(objArr);
         Object[] rstArr = new String[objectList.size()];
@@ -67,7 +70,7 @@ public class CvtListToArrModule {
      * @param objArr
      * @return
      */
-    public int[] cvtListToArr3(List<Integer> objArr) {
+    public static int[] cvtListToArr3(List<Integer> objArr) {
 
         // [STEP1] 리스트 구성
         List<Integer> integerList = new ArrayList(objArr);
