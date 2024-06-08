@@ -236,6 +236,11 @@
 
 🔗 참고 URL
 
+1. [Spring Boot JUnit5 이해하기 -1 : 이론 및 구조](https://adjh54.tistory.com/341)
+2. [Spring Boot JUnit5 이해하기 -2 : 환경구성 및 활용 예제](https://adjh54.tistory.com/342)
+3. [Spring Boot Mockito 이해하기 : 테스트 흐름 및 사용예시](https://adjh54.tistory.com/346)
+4. [Spring Boot MockMvc 이해하기 : 테스트 흐름 및 사용예제](https://adjh54.tistory.com/347)
+
 <br/>
 <br/>
 
@@ -256,6 +261,7 @@
 - [Spring Boot AMQP RabbitMQ 이해하기 -2 : 로컬 환경 구성](https://adjh54.tistory.com/285)
 - [Spring Boot AMQP RabbitMQ 이해하기 -3 : Java 구축 및 간단 예제](https://adjh54.tistory.com/292)
 - [Spring Boot AMQP RabbitMQ 이해하기 -4 : RabbitMQ Exchange 유형 별 이해 및 사용 예시](https://adjh54.tistory.com/497)
+- [Spring Boot AMQL RabbitMQ 이해하기 -5 : TTL 및 데드 레터링 사용예시](https://adjh54.tistory.com/501)
 - [Dockerfile을 이용한 RabbitMQ 환경 구성 및 실행방법](https://adjh54.tistory.com/496)
 
 <br/>
@@ -278,6 +284,7 @@
 - [Spring Boot AMQP RabbitMQ 이해하기 -2 : 로컬 환경 구성](https://adjh54.tistory.com/285)
 - [Spring Boot AMQP RabbitMQ 이해하기 -3 : Java 구축 및 간단 예제](https://adjh54.tistory.com/292)
 - [Spring Boot AMQP RabbitMQ 이해하기 -4 : RabbitMQ Exchange 유형 별 이해 및 사용 예시](https://adjh54.tistory.com/497)
+- [Spring Boot AMQL RabbitMQ 이해하기 -5 : TTL 및 데드 레터링 사용예시](https://adjh54.tistory.com/501)
 - [Dockerfile을 이용한 RabbitMQ 환경 구성 및 실행방법](https://adjh54.tistory.com/496)
 
 <br/>
