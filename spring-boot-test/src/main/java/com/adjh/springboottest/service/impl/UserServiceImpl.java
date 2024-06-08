@@ -29,4 +29,12 @@ public class UserServiceImpl implements UserService {
         List<UserDto> userList = userDao.selectUserList(userDto);
         return userList;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserDto selectUserByUserSq(UserDto userDto) {
+        System.out.println("[+] selectUserItemByUserSq 서비스 수행");
+        UserDto userItemByUserSq = userDao.selectUserByUserSq(userDto);
+        return userItemByUserSq;
+    }
 }

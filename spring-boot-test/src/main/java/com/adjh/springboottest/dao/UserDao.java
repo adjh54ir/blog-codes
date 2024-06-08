@@ -15,4 +15,6 @@ import java.util.List;
 @Repository
 public interface UserDao {
     List<UserDto> selectUserList(UserDto userDto);
+
+    UserDto selectUserByUserSq(UserDto userDto);
 }

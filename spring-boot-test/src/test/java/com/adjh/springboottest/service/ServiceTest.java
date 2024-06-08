@@ -24,17 +24,16 @@ class ServiceTests {
     private UserService userService;
 
     @Test
-    @DisplayName("코드리스트 테스트 ")
-    void codeList() {
-        System.out.println("[+] 코드리스트를 조회합니다.");
-
+    @DisplayName("DB 사용자 리스트 테스트")
+    void selectUserList() {
         // Given
         UserDto userDto = UserDto
                 .builder()
-                .userSq(1)
                 .build();
         // When
         List<UserDto> result = userService.selectUserList(userDto);
+
+        System.out.println("[+] DB 사용자 리스트를 조회합니다. " + result);
 
         // Then
         Assertions.assertNotNull(result);

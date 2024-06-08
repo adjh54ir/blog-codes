@@ -27,4 +27,11 @@ public class UserDaoImpl implements UserDao {
         UserDao ud = sqlSession.getMapper(UserDao.class);
         return ud.selectUserList(userDto);
     }
+
+    @Override
+    public UserDto selectUserByUserSq(UserDto userDto) {
+        System.out.println("[+] selectUserItemByUserSq DAO 수행 ");
+        UserDao ud = sqlSession.getMapper(UserDao.class);
+        return ud.selectUserByUserSq(userDto);
+    }
 }
