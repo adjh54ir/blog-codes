@@ -3,8 +3,18 @@
 
 <mapper namespace="com.adjh.springboottest.dao.UserDao">
     <!-- 사용자 리스트 조회 -->
-    <select id="selectUserList" resultType="UserDto">
+    <select id="selectUserList" resultType="com.adjh.springboottest.dto.UserDto">
         SELECT *
         FROM tb_user
+    </select>
+
+    <!-- 사용자 리스트 조회 -->
+    <select id="selectUserByUserSq" resultType="com.adjh.springboottest.dto.UserDto">
+        SELECT t1.*
+        FROM tb_user t1
+        WHERE 1=1
+        <if test="userSq != 0">
+            AND t1.user_sq = #{userSq}
+        </if>
     </select>
 </mapper>

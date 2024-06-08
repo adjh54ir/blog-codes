@@ -15,4 +15,6 @@ import java.util.List;
 @Service
 public interface UserService {
     List<UserDto> selectUserList(UserDto userDto);
+
+    UserDto selectUserByUserSq(UserDto userDto);
 }
