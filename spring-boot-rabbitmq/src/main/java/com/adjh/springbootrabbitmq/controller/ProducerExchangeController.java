@@ -60,7 +60,7 @@ public class ProducerExchangeController {
      * @param messageDto
      * @return
      */
-    @PostMapping("/header")
+    @PostMapping("/headers")
     public ResponseEntity<?> headerSendMessage(@RequestBody MessageDto messageDto) {
         String result = "";
         producerExchangeService.headerSendMessage(messageDto);
