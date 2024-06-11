@@ -28,7 +28,7 @@ public class RabbitMqClassicQueueConfig {
                 // 1. 큐 유지 여부 설정
                 .durable("classicQueue1")
                 // 1. 메시지의 Expiration 지정(TTL : 1초)
-                .ttl(1000)
+                .ttl(1500000)
                 // 2. 큐 우선순위 지정
                 .maxPriority(2)
                 // 3. 데드 레터 익스체인지 지정
@@ -52,7 +52,7 @@ public class RabbitMqClassicQueueConfig {
                 // 1. 큐 유지 여부 설정
                 .durable("classicQueue2")
                 // 1. 메시지의 Expiration 지정(TTL : 1초)
-                .withArgument(ConstQueueAttr.QUEUE_TTL, 1000)                                       // or .ttl()
+                .withArgument(ConstQueueAttr.QUEUE_TTL, 150000)                                       // or .ttl()
                 // 2. 큐 우선순위 지정
                 .withArgument(ConstQueueAttr.QUEUE_PRIORITY, 2)                                     // or .maxPriority()
                 // 3. 데드 레터 익스체인지 지정
@@ -65,45 +65,42 @@ public class RabbitMqClassicQueueConfig {
     }
 
     /**
-     * Direct Exchange 구성 : Dead Letter Exchange로 라우팅을 하는데 사용
-     * - 성공적으로 처리하지 못한 메시지를 메시지 큐(deadLetterQueue)로 전달하는 역할을 수행합니다.
+     * Topic Exchange 구성
      *
      * @return
      */
     @Bean
-    public DirectExchange classicQueueDirectExchange() {
-        return new DirectExchange("exchange.direct.classicQueue");
+    public TopicExchange classicQueueTopicExchange() {
+        return new TopicExchange("exchange.topic.classicQueue");
     }
 
     /**
-     * Direct Exchange 와 Queue1 간의 바인딩을 수행합니다.
-     * - Direct Exchange 방식으로 Queue1와 라우팅 키(Routing key)를 기반으로 바인딩 수행.
+     * Topic Exchange 와 Queue1 간의 바인딩을 수행합니다.
      *
-     * @param classicQueueDirectExchange
+     * @param classicQueueTopicExchange
      * @param classicQueue1
      * @return
      */
     @Bean
-    Binding classQueueBind1(DirectExchange classicQueueDirectExchange, Queue classicQueue1) {
+    Binding classQueueBind1(TopicExchange classicQueueTopicExchange, Queue classicQueue1) {
         return BindingBuilder
                 .bind(classicQueue1)
-                .to(classicQueueDirectExchange)
-                .with("classic.queue1");     // 라우팅 키 (Routing key)
+                .to(classicQueueTopicExchange)
+                .with("classic.*");     // 라우팅 키 (Routing key)
     }
 
     /**
-     * Direct Exchange 와 Queue1 간의 바인딩을 수행합니다.
-     * - Direct Exchange 방식으로 Queue1와 라우팅 키(Routing key)를 기반으로 바인딩 수행.
+     * Topic Exchange 와 Queue1 간의 바인딩을 수행합니다.
      *
-     * @param directExchange
+     * @param classicQueueTopicExchange
      * @param classicQueue2
      * @return
      */
     @Bean
-    Binding classQueueBind2(DirectExchange directExchange, Queue classicQueue2) {
+    Binding classQueueBind2(TopicExchange classicQueueTopicExchange, Queue classicQueue2) {
         return BindingBuilder
                 .bind(classicQueue2)
-                .to(directExchange)
-                .with("classic.queue2");     // 라우팅 키 (Routing key)
+                .to(classicQueueTopicExchange)
+                .with("classic.*");     // 라우팅 키 (Routing key)
     }
 }
