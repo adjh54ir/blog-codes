@@ -38,4 +38,8 @@ public class OrderComponent {
         System.out.println("Queue5 내의 결과 값을 반환 받습니다 " + msg);
     }
 
+    @RabbitListener(queues = "classicPriorityQueue")
+    public void receiveClassicPriorityQueue(String msg) {
+        System.out.println("classicPriorityQueue 내의 결과값을 받습니다 : " + msg);
+    }
 }
