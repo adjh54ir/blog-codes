@@ -39,4 +39,30 @@ public class ProducerQueueController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    /**
+     * 큐(queue1)로 우선순위가 5인 메시지를 전송합니다.
+     *
+     * @param messageDto
+     * @return
+     */
+    @PostMapping("/priority5")
+    public ResponseEntity<?> sendPriority5Message(@RequestBody MessageDto messageDto) {
+        String result = "";
+        producerQueueService.sendPriority5Queue(messageDto);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    /**
+     * 큐(queue1)로 우선순위가 1인 메시지를 전송합니다.
+     *
+     * @param messageDto
+     * @return
+     */
+    @PostMapping("/priority1")
+    public ResponseEntity<?> sendPriority1Message(@RequestBody MessageDto messageDto) {
+        String result = "";
+        producerQueueService.sendPriority1Queue(messageDto);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }
