@@ -14,13 +14,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqClassicPriorityQueueConfig {
     /**
-     * 클래식 큐 중에 우선순위를 테스트하기 위한 큐
+     * 클래식 큐 내에 최대 우선순위를 지정하여, 메시지의 우선순위에 따라 처리 합니다.
      *
      * @return
      */
     @Bean
     public Queue classicPriorityQueue() {
-        return QueueBuilder.durable("classicPriorityQueue").build();
+        return QueueBuilder
+                .durable("classicPriorityQueue")
+                .maxPriority(255)
+                .build();
     }
 
     /**

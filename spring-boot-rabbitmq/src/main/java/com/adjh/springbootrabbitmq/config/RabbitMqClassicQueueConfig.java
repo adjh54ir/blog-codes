@@ -14,53 +14,88 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqClassicQueueConfig {
 
+
+    /**
+     * =================================================================================================================
+     * ========================================== 예시 1 : 클래식 큐를 이용한 방식 ============================================
+     * =================================================================================================================
+     */
     /**
      * Queue 구성 : 일반적인 클래식 큐로 구성
-     * TTL, 우선순위, 데드레터 익스체인지, 데드레터 라우트 키, 최대 길이 지정
      *
      * @return
      */
     @Bean
-    public Queue classicQueue() {
+    public Queue classicQueue1() {
         return QueueBuilder
-                // 1. 큐 유지 여부 설정
-                .durable("classicQueue")
-                // 1. 메시지의 Expiration 지정(TTL : 1초)
-                .ttl(1500000)
-                // 2. 큐 우선순위 지정
-                .maxPriority(2)
-                // 3. 데드 레터 익스체인지 지정
+                // 1. 큐 이름 지정
+                .durable("classicQueue1")
+                // 2. 데드 레터 익스체인지 지정
                 .deadLetterExchange("deadLetterExchange")
-                // 4. 데드 레터 라우터 지정
+                // 3. 데드 레터 라우터 지정
                 .deadLetterRoutingKey("deadLetter")
-                // 5. Queue의 길이 지정
-                .maxLength(100)
+                .build();
+    }
+
+    /**
+     * Queue 구성 : 일반적인 클래식 큐로 구성
+     *
+     * @return
+     */
+    @Bean
+    public Queue classicQueue2() {
+        return QueueBuilder
+                // 1. 큐 이름 지정
+                .durable("classicQueue2")
+                // 2. 데드 레터 익스체인지 지정
+                .deadLetterExchange("deadLetterExchange")
+                // 3. 데드 레터 라우터 지정
+                .deadLetterRoutingKey("deadLetter")
                 .build();
     }
 
 
     /**
-     * Topic Exchange 구성
+     * Fanout Exchange 구성
      *
      * @return
      */
     @Bean
-    public DirectExchange classicQueueTopicExchange() {
-        return ExchangeBuilder.directExchange("exchange.topic.classicQueue").build();
+    public FanoutExchange classicQueueFanoutExchange() {
+        return ExchangeBuilder.fanoutExchange("exchange.fanout.classicQueue").build();
     }
 
     /**
-     * Topic Exchange 와 Queue1 간의 바인딩을 수행합니다.
+     * Fanout fanoutExchange - classicQueue1 간의 바인딩을 수행합니다.
      *
-     * @param classicQueueTopicExchange
-     * @param classicQueue
-     * @return
+     * @param classicQueueFanoutExchange
+     * @param classicQueue1
+     * @returnㅈ
      */
     @Bean
-    Binding classQueueBind1(DirectExchange classicQueueTopicExchange, Queue classicQueue) {
+    Binding classQueueBind1(FanoutExchange classicQueueFanoutExchange, Queue classicQueue1) {
         return BindingBuilder
-                .bind(classicQueue)
-                .to(classicQueueTopicExchange)
-                .with("classic.classicQueue");     // 라우팅 키 (Routing key)
+                .bind(classicQueue1)
+                .to(classicQueueFanoutExchange);
     }
+
+    /**
+     * TFanout fanoutExchange - classicQueue2 간의 바인딩을 수행합니다.
+     *
+     * @param classicQueueFanoutExchange
+     * @param classicQueue2
+     * @returnㅈ
+     */
+    @Bean
+    Binding classQueueBind2(FanoutExchange classicQueueFanoutExchange, Queue classicQueue2) {
+        return BindingBuilder
+                .bind(classicQueue2)
+                .to(classicQueueFanoutExchange);
+    }
+
+
+
+
+
+
 }

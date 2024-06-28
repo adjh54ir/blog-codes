@@ -16,7 +16,6 @@ public class RabbitMqQuorumQueueConfig {
 
     /**
      * Quorum Queue 구성 : 쿼럼 큐 형태로 구성
-     * TTL, 우선순위, 데드레터 익스체인지, 데드레터 라우트 키, 최대 길이 지정
      *
      * @return
      */
@@ -26,14 +25,10 @@ public class RabbitMqQuorumQueueConfig {
                 // 1. 큐 유지 여부 설정
                 .durable("quorumQueue1")
                 .quorum()
-                // 1. 메시지의 Expiration 지정(TTL : 10초)
-                .ttl(10000)
-                // 3. 데드 레터 익스체인지 지정
+                // 2. 데드 레터 익스체인지 지정
                 .deadLetterExchange("deadLetterExchange")
-                // 4. 데드 레터 라우터 지정
+                // 3. 데드 레터 라우터 지정
                 .deadLetterRoutingKey("deadLetter")
-                // 5. Queue의 길이 지정
-                .maxLength(100)
                 .build();
     }
 
@@ -61,6 +56,6 @@ public class RabbitMqQuorumQueueConfig {
         return BindingBuilder
                 .bind(quorumQueue1)
                 .to(quorumQueueDirectExchange)
-                .with("quorum.queue1");     // 라우팅 키 (Routing key)
+                .with("quorumQueue");     // 라우팅 키 (Routing key)
     }
 }

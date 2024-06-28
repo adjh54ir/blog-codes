@@ -40,13 +40,72 @@ public class ProducerQueueServiceImpl implements ProducerQueueService {
             String objectToJSON = objectMapper.writeValueAsString(messageDto);
 
             // '*'를 사용하여 'classic.test1' 또는 'classic.test2'를 대체.
-            rabbitTemplate.convertAndSend("exchange.topic.classicQueue", "classic.*", objectToJSON);
-            // '#'를 사용하여 'classic.test1', 'classic.test2', 'classic.test3' 등을 대체.
-            rabbitTemplate.convertAndSend("exchange.topic.classicQueue", "classic.#", objectToJSON);
+            rabbitTemplate.convertAndSend("exchange.fanout.classicQueue", "", objectToJSON);
         } catch (JsonProcessingException jpe) {
             System.out.println("파싱 오류 발생");
         }
     }
+
+
+    /**
+     * 우선순위가 5인 메시지 전송
+     *
+     * @param messageDto
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public void sendPriority5Queue(MessageDto messageDto) {
+
+        // [STEP1] MessageProperties 인스턴스 구성
+        MessageProperties mpb = MessagePropertiesBuilder.newInstance()
+                .setHeader("x-max-priority", 5)
+                .build();
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            // [STEP2] 메시지 객체 직렬화 수행
+            String objectToJSON = objectMapper.writeValueAsString(messageDto);
+
+            // [STEP3] 직렬화 객체와 메시지 정보로 메시지 객체 구성
+            Message message = new Message(objectToJSON.getBytes(), mpb);
+
+            // [STEP4] Direct Exchange를 이용하여 Routing Key와 함께 메시지 전달
+            rabbitTemplate.convertAndSend("exchange.direct.priorityQueue", "classicPriorityQueue", message);
+        } catch (JsonProcessingException jpe) {
+            System.out.println("파싱 오류 발생");
+        }
+
+
+    }
+
+    /**
+     * 우선순위가 1인 메시지 전송
+     *
+     * @param messageDto
+     */
+    @Override
+    public void sendPriority1Queue(MessageDto messageDto) {
+        // [STEP1] MessageProperties 인스턴스 구성
+        MessageProperties mpb = MessagePropertiesBuilder.newInstance()
+                .setPriority(1)
+                .build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            // [STEP2] 메시지 객체 직렬화 수행
+            String objectToJSON = objectMapper.writeValueAsString(messageDto);
+
+            // [STEP3] 직렬화 객체와 메시지 정보로 메시지 객체 구성
+            Message message = new Message(objectToJSON.getBytes(), mpb);
+
+            // [STEP4] Direct Exchange를 이용하여 Routing Key와 함께 메시지 전달
+            rabbitTemplate.convertAndSend("exchange.direct.priorityQueue", "classicPriorityQueue", message);
+        } catch (JsonProcessingException jpe) {
+            System.out.println("파싱 오류 발생");
+        }
+    }
+
 
     /**
      * Producer QuorumQueue 기반의 메시지 전달
@@ -65,63 +124,5 @@ public class ProducerQueueServiceImpl implements ProducerQueueService {
 
     }
 
-    /**
-     * 우선순위가 5인 메시지 전송
-     *
-     * @param messageDto
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public void sendPriority5Queue(MessageDto messageDto) {
 
-        // [STEP1] MessageProperties 인스턴스 구성
-        MessageProperties mpb = MessagePropertiesBuilder.newInstance()
-                .setHeader("x-max-priority", 255)
-                .setPriority(255)
-                .build();
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            // [STEP2] 메시지 객체 직렬화 수행
-            String objectToJSON = objectMapper.writeValueAsString(messageDto);
-
-            // [STEP3] 직렬화 객체와 메시지 정보로 메시지 객체 구성
-            Message message = new Message(objectToJSON.getBytes(), mpb);
-
-            // [STEP4] Direct Exchange를 이용하여 Routing Key와 함께 메시지 전달
-            rabbitTemplate.convertAndSend("exchange.direct.priorityQueue", "queue.classicPriorityQueue", message);
-        } catch (JsonProcessingException jpe) {
-            System.out.println("파싱 오류 발생");
-        }
-
-
-    }
-
-    /**
-     * 우선순위가 1인 메시지 전송
-     *
-     * @param messageDto
-     */
-    @Override
-    public void sendPriority1Queue(MessageDto messageDto) {
-        // [STEP1] MessageProperties 인스턴스 구성
-        MessageProperties mpb = MessagePropertiesBuilder.newInstance()
-                .setHeader("x-max-priority", 1)
-                .setPriority(1)
-                .build();
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            // [STEP2] 메시지 객체 직렬화 수행
-            String objectToJSON = objectMapper.writeValueAsString(messageDto);
-
-            // [STEP3] 직렬화 객체와 메시지 정보로 메시지 객체 구성
-            Message message = new Message(objectToJSON.getBytes(), mpb);
-
-            // [STEP4] Direct Exchange를 이용하여 Routing Key와 함께 메시지 전달
-            rabbitTemplate.convertAndSend("exchange.direct.priorityQueue", "queue.classicPriorityQueue", message);
-        } catch (JsonProcessingException jpe) {
-            System.out.println("파싱 오류 발생");
-        }
-    }
 }
