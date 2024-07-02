@@ -20,10 +20,10 @@ public class RabbitMqQuorumQueueConfig {
      * @return
      */
     @Bean
-    public Queue quorumQueue1() {
+    public Queue quorumQueue() {
         return QueueBuilder
                 // 1. 큐 유지 여부 설정
-                .durable("quorumQueue1")
+                .durable("quorumQueue")
                 .quorum()
                 // 2. 데드 레터 익스체인지 지정
                 .deadLetterExchange("deadLetterExchange")
@@ -40,7 +40,7 @@ public class RabbitMqQuorumQueueConfig {
     @Bean
     DirectExchange quorumQueueDirectExchange() {
         // direct.exchange 이름의 Direct Exchange 구성
-        return new DirectExchange("exchange.direct.quorumQueue1");
+        return new DirectExchange("exchange.direct.quorumQueue");
     }
 
     /**
@@ -48,13 +48,13 @@ public class RabbitMqQuorumQueueConfig {
      * - Direct Exchange 방식으로 Queue1와 라우팅 키(Routing key)를 기반으로 바인딩 수행.
      *
      * @param quorumQueueDirectExchange
-     * @param quorumQueue1
+     * @param quorumQueue
      * @return
      */
     @Bean
-    Binding classQueueBind(DirectExchange quorumQueueDirectExchange, Queue quorumQueue1) {
+    Binding classQueueBind(DirectExchange quorumQueueDirectExchange, Queue quorumQueue) {
         return BindingBuilder
-                .bind(quorumQueue1)
+                .bind(quorumQueue)
                 .to(quorumQueueDirectExchange)
                 .with("quorumQueue");     // 라우팅 키 (Routing key)
     }

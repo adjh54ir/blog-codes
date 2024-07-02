@@ -106,23 +106,33 @@ public class ProducerQueueServiceImpl implements ProducerQueueService {
         }
     }
 
-
     /**
-     * Producer QuorumQueue 기반의 메시지 전달
+     * 쿼럼 큐로 메시지를 전송합니다.
      *
      * @param messageDto
      */
     @Override
+    @Transactional(readOnly = true)
     public void sendQuorumQueue(MessageDto messageDto) {
+
+        // [STEP1] MessageProperties 인스턴스 구성
+        MessageProperties mpb = MessagePropertiesBuilder.newInstance()
+                .build();
+
         ObjectMapper objectMapper = new ObjectMapper();
         try {
+            // [STEP2] 메시지 객체 직렬화 수행
             String objectToJSON = objectMapper.writeValueAsString(messageDto);
+
+            // [STEP3] 직렬화 객체와 메시지 정보로 메시지 객체 구성
+            Message message = new Message(objectToJSON.getBytes(), mpb);
+
+            // [STEP4] Direct Exchange를 이용하여 Routing Key와 함께 메시지 전달
+            rabbitTemplate.convertAndSend("exchange.direct.quorumQueue", "quorumQueue", message);
         } catch (JsonProcessingException jpe) {
             System.out.println("파싱 오류 발생");
         }
 
-
     }
-
 
 }

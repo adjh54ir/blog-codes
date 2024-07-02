@@ -15,12 +15,13 @@ public interface ProducerQueueService {
 
     void sendClassicQueue(MessageDto messageDto);
 
-    void sendQuorumQueue(MessageDto messageDto);
-
-
     // 우선순위가 가장 높은 큐
     void sendPriority5Queue(MessageDto messageDto);
 
     // 우선순위가 가장 낮은 큐
     void sendPriority1Queue(MessageDto messageDto);
+
+    // 쿼럼 큐
+    void sendQuorumQueue(MessageDto messageDto);
+
 }

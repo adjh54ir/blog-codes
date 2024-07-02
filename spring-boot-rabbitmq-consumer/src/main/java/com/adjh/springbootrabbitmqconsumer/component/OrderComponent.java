@@ -42,4 +42,8 @@ public class OrderComponent {
     public void receiveClassicPriorityQueue(String msg) {
         System.out.println("classicPriorityQueue 내의 결과값을 받습니다 : " + msg);
     }
+    @RabbitListener(queues = "quorumQueue")
+    public void quorumQueue(String msg) {
+        System.out.println("quorumQueue 내의 결과값을 받습니다 : " + msg);
+    }
 }
