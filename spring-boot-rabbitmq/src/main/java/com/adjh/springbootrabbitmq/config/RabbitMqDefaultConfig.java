@@ -22,7 +22,12 @@ public class RabbitMqDefaultConfig {
     @Bean
     DirectExchange directExchange() {
         // direct.exchange 이름의 Direct Exchange 구성
-        return new DirectExchange("exchange.direct");
+        return ExchangeBuilder
+                // 1. Direct Exchange 설정 및 이름 설정
+                .directExchange("exchange.direct")
+                // 2. Exchange 지속성 설정
+                .durable(true)
+                .build();
     }
 
     /**
@@ -33,7 +38,9 @@ public class RabbitMqDefaultConfig {
     @Bean
     FanoutExchange fanoutExchange() {
         // fanout.exchange 이름의 Fanout Exchange 구성
-        return new FanoutExchange("exchange.fanout");
+        return ExchangeBuilder
+                .fanoutExchange("exchange.fanout")
+                .build();
     }
 
     /**
@@ -44,7 +51,9 @@ public class RabbitMqDefaultConfig {
     @Bean
     TopicExchange topicExchange() {
         // topic.exchange 이름의 Topic Exchange
-        return new TopicExchange("exchange.topic");
+        return ExchangeBuilder
+                .topicExchange("exchange.topic")
+                .build();
     }
 
     /**
@@ -54,8 +63,11 @@ public class RabbitMqDefaultConfig {
      */
     @Bean
     HeadersExchange headersExchange() {
+
         // headers.exchange 이름의 Headers Exchange
-        return new HeadersExchange("exchange.headers");
+        return ExchangeBuilder
+                .headersExchange("exchange.headers")
+                .build();
     }
 
     /**
