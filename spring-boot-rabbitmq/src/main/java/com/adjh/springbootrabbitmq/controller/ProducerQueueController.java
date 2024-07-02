@@ -33,7 +33,7 @@ public class ProducerQueueController {
      * @return
      */
     @PostMapping("/classicQueue")
-    public ResponseEntity<?> topicSendMessage(@RequestBody MessageDto messageDto) {
+    public ResponseEntity<?> fanoutSendMessage(@RequestBody MessageDto messageDto) {
         String result = "";
         producerQueueService.sendClassicQueue(messageDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -46,7 +46,7 @@ public class ProducerQueueController {
      * @return
      */
     @PostMapping("/priority5")
-    public ResponseEntity<?> sendPriority5Message(@RequestBody MessageDto messageDto) {
+    public ResponseEntity<?> sendPriorityQueue5Message(@RequestBody MessageDto messageDto) {
         String result = "";
         producerQueueService.sendPriority5Queue(messageDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -59,10 +59,25 @@ public class ProducerQueueController {
      * @return
      */
     @PostMapping("/priority1")
-    public ResponseEntity<?> sendPriority1Message(@RequestBody MessageDto messageDto) {
+    public ResponseEntity<?> sendPriorityQueue1Message(@RequestBody MessageDto messageDto) {
         String result = "";
         producerQueueService.sendPriority1Queue(messageDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+
+    /**
+     * 쿼럼 큐에 메시지를 전송합니다.
+     *
+     * @param messageDto
+     * @return
+     */
+    @PostMapping("/quorumQueue")
+    public ResponseEntity<?> sendQuorumQueueMessage(@RequestBody MessageDto messageDto) {
+        String result = "";
+        producerQueueService.sendQuorumQueue(messageDto);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 
 }
