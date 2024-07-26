@@ -18,11 +18,14 @@ import java.util.List;
  *
  * @author : jonghoon
  * @fileName : NetworkUtils
- * @since : 3/9/24
+ * @Method @since : 3/9/24
+ * - getClientIp()      : Client IP 값을 반환 받는 함수
+ * - getPublicIp()      : Public IP / External IP 값을 반환 받는 함수
+ * - getPrivateIp()     : Private IP / Internal IP 값을 반환 받는 함수
+ * - getHostIp()        : Host IP 값을 반환 받는 함수
  */
 @RequiredArgsConstructor
 public class NetworkUtils {
-
 
     /**
      * Client IP 값을 반환 받는 함수
