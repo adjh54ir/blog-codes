@@ -1,5 +1,7 @@
 package com.adjh.springboot3tierform.utils;
 
+import lombok.NoArgsConstructor;
+
 /**
  * 데이터를 마스킹 처리하는 Utils
  * - 이름 마스킹 처리 함수 : maskName()
@@ -11,9 +13,8 @@ package com.adjh.springboot3tierform.utils;
  * @fileName : MaskingUtils
  * @since : 7/26/24
  */
+@NoArgsConstructor
 public class MaskingUtils {
-    private MaskingUtils() {
-    }
 
     /**
      * 이름에 대한 마스킹을 수행합니다.
