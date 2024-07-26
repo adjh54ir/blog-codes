@@ -1,4 +1,5 @@
-package com.adjh.springboot3tierform.utils;
+package com.adjh.springbootcommon.commons.utils;
+
 
 import lombok.NoArgsConstructor;
 
