@@ -15,10 +15,11 @@ import java.util.UUID;
  * @author : jonghoon
  * @fileName : UuidUtils
  * @Method @since : 6/4/24
- * - generateType1UUID() : UUID v1을 생성하여 반환합니다.(MAC Address, TimeStamp 조합)
- * - generateType3UUID() : UUID v3를 생성합니다.
- * - generateType4UUID() : UUID v4를 생성합니다.
- * - generateType5UUID() : UUID v5를 사용하여 UUID를 생성합니다.
+ * - generateType1UUID()    : UUID v1을 생성하여 반환합니다.(MAC Address, TimeStamp 조합)
+ * - generateType3UUID()    : UUID v3를 생성합니다.
+ * - generateType4UUID()    : UUID v4를 생성합니다.
+ * - generateType5UUID()    : UUID v5를 사용하여 UUID를 생성합니다.
+ * - makeUUID()             : UUID v4를 활용한 UUID 반환 함수
  */
 @RequiredArgsConstructor
 public class UuidUtils {
