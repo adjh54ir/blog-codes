@@ -2,19 +2,20 @@ package com.adjh.springbootcommon.commons.utils;
 
 
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 데이터를 마스킹 처리하는 Utils
- * - 이름 마스킹 처리 함수 : maskName()
- * - 휴대폰 번호 마스킹 처리 함수 : maskPhoneNumber()
- * - 이메일 주소 마스킹 처리 함수 : maskEmail()
- * - 계좌번호 마스킹 처리 함수 : maskAccountNumber()
+ * - maskName()             : 이름 마스킹 처리 함수
+ * - maskPhoneNumber()      : 휴대폰 번호 마스킹 처리 함수
+ * - maskEmail()            : 이메일 주소 마스킹 처리 함수
+ * - maskAccountNumber()    : 계좌번호 마스킹 처리 함수
  *
  * @author : jonghoon
  * @fileName : MaskingUtils
  * @since : 7/26/24
  */
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class MaskingUtils {
 
     /**
