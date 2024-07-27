@@ -41,6 +41,7 @@
 
 | 테스트 파일 경로                                   | 분류                           | 설명                                                      |
 |---------------------------------------------|------------------------------|---------------------------------------------------------|
+| src/test/format/MethodFormatTest            | JUnit5 메서드 활용                | Junit5에서 제공하는 메서드를 기반으로 기본 예시를 테스트해봅니다.                 |
 | src/test/lifecycle/JUnitLifeCycleTests      | JUnit5 라이프사이클 패턴             | 테스트 클래스 전후 수행 과정을 테스트 합니다.                              |
 | src/test/unit/CalculatorTests               | JUnit5 Given-When-Then 패턴    | Given-When-Then 패턴 형태로 테스트를 진행합니다.                      |
 | src/test/unit/NestedTests                   | JUnit5 중첩 패턴                 | 여러개의 테스트가 엮여 있는 중첩 패턴 테스트를 진행합니다.                       |
