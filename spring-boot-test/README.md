@@ -45,6 +45,7 @@
 | src/test/lifecycle/JUnitLifeCycleTests      | JUnit5 라이프사이클 패턴             | 테스트 클래스 전후 수행 과정을 테스트 합니다.                              |
 | src/test/unit/CalculatorTests               | JUnit5 Given-When-Then 패턴    | Given-When-Then 패턴 형태로 테스트를 진행합니다.                      |
 | src/test/unit/NestedTests                   | JUnit5 중첩 패턴                 | 여러개의 테스트가 엮여 있는 중첩 패턴 테스트를 진행합니다.                       |
+| src/test/unit/repeat/RepeatableTest         | JUnit5 반복 테스트 패턴             | 여러개의 테스트가 엮여 있는 중첩 패턴 테스트를 진행합니다.                       |
 | src/test/service/ServicesTests              | @SpringBootTest 기반 서비스 테스트   | @SpringBootTest 기반으로 DB 데이터를 조회하는 서비스 테스트를 진행합니다.       |
 | src/test/mockito/UserServiceMockitoTest     | Mockito 기반 서비스 테스트           | Mockito 기반으로 서비스 수행에 대한 테스트를 진행합니다.                     |
 | src/test/mockmvc/UserControllerMockMvcTest1 | Mockmvc 기반 컨트롤러 수행 테스트       | Mockmvc 기반으로 Controller의 API 통신에 대한 테스트를 진행합니다.         |
