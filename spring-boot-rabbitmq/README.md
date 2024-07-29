@@ -17,16 +17,7 @@
 
 ## 1. 개발환경
 
-### 1.1. Exchange 종류 별 구성
-
-<img src="https://github.com/adjh54ir/blog-codes/assets/70501374/25101a53-f282-4a83-9794-e6f78619664e"/>
-
-<br />
-<br />
-
-### 1.2. Dead Letter 구성
-
-<img src="https://github.com/adjh54ir/blog-codes/assets/70501374/ac1a846f-014e-439b-aa4a-a1a13191a4c1"/>
+### 1.1. 프로젝트 개발환경
 
 | 환경 분류                                       | 버전      |
 |---------------------------------------------|---------|
@@ -40,36 +31,81 @@
 <br />
 <br />
 
-## 2. Exchange 종류
+### 1.2. 디렉터리 구조
 
-### 2.1. Direct Exchange
+| 상위 디렉터리        | 파일 명                       | 설명                                                                                      |
+|----------------|----------------------------|-----------------------------------------------------------------------------------------|
+| config         | RabbitMqConnConfig         | RabbitMQ와의 연결과 데이터 통신을 AMQP를 이용하기 위한 RabbitMQTemplate을 구성한 클래스입니다.                      |
+|                | RabbitMqDefaultConfig      | RabbitMQ에서 사용되는 Exchange 방식(Direct, Fanout, Header, Topic)을 구성한 클래스입니다.                 |
+|                | RabbitMqDeadLetterConfig   | RabbitMQ에서 사용되는 Dead Lettering 처리를 위해 구성한 클래스입니다.                                       |
+|                | RabbitMqClassicQueueConfig | RabbitMQ에서 클래식 큐(Classic Queue)를 구성한 클래스입니다.                                            |
+|                | RabbitMqQuorumQueueConfig  | RabbitMQ에서 쿼럼 큐(Quorum Queue)를 구성한 클래스입니다.                                              |
+| model/constant | ConstQueueAttr             | RabbitMQ에서 큐를 구성하는데 사용하는 속성 키에 대한 정의 클래스입니다                                             |
+| controller     | -                          | RabbitMQ에서 Consumer로 구성한 큐에 데이터를 전송 처리를 관리하는 Controller 클래스입니다.                         |
+| service        | -                          | RabbitMQ에서 RabbitTemplate을 이용하여 특정 Exchange와 Route key를 이용하여 메시지 적재 처리를 하는 비즈니스 클래스입니다. |
+
+
+## 2. 개발 처리 구성도 
+
+### 2.1. Exchange 종류 별 구성도
+
+    ️⭕ 해당 구성은 프로젝트의 config/RabbitMqDefaultConfig 파일 내에서 확인 할 수 있습니다.
+
+<img src="https://github.com/adjh54ir/blog-codes/assets/70501374/25101a53-f282-4a83-9794-e6f78619664e"/>
+
+<br />
+<br />
+
+### 2.2. Dead Lettering 처리 구성도
+
+    ⭕️ 해당 구성은 프로젝트의 config/RabbitMqDeadLetterConfig 파일 내에서 확인 할 수 있습니다.
+
+<img src="https://github.com/adjh54ir/blog-codes/assets/70501374/ac1a846f-014e-439b-aa4a-a1a13191a4c1"/>
+
+<br />
+<br />
+
+### 2.3. 클래식 큐 처리 구성도
+
+
+
+
+
+## 3. RabbitMQ Exchange 종류
+
+### 3.1. Direct Exchange
 
 <img src="https://github.com/adjh54ir/blog-codes/assets/70501374/86d7040c-c0d2-455c-8ad5-9cfce565596f"/>
 
 <br />
 
-### 2.2. Fanout Exchange
+### 3.2. Fanout Exchange
 
 <img src="https://github.com/adjh54ir/blog-codes/assets/70501374/657177ce-8118-4616-b8d6-a3652114b550"/>
 
 
 <br />
 
-### 2.3. Headers Exchange
+### 3.3. Headers Exchange
 
 <img src="https://github.com/adjh54ir/blog-codes/assets/70501374/7a2536ca-a0fc-466c-81be-57a42c35d580"/>
 
 <br />
 
-### 2.4. Topic Exchange
+### 3.4. Topic Exchange
 
 <img src="https://github.com/adjh54ir/blog-codes/assets/70501374/4402a333-dbb3-4a86-bc5d-1654321ef428"/>
 
 <br />
 
-### 2.5. Dead Letter Exchange
+### 3.5. Dead Letter Exchange
 
 <img src="https://github.com/adjh54ir/blog-codes/assets/70501374/b8f71b00-cacb-46e5-b745-0633d0c702aa"/>
+
+
+<br />
+
+## 4. Queue 종류 
 
 
 

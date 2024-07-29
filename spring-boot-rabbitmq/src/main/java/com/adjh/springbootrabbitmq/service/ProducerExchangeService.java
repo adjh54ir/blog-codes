@@ -1,6 +1,7 @@
 package com.adjh.springbootrabbitmq.service;
 
 import com.adjh.springbootrabbitmq.dto.MessageDto;
+import org.springframework.stereotype.Service;
 
 /**
  * 메시지 생성자의 Exchange 별 서비스 처리
@@ -9,6 +10,7 @@ import com.adjh.springbootrabbitmq.dto.MessageDto;
  * @fileName : ProducerExchangeService
  * @since : 5/25/24
  */
+@Service
 public interface ProducerExchangeService {
 
     void directSendMessage(MessageDto messageDto);      // Direct Exchange 방식 이용
