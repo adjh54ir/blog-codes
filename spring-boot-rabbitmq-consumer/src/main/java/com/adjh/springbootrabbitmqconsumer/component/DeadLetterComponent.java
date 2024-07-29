@@ -22,4 +22,8 @@ public class DeadLetterComponent {
     public void receiveErrorMessage(String msg) {
         System.out.println("오류가 발생하였을때 저장되는 메시지 : " + msg);
     }
+
+
+
+
 }

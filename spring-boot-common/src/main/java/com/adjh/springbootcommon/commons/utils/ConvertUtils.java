@@ -18,7 +18,11 @@ import java.util.Map;
  *
  * @author : lee
  * @fileName : ConvertUtils
- * @since : 2/16/24
+ * @Method @since : 2/16/24
+ * - convertMapToJsonObject()       : Object 형을 Map 형태로 변환 함수
+ * - convertMapToJsonObject()       : Map 형을 JSON Object 형태로 변환 함수
+ * - convertMapToObject()           : Map 형을 Object 형태로 변환 함수
+ * - convertObjectToJsonObject()    : Object(VO)형을 JSON Object 형태로 변환 함수
  */
 @RequiredArgsConstructor
 public class ConvertUtils {

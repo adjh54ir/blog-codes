@@ -11,7 +11,9 @@ import java.util.Base64;
  *
  * @author : lee
  * @fileName : EncryptUtils
- * @since : 2/16/24
+ * @Method @since : 2/16/24
+ * - encodeStringToBase64()     : 문자열을 BASE64형으로 인코딩
+ * - decodeBase64ToString()     : BASE64형을 문자열로 디코딩
  */
 @RequiredArgsConstructor
 public class EncryptUtils {
