@@ -1,81 +1,3 @@
-<<<<<<< HEAD
-# Created by https://www.toptal.com/developers/gitignore/api/macos,intellij,eclipse,java,gradle
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,intellij,eclipse,java,gradle
-
-# 개인 환경 파일 제외
-/src/main/resources/config/application-multiflex-qa.yml
-/src/main/resources/config/application-multiflex-prd.yml
-/src/main/resources/config/application-multiflex-oauth.yml
-/logs/
-/src/main/generated/querydsl
-### Eclipse ###
-.metadata
-bin/
-tmp/
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.settings/
-.loadpath
-.recommenders
-.idea
-# External tool builders
-.externalToolBuilders/
-
-# Locally stored "Eclipse launch configurations"
-*.launch
-
-# PyDev specific (Python IDE for Eclipse)
-*.pydevproject
-
-# CDT-specific (C/C++ Development Tooling)
-.cproject
-
-# CDT- autotools
-.autotools
-
-# Java annotation processor (APT)
-.factorypath
-
-# PDT-specific (PHP Development Tools)
-.buildpath
-
-# sbteclipse plugin
-.target
-
-# Tern plugin
-.tern-project
-
-# TeXlipse plugin
-.texlipse
-
-# STS (Spring Tool Suite)
-.springBeans
-
-# Code Recommenders
-.recommenders/
-
-# Annotation Processing
-.apt_generated/
-.apt_generated_test/
-
-# Scala IDE specific (Scala & Java development for Eclipse)
-.cache-main
-.scala_dependencies
-.worksheet
-
-# Uncomment this line if you wish to ignore the project description file.
-# Typically, this file would be tracked if it contains build/dependency configurations:
-#.project
-
-### Eclipse Patch ###
-# Spring Boot Tooling
-.sts4-cache/
-
-### Intellij ###
-=======
 # Created by https://www.toptal.com/developers/gitignore/api/java,gradle,intellij+all,visualstudiocode,git,sonarqube
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,gradle,intellij+all,visualstudiocode,git,sonarqube
 
@@ -173,41 +95,6 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
-<<<<<<< HEAD
-### Intellij Patch ###
-# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
-
-# *.iml
-# modules.xml
-# .idea/misc.xml
-# *.ipr
-
-# Sonarlint plugin
-# https://plugins.jetbrains.com/plugin/7973-sonarlint
-.idea/**/sonarlint/
-
-# SonarQube Plugin
-# https://plugins.jetbrains.com/plugin/7238-sonarqube-community-plugin
-.idea/**/sonarIssues.xml
-
-# Markdown Navigator plugin
-# https://plugins.jetbrains.com/plugin/7896-markdown-navigator-enhanced
-.idea/**/markdown-navigator.xml
-.idea/**/markdown-navigator-enh.xml
-.idea/**/markdown-navigator/
-
-# Cache file creation bug
-# See https://youtrack.jetbrains.com/issue/JBR-2257
-.idea/$CACHE_FILE$
-
-# CodeStream plugin
-# https://plugins.jetbrains.com/plugin/12206-codestream
-.idea/codestream.xml
-
-# Azure Toolkit for IntelliJ plugin
-# https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
-.idea/**/azureSettings.xml
-=======
 ### Intellij+all Patch ###
 # Ignore everything but code style settings and run configurations
 # that are supposed to be shared within teams.
@@ -243,8 +130,6 @@ fabric.properties
 hs_err_pid*
 replay_pid*
 
-<<<<<<< HEAD
-=======
 ### SonarQube ###
 # SonarQube ignore files.
 #
@@ -342,36 +227,6 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
-<<<<<<< HEAD
-### Gradle ###
-.gradle
-**/build/
-!src/**/build/
-
-# Ignore Gradle GUI config
-gradle-app.setting
-
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
-
-# Avoid ignore Gradle wrappper properties
-!gradle-wrapper.properties
-
-# Cache of project
-.gradletasknamecache
-
-# Eclipse Gradle plugin generated files
-# Eclipse Core
-.project
-# JDT-specific (Eclipse Java Development Tools)
-.classpath
-
-### Gradle Patch ###
-# Java heap dump
-*.hprof
-
-# End of https://www.toptal.com/developers/gitignore/api/macos,intellij,eclipse,java,gradle
-=======
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
