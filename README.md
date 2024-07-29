@@ -13,20 +13,21 @@
 
 ## 1. 요약
 
-| Repository                    | 설명                                                                                                                | 완료 여부 |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------- | :-------: |
-| java-algorithm                | Java 기반의 알고리즘 별 문제들을 관리하는 Repository입니다.                                                         |  진행중   |
-| spring-boot-common            | 공통적으로 사용되는 정규식, 유틸등을 관리하는 Repository입니다.                                                     |   완료    |
-| spring-boot-short             | 간단한 문제 처리를 위한 모듈을 구성한 Repository입니다.                                                             |  진행중   |
-| spring-boot-3tier-form        | 3-Tier 형태의 아키텍처 기반으로 구성한 form Repository입니다.                                                       |   완료    |
-| spring-boot-jpa               | Spring Boot Data 라이브러리를 활용하여 JpaRepository, JPQL, Criteria API를 활용한 예시를 관리하는 Repository입니다. |   완료    |
-| spring-boot-querydsl          | JPA와 QueryDSL을 이용하여서 여러가지 사용방법의 예시를 관리하는 Repository입니다.                                   |   완료    |
-| spring-boot-chatgpt           | OpenAI의 ChatGPT와의 통신을 통해 프롬프트를 수행하는 예시를 관리하는 Repository입니다.                              |   완료    |
-| spring-boot-fcm               | 디바이스를 대상으로 FCM 메시지를 전송하는 예시를 관리하는 Repository입니다.                                         |   완료    |
-| spring-boot-scheduler         | Spring Boot Quartz 라이브러리를 활용하여 일정 시간 마다 FCM 메시지를 전송하는 예시를 관리하는 Repository입니다.     |  완료  |
-| spring-boot-test              | JUnit, MockMVC, Mokito를 활용한 예시를 관리하는 Repository입니다.                                                   |   완료    |
-| spring-boot-rabbitmq          | RabbitMQ의 메시지 큐를 생성하는 이벤트 생성자를 구성한 Repository입니다.                                            |   완료    |
-| spring-boot-rabbitmq-consumer | RabbitMQ의 메시지 큐를 수신하는 이벤트 소비자를 구성한 Repository입니다                                             |   완료    |
+| Repository                    | 설명                                                                                          | 완료 여부 |
+|-------------------------------|---------------------------------------------------------------------------------------------|:-----:|
+| gitignore                     | 자주 사용되는 gitignore 파일들을 관리하는 디렉토리입니다.                                                        |  진행중  |
+| java-algorithm                | Java 기반의 알고리즘 별 문제들을 관리하는 Repository입니다.                                                    |  진행중  |
+| spring-boot-common            | 공통적으로 사용되는 정규식, 유틸등을 관리하는 Repository입니다.                                                    |  완료   |
+| spring-boot-short             | 간단한 문제 처리를 위한 모듈을 구성한 Repository입니다.                                                        |  진행중  |
+| spring-boot-3tier-form        | 3-Tier 형태의 아키텍처 기반으로 구성한 form Repository입니다.                                                |  완료   |
+| spring-boot-jpa               | Spring Boot Data 라이브러리를 활용하여 JpaRepository, JPQL, Criteria API를 활용한 예시를 관리하는 Repository입니다. |  완료   |
+| spring-boot-querydsl          | JPA와 QueryDSL을 이용하여서 여러가지 사용방법의 예시를 관리하는 Repository입니다.                                     |  완료   |
+| spring-boot-chatgpt           | OpenAI의 ChatGPT와의 통신을 통해 프롬프트를 수행하는 예시를 관리하는 Repository입니다.                                 |  완료   |
+| spring-boot-fcm               | 디바이스를 대상으로 FCM 메시지를 전송하는 예시를 관리하는 Repository입니다.                                            |  완료   |
+| spring-boot-scheduler         | Spring Boot Quartz 라이브러리를 활용하여 일정 시간 마다 FCM 메시지를 전송하는 예시를 관리하는 Repository입니다.               |  완료   |
+| spring-boot-test              | JUnit, MockMVC, Mokito를 활용한 예시를 관리하는 Repository입니다.                                         |  완료   |
+| spring-boot-rabbitmq          | RabbitMQ의 메시지 큐를 생성하는 이벤트 생성자를 구성한 Repository입니다.                                           |  완료   |
+| spring-boot-rabbitmq-consumer | RabbitMQ의 메시지 큐를 수신하는 이벤트 소비자를 구성한 Repository입니다                                            |  완료   |
 
 <br/>
 <br/>
