@@ -1,6 +1,6 @@
 package com.adjh.springbootasync.service.impl;
 
-import com.adjh.springbootasync.service.AsyncService;
+import com.adjh.springbootasync.service.AsyncReturnTypeService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
@@ -10,14 +10,14 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import java.util.concurrent.*;
 
 /**
- * Please explain the class!!
+ * Spring Boot Async 리턴 타입(Retrun Type)별 사용예시
  *
  * @author : jonghoon
  * @fileName : AsyncServiceImpl
  * @since : 7/13/24
  */
 @Service
-public class AsyncServiceImpl implements AsyncService {
+public class AsyncReturnTypeServiceImpl implements AsyncReturnTypeService {
 
     /**
      * [Async] 반환 유형이 존재하지 않는 경우 : void
@@ -114,5 +114,36 @@ public class AsyncServiceImpl implements AsyncService {
             // 4. 비동기 결과가 성공하였을때 반환되는 값입니다.
             return "hello world !!!!";
         });
+    }
+
+    /**
+     * [Async] 반환 유형이 존재하는 경우 : CompletableFuture
+     *
+     * @return CompletableFuture<String>
+     */
+    @Override
+    public CompletableFuture<String> asyncCompletableFuture2() {
+
+        // 1. 비동기 작업을 수행하고 결과값을 반환받습니다.
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "Hello");
+
+        // 비동기 작업 수행 후에 동작을 정의합니다.
+        future.whenComplete((result, exception) -> {
+            if (exception == null) {
+                // 비동기 작업이 성공적으로 완료되었을 때 실행
+                System.out.println("Completed successfully with result: " + result);
+            } else {
+                // 비동기 작업이 실패했을 때 실행
+                System.out.println("Completed with error: " + exception.getMessage());
+            }
+        });
+
+        // 메인 스레드가 종료되지 않도록 대기
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            System.out.println("error :: " + e.getMessage());
+        }
+        return future;
     }
 }
