@@ -15,6 +15,13 @@ class AsyncReturnTypeServiceTest {
     @Autowired
     private AsyncReturnTypeService asyncReturnTypeService;
 
+
+    @Test
+    void multiThread() {
+        asyncReturnTypeService.multiThread();
+    }
+
+
     @Test
     void asyncVoidType() {
         asyncReturnTypeService.asyncVoidType();
@@ -25,6 +32,7 @@ class AsyncReturnTypeServiceTest {
         Future<String> result = asyncReturnTypeService.asyncFutureType();
         System.out.println("result :: " + result.get());
     }
+
 
     @Test
     void asyncListenableFuture() {
@@ -42,4 +50,6 @@ class AsyncReturnTypeServiceTest {
         CompletableFuture<String> completableFuture = asyncReturnTypeService.asyncCompletableFuture2();
         System.out.println("future :: " + completableFuture.get());
     }
+
+
 }

@@ -16,6 +16,8 @@ import java.util.concurrent.Future;
 @Service
 public interface AsyncReturnTypeService {
 
+    void multiThread();                                     // 멀티 스레드의 수행을 확인해봅니다.
+
     void asyncVoidType();                                   // 리턴 값이 존재하지 않는 비동기 서비스
 
     Future<String> asyncFutureType();                       // 리턴 값이 존재하는 비동기 서비스 : Future
