@@ -19,6 +19,22 @@ import java.util.concurrent.*;
 @Service
 public class AsyncReturnTypeServiceImpl implements AsyncReturnTypeService {
 
+    @Override
+    public void multiThread() {
+        // 스레드 풀 생성
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+
+        // 작업 제출
+        for (int i = 0; i < 10; i++) {
+            executorService.submit(() -> {
+                System.out.println("Thread Name: " + Thread.currentThread().getName());
+            });
+        }
+
+        // 스레드 풀 종료
+        executorService.shutdown();
+    }
+
     /**
      * [Async] 반환 유형이 존재하지 않는 경우 : void
      */
