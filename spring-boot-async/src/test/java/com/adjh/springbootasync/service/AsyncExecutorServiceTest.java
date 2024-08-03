@@ -16,8 +16,21 @@ class AsyncExecutorServiceTest {
     private AsyncExecutorService asyncExecutorService;
 
 
+    /**
+     *
+     */
     @Test
     void simpleAsyncTaskExecutor() {
         asyncExecutorService.simpleAsyncTaskExecutor();
+    }
+
+    /**
+     *
+     */
+    @Test
+    void threadPoolTaskExecutor() {
+        for (int i = 0; i < 10; i++) {
+            asyncExecutorService.threadPoolTaskExecutor(i);
+        }
     }
 }
