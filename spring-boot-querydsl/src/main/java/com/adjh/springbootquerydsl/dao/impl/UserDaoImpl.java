@@ -200,8 +200,11 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional(readOnly = true)
     public List<UserEntity> selectUserList(UserEntity userEntity) {
-        List<UserEntity> userList = new ArrayList<>();
-        return userList;
+        return queryFactory
+                .select(qUser)
+                .from(qUser)
+                .where(qUser.userSt.eq("A"))
+                .fetch();
     }
 
     @Override
