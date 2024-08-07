@@ -200,8 +200,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional(readOnly = true)
     public List<UserEntity> selectUserList(UserEntity userEntity) {
-        List<UserEntity> userList = new ArrayList<>();
-        return userList;
+        return queryFactory
+                .select(qUser)
+                .from(qUser)
+                .fetch();
     }
 
     @Override
@@ -215,6 +217,12 @@ public class UserDaoImpl implements UserDao {
     @Transactional
     public int insertUser(UserEntity userEntity) {
         int result = 0;
+        try {
+            em.persist(userEntity);
+            result = 1;
+        } catch (Exception e) {
+            System.out.println("error " + e.getMessage());
+        }
         return result;
     }
 
