@@ -218,6 +218,12 @@ public class UserDaoImpl implements UserDao {
     @Transactional
     public int insertUser(UserEntity userEntity) {
         int result = 0;
+        try {
+            em.persist(userEntity);
+            result = 1;
+        } catch (Exception e) {
+            System.out.println("error " + e.getMessage());
+        }
         return result;
     }
 
