@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * tb_user 테이블과 매핑 객체
@@ -30,6 +32,10 @@ public class UserEntity implements Serializable {
     @Column(name = "user_id")
     private String userId;
 
+    @Comment("사용자 비밀번호")
+    @Column(name = "user_pw")
+    private String userPw;
+
     @Comment("사용자 이름")
     @Column(name = "user_nm")
     private String userNm;
@@ -38,14 +44,10 @@ public class UserEntity implements Serializable {
     @Column(name = "user_st")
     private String userSt;
 
-
-    @Builder(toBuilder = true)
-    public UserEntity(long userSq, String userId, String userNm, String userSt) {
-        this.userSq = userSq;
-        this.userId = userId;
-        this.userNm = userNm;
-        this.userSt = userSt;
-    }
+    @Comment("사용자 이메일")
+    @Column(name = "user_email")
+    private String userEmail;
 }
+
 
 
