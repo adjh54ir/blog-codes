@@ -5,6 +5,7 @@ import com.adjh.springbootquerydsl.dto.UserClubDto;
 import com.adjh.springbootquerydsl.dto.UserDto;
 import com.adjh.springbootquerydsl.dto.UserPassportDto;
 import com.adjh.springbootquerydsl.entity.UserEntity;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,12 @@ public class UserController {
 
     public UserController(UserDao userDao) {
         this.userDao = userDao;
+    }
+
+    @PostMapping("/user")
+    public ResponseEntity<Integer> insertUser(@RequestBody UserEntity userEntity) {
+        int result = userDao.insertUser(userEntity);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 

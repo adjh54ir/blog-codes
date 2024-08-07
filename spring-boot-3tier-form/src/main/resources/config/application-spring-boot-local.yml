@@ -9,8 +9,8 @@ spring:
   # 1. Spring Boot JDBC + HikariCP 설정
   datasource:
     hikari:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://localhost:3306/testdb
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://localhost:5432/testdb
       username: localmaster
       password: qwer1234
       pool-name: Hikari Connection Pool  # Alias
