@@ -5,6 +5,7 @@ import com.adjh.springbootquerydsl.dto.UserDto;
 import com.adjh.springbootquerydsl.dto.UserOrderDto;
 import com.adjh.springbootquerydsl.dto.UserPassportDto;
 import com.adjh.springbootquerydsl.entity.UserEntity;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

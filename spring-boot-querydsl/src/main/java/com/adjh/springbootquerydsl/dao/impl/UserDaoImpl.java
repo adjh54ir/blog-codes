@@ -7,8 +7,10 @@ import com.adjh.springbootquerydsl.dto.UserOrderDto;
 import com.adjh.springbootquerydsl.dto.UserPassportDto;
 import com.adjh.springbootquerydsl.entity.*;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -230,14 +232,20 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public int updateUser(UserEntity userEntity) {
-        int result = 0;
-        try {
-            em.persist(userEntity);
-            result = 1;
-        } catch (Exception e) {
-            System.out.println("error " + e.getMessage());
+        JPAUpdateClause updateClause = queryFactory.update(qUser);
+
+        if (userEntity.getUserId() != null) {
+            updateClause.set(qUser.userId, userEntity.getUserId());
         }
-        return result;
+        if (userEntity.getUserNm() != null) {
+            updateClause.set(qUser.userNm, userEntity.getUserNm());
+        }
+        if (userEntity.getUserSt() != null) {
+            updateClause.set(qUser.userSt, userEntity.getUserSt());
+        }
+        return (int) updateClause
+                .where(qUser.userSq.eq(userEntity.getUserSq()))
+                .execute();
     }
 
     @Override

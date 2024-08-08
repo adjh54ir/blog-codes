@@ -1,6 +1,7 @@
 package com.adjh.springbootasync.service.impl;
 
 import com.adjh.springbootasync.service.AsyncExecutorService;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,13 @@ public class AsyncExecutorServiceImpl implements AsyncExecutorService {
     @Async("simpleAsyncTaskExecutor")
     @Override
     public void simpleAsyncTaskExecutor() {
-        System.out.println("Execute method asynchronously - " + Thread.currentThread().getName());
+        SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor();
+
+        for (int i = 0; i < 5; i++) {
+            executor.execute(() -> {
+                System.out.println("Hello from thread: " + Thread.currentThread().getName());
+            });
+        }
     }
 
     /**

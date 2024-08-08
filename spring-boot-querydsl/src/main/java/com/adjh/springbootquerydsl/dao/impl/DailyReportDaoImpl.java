@@ -39,30 +39,31 @@ public class DailyReportDaoImpl implements DailyReportDao {
 
     @Override
     public DailyReportDto selectDailyStdyTimeAverage(DailyReportDto dailyReportDto) {
-        return queryFactory
-                .select(Projections.constructor(DailyReportDto.class,
-                                (JPAExpressions
-                                        .select(qStdPlan.planTm)
-                                        .from(qStdDoStart)
-                                        .innerJoin(qStdPlan)
-                                        .on(qStdPlan.planSq.eq(qStdDoStart.planSq))
-                                        .where(qStdPlan.userUuid.eq(dailyReportDto.getUserUuid())
-                                                .and(qStdDoStart.strtDt.eq(dailyReportDto.getSearchTs())))
-                                        .groupBy(qStdDoStart.planSq, qStdPlan.planTm))
-                                        .as("planTm")     // 일일 계획한 시간
-                                qStdDoEnd.stdyTm.sum().as("stdyTm"),
-                                qStdDoEnd.purestdyTm.sum().as("pureStdyTm"),
-                                qStdDoEnd.bststdyTm.sum().as("bstStdyTm"),
-                                qStdDoEnd.avgAtntn.avg().floor().as("avgAtntn"),
-                                qStdDoEnd.avgStrss.avg().floor().as("avgStrss")
-                        )
-                        .from(qStdEval)
-                        .innerJoin(qStdDoEnd).on(qStdEval.doSq.eq(qStdDoEnd.doSq))
-                        .innerJoin(qStdDoStart).on(qStdEval.doSq.eq(qStdDoStart.doSq))
-                        .innerJoin(qStdPlan).on(qStdDoStart.planSq.eq(qStdPlan.planSq))
-                        .where(qStdPlan.userUuid.eq(dailyReportDto.getUserUuid())
-                                .and(qStdDoStart.strtDt.eq(dailyReportDto.getSearchTs())))
-                        .fetchOne();
+//        return queryFactory
+//                .select(Projections.constructor(DailyReportDto.class,
+//                                (JPAExpressions
+//                                        .select(qStdPlan.planTm)
+//                                        .from(qStdDoStart)
+//                                        .innerJoin(qStdPlan)
+//                                        .on(qStdPlan.planSq.eq(qStdDoStart.planSq))
+//                                        .where(qStdPlan.userUuid.eq(dailyReportDto.getUserUuid())
+//                                                .and(qStdDoStart.strtDt.eq(dailyReportDto.getSearchTs())))
+//                                        .groupBy(qStdDoStart.planSq, qStdPlan.planTm))
+//                                        .as("planTm").     // 일일 계획한 시간
+//                                qStdDoEnd.stdyTm.sum().as("stdyTm"),
+//                                qStdDoEnd.purestdyTm.sum().as("pureStdyTm"),
+//                                qStdDoEnd.bststdyTm.sum().as("bstStdyTm"),
+//                                qStdDoEnd.avgAtntn.avg().floor().as("avgAtntn"),
+//                                qStdDoEnd.avgStrss.avg().floor().as("avgStrss")
+//                        )
+//                        .from(qStdEval)
+//                        .innerJoin(qStdDoEnd).on(qStdEval.doSq.eq(qStdDoEnd.doSq))
+//                        .innerJoin(qStdDoStart).on(qStdEval.doSq.eq(qStdDoStart.doSq))
+//                        .innerJoin(qStdPlan).on(qStdDoStart.planSq.eq(qStdPlan.planSq))
+//                        .where(qStdPlan.userUuid.eq(dailyReportDto.getUserUuid())
+//                                .and(qStdDoStart.strtDt.eq(dailyReportDto.getSearchTs())))
+//                        .fetchOne();
+        return null;
     }
 
     @Override
