@@ -1,8 +1,10 @@
 package com.adjh.springbootquerydsl.service.impl;
 
+import com.adjh.springbootquerydsl.dao.UserDao;
 import com.adjh.springbootquerydsl.entity.UserEntity;
 import com.adjh.springbootquerydsl.repository.UserJpaRepository;
 import com.adjh.springbootquerydsl.service.UserService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +21,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserJpaRepository userJpaRepository;
+    private final UserDao userDao;
 
-    public UserServiceImpl(UserJpaRepository userJpaRepository) {
+    public UserServiceImpl(UserJpaRepository userJpaRepository, UserDao userDao) {
         this.userJpaRepository = userJpaRepository;
+        this.userDao = userDao;
     }
 
     /**
@@ -57,6 +61,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserEntity updateUser(UserEntity userEntity) {
         return null;
+    }
+
+    @Override
+    public List<UserEntity> selectUserList(UserEntity userEntity) {
+        return userDao.selectUserList(userEntity);
     }
 
     /**

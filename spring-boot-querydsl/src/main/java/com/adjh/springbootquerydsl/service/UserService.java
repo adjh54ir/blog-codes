@@ -22,6 +22,8 @@ public interface UserService {
 
     UserEntity updateUser(UserEntity userEntity);               // 사용자 수정
 
+    List<UserEntity> selectUserList(UserEntity userEntity);           // 사용자 조회
+
     void deleteUserByUserSq(long userSq);                       // 사용자 삭제
 
 }
