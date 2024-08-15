@@ -10,6 +10,9 @@ public interface AsyncExecutorService {
 
     void simpleAsyncTaskExecutor();             // SimpleAsyncTaskExecutor 이용한 서비스
 
-    void threadPoolTaskExecutor(int index);             // threadPoolTaskExecutor 이용한 서비스
+    void threadPoolTaskExecutor(int index);     // threadPoolTaskExecutor 이용한 서비스
+
+
+    void forkJoinPoolExecutor();                // ForkJoinPool을 이용한 서비스
 
 }

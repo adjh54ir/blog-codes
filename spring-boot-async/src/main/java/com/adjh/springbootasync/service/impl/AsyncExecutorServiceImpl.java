@@ -1,10 +1,13 @@
 package com.adjh.springbootasync.service.impl;
 
+import com.adjh.springbootasync.Fibonacci;
 import com.adjh.springbootasync.service.AsyncExecutorService;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.ForkJoinPool;
 
 /**
  * Spring Boot Async Executor 별 사용 예시 : 구현체
@@ -42,5 +45,13 @@ public class AsyncExecutorServiceImpl implements AsyncExecutorService {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    @Override
+    public void forkJoinPoolExecutor() {
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        Fibonacci task = new Fibonacci(10);
+        Integer result = forkJoinPool.invoke(task);
+        System.out.println("Fibonacci result: " + result);
     }
 }

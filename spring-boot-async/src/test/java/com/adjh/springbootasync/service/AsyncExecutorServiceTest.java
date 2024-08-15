@@ -33,4 +33,9 @@ class AsyncExecutorServiceTest {
             asyncExecutorService.threadPoolTaskExecutor(i);
         }
     }
+
+    @Test
+    void forkJoinPoolExecutor() {
+        asyncExecutorService.forkJoinPoolExecutor();
+    }
 }
