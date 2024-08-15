@@ -13,21 +13,22 @@
 
 ## 1. 요약
 
-| Repository                    | 설명                                                                                          | 완료 여부 |
-|-------------------------------|---------------------------------------------------------------------------------------------|:-----:|
-| gitignore                     | 자주 사용되는 gitignore 파일들을 관리하는 디렉토리입니다.                                                        |  진행중  |
-| java-algorithm                | Java 기반의 알고리즘 별 문제들을 관리하는 Repository입니다.                                                    |  진행중  |
-| spring-boot-common            | 공통적으로 사용되는 정규식, 유틸등을 관리하는 Repository입니다.                                                    |  완료   |
-| spring-boot-short             | 간단한 문제 처리를 위한 모듈을 구성한 Repository입니다.                                                        |  진행중  |
-| spring-boot-3tier-form        | 3-Tier 형태의 아키텍처 기반으로 구성한 form Repository입니다.                                                |  완료   |
-| spring-boot-jpa               | Spring Boot Data 라이브러리를 활용하여 JpaRepository, JPQL, Criteria API를 활용한 예시를 관리하는 Repository입니다. |  완료   |
-| spring-boot-querydsl          | JPA와 QueryDSL을 이용하여서 여러가지 사용방법의 예시를 관리하는 Repository입니다.                                     |  완료   |
-| spring-boot-chatgpt           | OpenAI의 ChatGPT와의 통신을 통해 프롬프트를 수행하는 예시를 관리하는 Repository입니다.                                 |  완료   |
-| spring-boot-fcm               | 디바이스를 대상으로 FCM 메시지를 전송하는 예시를 관리하는 Repository입니다.                                            |  완료   |
-| spring-boot-scheduler         | Spring Boot Quartz 라이브러리를 활용하여 일정 시간 마다 FCM 메시지를 전송하는 예시를 관리하는 Repository입니다.               |  완료   |
-| spring-boot-test              | JUnit, MockMVC, Mokito를 활용한 예시를 관리하는 Repository입니다.                                         |  완료   |
-| spring-boot-rabbitmq          | RabbitMQ의 메시지 큐를 생성하는 이벤트 생성자를 구성한 Repository입니다.                                           |  완료   |
-| spring-boot-rabbitmq-consumer | RabbitMQ의 메시지 큐를 수신하는 이벤트 소비자를 구성한 Repository입니다                                            |  완료   |
+| Repository                    | 설명                                                                                                                | 완료 여부 |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------- | :-------: |
+| gitignore                     | 자주 사용되는 gitignore 파일들을 관리하는 디렉토리입니다.                                                           |   완료    |
+| java-algorithm                | Java 기반의 알고리즘 별 문제들을 관리하는 Repository입니다.                                                         |  진행중   |
+| spring-boot-common            | 공통적으로 사용되는 정규식, 유틸등을 관리하는 Repository입니다.                                                     |   완료    |
+| spring-boot-short             | 간단한 문제 처리를 위한 모듈을 구성한 Repository입니다.                                                             |  진행중   |
+| spring-boot-3tier-form        | 3-Tier 형태의 아키텍처 기반으로 구성한 form Repository입니다.                                                       |   완료    |
+| spring-boot-jpa               | Spring Boot Data 라이브러리를 활용하여 JpaRepository, JPQL, Criteria API를 활용한 예시를 관리하는 Repository입니다. |   완료    |
+| spring-boot-querydsl          | JPA와 QueryDSL을 이용하여서 여러가지 사용방법의 예시를 관리하는 Repository입니다.                                   |   완료    |
+| spring-boot-chatgpt           | OpenAI의 ChatGPT와의 통신을 통해 프롬프트를 수행하는 예시를 관리하는 Repository입니다.                              |   완료    |
+| spring-boot-fcm               | 디바이스를 대상으로 FCM 메시지를 전송하는 예시를 관리하는 Repository입니다.                                         |   완료    |
+| spring-boot-scheduler         | Spring Boot Quartz 라이브러리를 활용하여 일정 시간 마다 FCM 메시지를 전송하는 예시를 관리하는 Repository입니다.     |   완료    |
+| spring-boot-test              | JUnit, MockMVC, Mokito를 활용한 예시를 관리하는 Repository입니다.                                                   |   완료    |
+| spring-boot-rabbitmq          | RabbitMQ의 메시지 큐를 생성하는 이벤트 생성자를 구성한 Repository입니다.                                            |   완료    |
+| spring-boot-rabbitmq-consumer | RabbitMQ의 메시지 큐를 수신하는 이벤트 소비자를 구성한 Repository입니다                                             |   완료    |
+| spring-boot-async             | Spring Boot 환경에서 비동기 처리에 대한 예를 구현한 Repository입니다.                                               |   완료    |
 
 <br/>
 <br/>
@@ -287,6 +288,24 @@
 - [Spring Boot AMQP RabbitMQ 이해하기 -4 : RabbitMQ Exchange 유형 별 이해 및 사용 예시](https://adjh54.tistory.com/497)
 - [Spring Boot AMQL RabbitMQ 이해하기 -5 : TTL 및 데드 레터링 사용예시](https://adjh54.tistory.com/501)
 - [Dockerfile을 이용한 RabbitMQ 환경 구성 및 실행방법](https://adjh54.tistory.com/496)
+
+<br/>
+<br/>
+
+### 12. spring-boot-async
+
+    ⭕️ Spring Boot 기반의 Java 언어를 이용하여 비동기 처리를 위한 방법에 대한 예시들을 구성한 Repository입니다. 
+
+🔗 Repository 주요 키워드
+
+- @Async, @AsyncConfig, Thread Pool, 비동기 반환 유형, Executor
+
+<br/>
+
+🔗 참고 URL
+
+- [Spring Boot Async 비동기 처리 이해하기 -1 : 주요 어노테이션 및 비동기 반환 유형](https://adjh54.tistory.com/544)
+- [Spring Boot Async 비동기 처리 이해하기 -2 : Executor](https://adjh54.tistory.com/547)
 
 <br/>
 <br/>
