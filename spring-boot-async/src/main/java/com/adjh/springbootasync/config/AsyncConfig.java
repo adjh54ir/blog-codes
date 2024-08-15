@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
@@ -30,6 +31,7 @@ public class AsyncConfig implements AsyncConfigurer {
     @Bean(name = "simpleAsyncTaskExecutor")
     public Executor simpleAsyncTaskExecutor() {
         return new SimpleAsyncTaskExecutor();
+
     }
 
 
