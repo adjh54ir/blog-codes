@@ -19,6 +19,7 @@
     "react-router": "^6.26.0",
     "react-router-dom": "^6.26.0",
     "react-scripts": "5.0.1",
+    "socket.io-client": "^4.7.5",
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
     "typescript": "^4.9.5",
