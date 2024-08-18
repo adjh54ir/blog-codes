@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 const SocketIoRoomComponet = () => {
-	// socket.io-client를 통해서 소켓 서버에 연결합니다.
-	const socket = io('http://localhost:5001');
+	const socket = io('http://localhost:5001'); // socket.io-client를 통해서 소켓 서버에 연결합니다.
+	const roomArr = Array.from({ length: 10 }, (_, i) => i + 1); // 10개의 방을 만듭니다.
 	// 상태 관리
 	const [message, setMessage] = useState<string>(''); // 입력되는 메시지
 	const [messages, setMessages] = useState<{ id: string; text: string }[]>([]); // 입력되는 메시지가 쌓이는 배열
-	const [roomArr, setRoomArr] = useState<number[]>([
-		0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-	]);
 
 	const [isEnter, setIsEnter] = useState<boolean>(false);
 
@@ -27,7 +24,9 @@ const SocketIoRoomComponet = () => {
 		});
 	};
 
-	const enterChat = () => {};
+	const enterChat = (roomNum: number) => {
+		console.log(`${roomNum} 채팅방을 입장하셨습니다.`);
+	};
 
 	return (
 		<>
@@ -45,6 +44,7 @@ const SocketIoRoomComponet = () => {
 					<div
 						style={{
 							marginRight: 20,
+							marginTop: 60,
 							flex: 1,
 							flexDirection: 'row',
 							flexWrap: 'wrap',
@@ -57,22 +57,13 @@ const SocketIoRoomComponet = () => {
 										marginRight: 20,
 										marginBottom: 20,
 										width: 300,
-									}}>
+									}}
+									onClick={() => enterChat(item)}>
 									{item} 번 채팅방
 								</button>
 							);
 						})}
 					</div>
-					<button
-						style={{
-							marginLeft: 350,
-							height: 100,
-							width: 400,
-							background: 'skyblue',
-						}}
-						onClick={enterChat}>
-						채팅방 입장
-					</button>
 				</div>
 			) : (
 				<></>
