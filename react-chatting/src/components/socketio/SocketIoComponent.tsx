@@ -1,29 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
-const SocketIoComponent = () => {
-	// socket.io-client를 통해서 소켓 서버에 연결합니다.
-	const socket = io('http://localhost:5001');
+// socket.io-client를 통해서 소켓 서버에 연결합니다.
+const socket = io('http://localhost:5001');
 
+const SocketIoComponent = () => {
 	// 상태 관리
 	const [message, setMessage] = useState<string>(''); // 입력되는 메시지
-	const [messages, setMessages] = useState<{ id: string; text: string }[]>([]); // 입력되는 메시지가 쌓이는 배열
+	const [messages, setMessages] = useState<{ id: string; text: string }[]>([]); // 누적되는 메시지 관리
 
 	useEffect(() => {
-		initSocket();
-
+		initSocket(); // Socket.io의 특정 이벤트가 발생했을 때 특정 작업을 수행하도록 등록합니다.
 		return () => {
 			socket.off('message');
 		};
 	}, []);
 
 	/**
-	 * Socket.io의 특정 이벤트가 발생했을 때 특정 작업을 수행
+	 * Socket.io의 특정 이벤트가 발생했을 때 특정 작업을 수행하도록 등록합니다.
 	 */
 	const initSocket = () => {
-		// "message"가 발생하였을때, 이벤트가 수행합니다.
+		// [Socket] "message"가 발생하였을때, 이벤트가 수행합니다.
 		socket.on('message', (message: { id: string; text: string }) => {
-			// event 수행
 			setMessages((prevMessages) => [...prevMessages, message]);
 		});
 	};
@@ -35,8 +33,9 @@ const SocketIoComponent = () => {
 	const sendMessage = (e: React.FormEvent) => {
 		e.preventDefault();
 		const newMessage = { id: socket.id, text: message };
+		// [Socket] 메시지를 전송합니다.
 		socket.emit('message', newMessage);
-		setMessage('');
+		setMessage(''); // 전송 이후 입력한 텍스트를 지워줍니다.
 	};
 
 	return (
