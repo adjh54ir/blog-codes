@@ -37,10 +37,36 @@ io.on("connection", (socket) => {
   console.log("a user connected");
 
   /**
-   * [ALL] "message" 이벤트 발생 시, "message" 이벤트를 등록한 소켓에게 메시지 전달합니다.
+   * [임의구성] Socket 10개의 방 생성합니다.
    */
-  socket.on("message", (msg) => {
-    io.emit("message", msg);
+  for (let i = 1; i <= 10; i++) {
+    const roomName = `room-${i}`;
+
+    /**
+     * [ALL] "joinRoom-x" 이벤트 발생 시, "room-x"라는 방에 참가시키고 socket.room 속성에 방 이름 저장합니다.
+     */
+    socket.on(`joinRoom-${i}`, () => {
+      console.log(`User joined ${roomName}`);
+      socket.join(roomName); // 방 참가
+      socket.room = roomName; // socket 정보 중 room 속성에 참가한 방 이름 지정
+    });
+    //
+
+    /**
+     * [ALL] "leaveRoom-x" 이벤트 발생 시, "room-x"라는 방에 나갑니다.
+     */
+    socket.on(`leaveRoom-${i}`, () => {
+      console.log(`User leaved ${roomName}`);
+      socket.leave(roomName);
+    });
+  }
+
+  /**
+   * [ANY ROOM] "roomMessage" 이벤트 발생 시, socket.room 속성의 특정 방에 "roomMessage" 이벤트를 저장한 소켓에게 전달합니다.
+   */
+  socket.on("roomMessage", (msg) => {
+    console.log(`${socket.room} 번 방에 전달된 메시지 :`, msg);
+    io.to(socket.room).emit("roomMessage", msg);
   });
 
   /**
