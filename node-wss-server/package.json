@@ -4,8 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start ./config/ecosystem.config.js",
-    "dev": "nodemon app.js"
+    "start:room" : "nodemon roomApp.js",
+    "start:workspace" : "nodemon roomApp.js",
+    "start:loc": "nodemon app.js",
+    "start:dev": "pm2 start ./config/ecosystem.config.js --only app-dev",
+    "start:stg": "pm2 start ./config/ecosystem.config.js --only app-stg",
+    "start:prd": "pm2 start ./config/ecosystem.config.js --only app-prd",
+    "list": "pm2 list",
+    "monit": "pm2 monit",
+    "monit:web": "pm2 monitor"
   },
   "author": "",
   "license": "ISC",
