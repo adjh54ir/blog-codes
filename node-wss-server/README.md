@@ -7,17 +7,40 @@
 
 ## 1. 참고 사이트
 
+- [Socket.io 기반 소켓 서버 구축 방법 -1 : 구성 요소 및 흐름 + React 기반 채팅 화면 구성](https://adjh54.tistory.com/548)
+- [Socket.io 기반 소켓 서버 구축 방법 -2 : Room, Namespace 별 소켓 통신 방법](https://adjh54.tistory.com/549)
+- [PM2(Process Manager 2) 이해하고 주요 특징 알아보기](https://adjh54.tistory.com/551)
+
 <br/>
 <br/>
 
-## 2. 웹 소켓 실행 방법
+## 2. 웹 소켓 서버 실행 방법
 
 ```shell
 # 프로젝트 초기 라이브러리 설치
 $ npm i
 
-# 프로젝트 실행
-# npm start
+# room Socket Server실행
+$ npm run start:room
+
+# workspace Socket Server실행
+$ npm run start:workspace
+
+# 로컬 모드로 실행
+$ npm run start:loc
+
+######## pm2 실행 과정 ##########
+
+# 개발 모드로 실행 : Clustor Mode
+$ npm run start:dev
+
+# 스테이징 모드로 실행 : Clustor Mode
+$ npm run start:stg
+
+# 운영 모드로 실행 : Clustor Mode
+$ npm run start:prd
+
+
 ```
 
 <br/>
