@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:room" : "nodemon roomApp.js",
-    "start:workspace" : "nodemon roomApp.js",
+    "start:normal": "nodemon ./socket/app.js",
+    "start:room": "nodemon ./socket/roomApp.js",
+    "start:namespace": "nodemon ./socket/namespace.js",
     "start:loc": "nodemon app.js",
     "start:dev": "pm2 start ./config/ecosystem.config.js --only app-dev",
     "start:stg": "pm2 start ./config/ecosystem.config.js --only app-stg",
     "start:prd": "pm2 start ./config/ecosystem.config.js --only app-prd",
+    "stop": "pm2 delete all",
     "list": "pm2 list",
     "monit": "pm2 monit",
     "monit:web": "pm2 monitor"
@@ -17,9 +19,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@socket.io/redis-adapter": "^8.3.0",
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "socket.io": "^4.7.5"
+    "socket.io": "^4.7.5",
+    "socket.io-redis": "^6.1.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"

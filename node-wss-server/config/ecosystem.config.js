@@ -1,13 +1,15 @@
 module.exports = {
   apps: [
     {
-      name: "app-develop",
+      name: "app-dev",
       script: "./app.js",
       instances: 4,
       exec_mode: "cluster",
       env: {
         NODE_ENV: "develop",
         PORT: 3001,
+        REDIS_HOST: "localhost",
+        REDIS_HOST_PORT: 6379,
       },
     },
     {
@@ -18,6 +20,8 @@ module.exports = {
       env: {
         NODE_ENV: "staging",
         PORT: 3001,
+        REDIS_HOST: "localhost",
+        REDIS_HOST_PORT: 6379,
       },
     },
     {
@@ -28,6 +32,8 @@ module.exports = {
       env: {
         NODE_ENV: "production",
         PORT: 8080,
+        REDIS_HOST: "localhost",
+        REDIS_HOST_PORT: 6379,
       },
     },
   ],
