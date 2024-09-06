@@ -72,8 +72,7 @@ public class DBConfig {
      */
     @Bean
     public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) throws Exception {
-        final SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
-        return sqlSessionTemplate;
+        return new SqlSessionTemplate(sqlSessionFactory);
     }
 }
 

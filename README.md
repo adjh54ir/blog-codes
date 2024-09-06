@@ -29,7 +29,8 @@
 | spring-boot-rabbitmq          | RabbitMQ의 메시지 큐를 생성하는 이벤트 생성자를 구성한 Repository입니다.                                            |   완료    |
 | spring-boot-rabbitmq-consumer | RabbitMQ의 메시지 큐를 수신하는 이벤트 소비자를 구성한 Repository입니다                                             |   완료    |
 | spring-boot-async             | Spring Boot 환경에서 비동기 처리에 대한 예를 구현한 Repository입니다.                                               |   완료    |
-
+| node-wss-server            | Node의 Socket.io를 이용한 소켓 통신 서버를 관리하는 Repository입니다.                                               |   완료    |
+| react-chatting            | React 기반의 소켓 통신(Socket.io)를 이용한 채팅 시스템 앱을 관리하는 Repository입니다.                                               |   완료    |
 <br/>
 <br/>
 
