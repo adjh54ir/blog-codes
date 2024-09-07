@@ -36,15 +36,16 @@ springdoc:
   packages-to-scan: com.adjh.springboot3tierform
   default-consumes-media-type: application/json;charset=UTF-8
   default-produces-media-type: application/json;charset=UTF-8
-  swagger-ui:
-    enabled: true                 # Swagger 사용여부
-    path: demo-ui.html            # Swagger UI 경로 => localhost:8080/demo-ui.html
-    tags-sorter: alpha            # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
-    operations-sorter: alpha      # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
 
+  cache:
+    disabled: false              # 캐시 사용 여부
   api-docs:
-    path: /api-docs/json
+    path: /v3/api-docs
     groups:
       enabled: true
-  cache:
-    disabled: true
+  swagger-ui:
+    enabled: true               # Swagger UI 사용여부 : 접근 경로 => http://localhost:8080/swagger-ui/index.html
+    path: /demo-ui.html         # Swagger UI 추가 접근 경로 => http://localhost:8080/demo-ui.html
+    tags-sorter: alpha          # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+    operations-sorter: alpha    # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+
