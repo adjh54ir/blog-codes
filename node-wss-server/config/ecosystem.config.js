@@ -7,7 +7,7 @@ module.exports = {
       exec_mode: "cluster",
       env: {
         NODE_ENV: "develop",
-        PORT: 3001,
+        PORT: 5001,
         REDIS_HOST: "localhost",
         REDIS_HOST_PORT: 6379,
       },
@@ -32,6 +32,18 @@ module.exports = {
       env: {
         NODE_ENV: "production",
         PORT: 8080,
+        REDIS_HOST: "localhost",
+        REDIS_HOST_PORT: 6379,
+      },
+    },
+    {
+      name: "app-dev-redis",
+      script: "./socket/redis/app.js",
+      instances: 4,
+      exec_mode: "cluster",
+      env: {
+        NODE_ENV: "develop",
+        PORT: 5001,
         REDIS_HOST: "localhost",
         REDIS_HOST_PORT: 6379,
       },

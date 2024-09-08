@@ -7,6 +7,7 @@
     "start:normal": "nodemon ./socket/app.js",
     "start:room": "nodemon ./socket/roomApp.js",
     "start:namespace": "nodemon ./socket/namespace.js",
+    "start:redis": "pm2 start ./socket/redis/app.js ./config/ecosystem.config.js --only app-dev-redis",
     "start:loc": "nodemon app.js",
     "start:dev": "pm2 start ./config/ecosystem.config.js --only app-dev",
     "start:stg": "pm2 start ./config/ecosystem.config.js --only app-stg",
@@ -22,6 +23,7 @@
     "@socket.io/redis-adapter": "^8.3.0",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "redis": "^4.7.0",
     "socket.io": "^4.7.5",
     "socket.io-redis": "^6.1.1"
   },
