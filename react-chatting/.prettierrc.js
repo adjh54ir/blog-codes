@@ -10,7 +10,7 @@ module.exports = {
 	 * 추천) 가독성을 위해 80자 이상을 사용하지 않는 것이 좋습니다.
 	 * 추천) 코드 스타일 가이드에서 최대 줄 길이 규칙은 종종 100 또는 120으로 설정됩니다.
 	 */
-	printWidth: 80,
+	printWidth: 120,
 
 	/**
 	 * @template: tabWidth: <int>
