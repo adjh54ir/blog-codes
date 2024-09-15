@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { io, Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5001'); // socket.io-client를 통해서 "normal" 네임스페이스의 소켓 서버에 연결합니다.
+const socket = io('http://localhost:5001', { transports: ['websocket'] }); // socket.io-client를 통해서 "websocket" 연결을 수행합니다.
 
 const SocketIoRedisComponent = () => {
 	// 상태 관리
@@ -9,8 +9,10 @@ const SocketIoRedisComponent = () => {
 	const [messages, setMessages] = useState<{ id: string; text: string }[]>([]); // 누적되는 메시지 관리
 
 	useEffect(() => {
-		console.log('[+] Redis ');
 		initSocket();
+		return () => {
+			socket.off('message');
+		};
 	}, []);
 
 	/**
@@ -35,6 +37,33 @@ const SocketIoRedisComponent = () => {
 		setMessage(''); // 전송 이후 입력한 텍스트를 지워줍니다.
 	};
 
-	return <></>;
+	return (
+		<div>
+			<h1 style={{ width: '100%', textAlign: 'center' }}>
+				Socket.io + Redis + Pm2 기반 채팅방 (WS Session ID : {socket.id})
+			</h1>
+
+			<h1>Chat </h1>
+			<div
+				style={{
+					width: 500,
+					height: 300,
+					backgroundColor: '#f5d682',
+					border: '1px solid red',
+				}}>
+				<div style={{ flex: 1, flexDirection: 'column' }}>
+					{messages.map((item, index) => (
+						<div key={index}>
+							<strong>{item.id === socket.id ? 'You' : item.id}:</strong> {item.text}
+						</div>
+					))}
+				</div>
+			</div>
+			<form onSubmit={sendMessage}>
+				<input type='text' value={message} onChange={(e) => setMessage(e.target.value)} />
+				<button type='submit'>Send</button>
+			</form>
+		</div>
+	);
 };
 export default SocketIoRedisComponent;
