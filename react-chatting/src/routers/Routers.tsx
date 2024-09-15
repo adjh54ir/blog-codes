@@ -17,6 +17,7 @@ const Routers = (props: any) => {
 				<Route path={'/socketIo/namespace'} element={<SocketIoNameSpaceComponent {...props} />} />
 				<Route path={'/socketIo/redis'} element={<SocketIoRedisComponent {...props} />} />
 			</Routes>
+	
 		</Suspense>
 	);
 };
