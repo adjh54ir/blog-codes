@@ -1,6 +1,7 @@
 package com.adjh.springbootwebsocket.config.handler;
 
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -10,16 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 텍스트 기반 웹 소켓 처리를 위한 Handler입니다.
+ * 텍스트 기반의 WebSocket 메시지를 처리를 수행하는 Handler 입니다.
  *
  * @author : jonghoon
  * @fileName : ChatWebSocketHandler
  * @since : 8/15/24
  */
-
+@Component
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
-    private List<WebSocketSession> sessions = new ArrayList<>();
+    // WebSocket Session들을 관리하는 리스트입니다.
+    private final List<WebSocketSession> sessions = new ArrayList<>();
 
     /**
      * [연결 성공] WebSocket 협상이 성공적으로 완료되고 WebSocket 연결이 열려 사용할 준비가 된 후 호출됩니다.
@@ -61,9 +63,14 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
      * @throws Exception
      */
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        System.out.println("[+] afterConnectionClosed");
-        sessions.remove(session);
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+        try {
+            System.out.println("[+] afterConnectionClosed - Session: " + session.getId() + ", CloseStatus: " + status);
+            sessions.remove(session);
+        } catch (Exception e) {
+            System.err.println("Error during connection closure: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
 

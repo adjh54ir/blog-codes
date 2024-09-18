@@ -1,24 +1,27 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
-import MainComponenet from '../components/MainComponent';
-import SocketIoRedisComponent from '../components/socketio/redis/SocketIoRedisComponent';
-import SocketIoComponent from '../components/socketio/SocketIoComponent';
-import SocketIoNameSpaceComponent from '../components/socketio/SocketIoNamespaceComponent';
-import SocketIoRoomComponet from '../components/socketio/SocketIoRoomComponet';
+
+const MainComponent = lazy(() => import('../components/MainComponent'));
+const SocketIoRedisComponent = lazy(() => import('../components/socketio/redis/SocketIoRedisComponent'));
+const SocketIoComponent = lazy(() => import('../components/socketio/SocketIoComponent'));
+const SocketIoNameSpaceComponent = lazy(() => import('../components/socketio/SocketIoNamespaceComponent'));
+const SocketIoRoomComponent = lazy(() => import('../components/socketio/SocketIoRoomComponet'));
+const StompComponent = lazy(() => import('../components/stomp/StompComponent'));
 
 const Routers = (props: any) => {
 	return (
-		<Suspense fallback={<></>}>
+		<Suspense fallback={<div>Loading...</div>}>
 			<Routes>
 				<Route path='/' element={<Navigate replace to='/main' {...props} />} />
-				<Route path={'/main'} element={<MainComponenet {...props} />} />
-				<Route path={'/socketIo'} element={<SocketIoComponent {...props} />} />
-				<Route path={'/socketIo/room'} element={<SocketIoRoomComponet {...props} />} />
-				<Route path={'/socketIo/namespace'} element={<SocketIoNameSpaceComponent {...props} />} />
-				<Route path={'/socketIo/redis'} element={<SocketIoRedisComponent {...props} />} />
+				<Route path='/main' element={<MainComponent {...props} />} />
+				<Route path='/socketIo' element={<SocketIoComponent {...props} />} />
+				<Route path='/socketIo/room' element={<SocketIoRoomComponent {...props} />} />
+				<Route path='/socketIo/namespace' element={<SocketIoNameSpaceComponent {...props} />} />
+				<Route path='/socketIo/redis' element={<SocketIoRedisComponent {...props} />} />
+				<Route path='/stomp' element={<StompComponent {...props} />} />
 			</Routes>
-	
 		</Suspense>
 	);
 };
+
 export default Routers;
