@@ -1,0 +1,4 @@
+slack:
+  webhook:
+    url: https://hooks.slack.com/services/T1234567/AAAAAAAA/ZZZZZZ
+
