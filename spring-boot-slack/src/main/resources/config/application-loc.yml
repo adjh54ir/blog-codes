@@ -1,4 +1,6 @@
 slack:
   webhook:
-    url: https://hooks.slack.com/services/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
+    url: https://hooks.slack.com/services/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
+    channel-id: C07MVNXCUJK
+
 
