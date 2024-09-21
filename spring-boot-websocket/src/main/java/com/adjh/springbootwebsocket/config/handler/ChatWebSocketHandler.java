@@ -7,8 +7,10 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 텍스트 기반의 WebSocket 메시지를 처리를 수행하는 Handler 입니다.
@@ -21,7 +23,8 @@ import java.util.List;
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     // WebSocket Session들을 관리하는 리스트입니다.
-    private final List<WebSocketSession> sessions = new ArrayList<>();
+    private static final ConcurrentHashMap<String, WebSocketSession> clientSession = new ConcurrentHashMap<>();
+
 
     /**
      * [연결 성공] WebSocket 협상이 성공적으로 완료되고 WebSocket 연결이 열려 사용할 준비가 된 후 호출됩니다.
@@ -33,7 +36,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         System.out.println("[+] afterConnectionEstablished :: " + session.getId());
-        sessions.add(session);
+        clientSession.put(session.getId(), session);
     }
 
     /**
@@ -49,9 +52,18 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         System.out.println("[+] handleTextMessage :: " + session);
         System.out.println("[+] handleTextMessage :: " + message.getPayload());
-        for (WebSocketSession webSocketSession : sessions) {
-            webSocketSession.sendMessage(new TextMessage(message.getPayload()));
-        }
+
+        clientSession.forEach((key, value) -> {
+            System.out.println("key :: " + key + "  value :: " + value);
+            if (!key.equals(session.getId())) {  //같은 아이디가 아니면 메시지를 전달합니다.
+                try {
+                    value.sendMessage(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     /**
@@ -63,14 +75,9 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
      * @throws Exception
      */
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        try {
-            System.out.println("[+] afterConnectionClosed - Session: " + session.getId() + ", CloseStatus: " + status);
-            sessions.remove(session);
-        } catch (Exception e) {
-            System.err.println("Error during connection closure: " + e.getMessage());
-            e.printStackTrace();
-        }
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws IOException {
+        clientSession.remove(session);
+        System.out.println("[+] afterConnectionClosed - Session: " + session.getId() + ", CloseStatus: " + status);
     }
 }
 
