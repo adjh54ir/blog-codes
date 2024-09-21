@@ -9,8 +9,8 @@ spring:
   # 1. Spring Boot JDBC + HikariCP 설정
   datasource:
     hikari:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://localhost:3306/testdb
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://localhost:5432/testdb
       username: localmaster
       password: qwer1234
       pool-name: Hikari Connection Pool  # Alias
@@ -36,13 +36,16 @@ springdoc:
   packages-to-scan: com.adjh.springboot3tierform
   default-consumes-media-type: application/json;charset=UTF-8
   default-produces-media-type: application/json;charset=UTF-8
-  swagger-ui:
-    path: demo-ui.html            # Swagger UI 경로 => localhost:8000/demo-ui.html
-    tags-sorter: alpha            # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
-    operations-sorter: alpha      # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+
+  cache:
+    disabled: false              # 캐시 사용 여부
   api-docs:
-    path: /api-docs/json
+    path: /v3/api-docs
     groups:
       enabled: true
-  cache:
-    disabled: true
+  swagger-ui:
+    enabled: true               # Swagger UI 사용여부 : 접근 경로 => http://localhost:8080/swagger-ui/index.html
+    path: /demo-ui.html         # Swagger UI 추가 접근 경로 => http://localhost:8080/demo-ui.html
+    tags-sorter: alpha          # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+    operations-sorter: alpha    # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+
