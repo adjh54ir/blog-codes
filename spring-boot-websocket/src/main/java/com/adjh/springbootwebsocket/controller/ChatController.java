@@ -26,7 +26,7 @@ public class ChatController {
     @MessageMapping("/messages")
     public ChatMessage send2(@RequestBody ChatMessage chatMessage) {
         System.out.println("결과 값은 :: " + chatMessage.toString());
-        template.convertAndSend("/sub/topic/message", chatMessage.getContent());       // 구독중인 모든 사용자에게 메시지를 전달합니다.
+//        template.convertAndSend("/sub/message", chatMessage.getContent());       // 구독중인 모든 사용자에게 메시지를 전달합니다.
         System.out.println("결과 ::" + chatMessage.getContent());
         return chatMessage;
     }
