@@ -10,8 +10,8 @@
 
     <!-- 사용자 등록 -->
     <insert id="insertUser" parameterType="UserDto">
-        INSERT INTO tb_user (user_id, user_nm, user_st)
-        VALUES (#{userId}, #{userNm}, #{userSt})
+        INSERT INTO tb_user (user_id, user_nm, user_st, reg_ts)
+        VALUES (#{userId}, #{userNm}, #{userSt}, NOW())
     </insert>
 
     <!-- 사용자 수정 -->
