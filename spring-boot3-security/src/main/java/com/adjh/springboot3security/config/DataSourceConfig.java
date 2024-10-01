@@ -1,4 +1,4 @@
-package com.spring.security.config;
+package com.adjh.springboot3security.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -15,14 +15,18 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 /**
- * 해당 클래스에서는 Mybatis 와 Hikari 연동하는 환경설정이 포함되었습니다.
+ * Please explain the class!!
+ *
+ * @author : jonghoon
+ * @fileName : DataSourceConfig
+ * @since : 10/1/24
  */
 @Configuration
 @PropertySource("classpath:/application.properties")
-public class DBConfig {
+public class DataSourceConfig {
     final ApplicationContext applicationContext;
 
-    public DBConfig(ApplicationContext ac) {
+    public DataSourceConfig(ApplicationContext ac) {
         this.applicationContext = ac;
     }
 
