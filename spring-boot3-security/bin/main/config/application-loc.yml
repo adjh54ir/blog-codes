@@ -9,3 +9,7 @@ spring:
       password: qwer1234
       pool-name: Hikari Connection Pool  # Alias
       maximum-pool-size: 5
+
+
+jwt:
+  secretKey: test

@@ -23,10 +23,10 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
 
         if (header != null) {
 
-            String token = TokenUtils.getTokenFromHeader(header);
+            String token = TokenUtils.getHeaderToToken(header);
 
             if (TokenUtils.isValidToken(token)) {
-                String userId = TokenUtils.getUserIdFromToken(token);
+                String userId = TokenUtils.getClaimsToUserId(token);
                 if (userId == null) {
                     log.error("token isn't userId");
                 }

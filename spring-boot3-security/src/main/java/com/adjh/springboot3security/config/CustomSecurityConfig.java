@@ -2,6 +2,7 @@ package com.adjh.springboot3security.config;
 
 import com.adjh.springboot3security.config.filter.CustomAuthenticationFilter;
 import com.adjh.springboot3security.config.filter.JwtAuthorizationFilter;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
  * @since : 10/1/24
  */
 @Configuration
+@AllArgsConstructor
 public class CustomSecurityConfig extends AbstractHttpConfigurer<CustomSecurityConfig, HttpSecurity> {
 
     @Autowired

@@ -9,3 +9,9 @@ spring:
       password: qwer1234
       pool-name: Hikari Connection Pool  # Alias
       maximum-pool-size: 5
+
+
+# Spring Boot Custom Value
+jwt:
+  # 2. spring Boot Security + Key 설정
+  secretKey: test
