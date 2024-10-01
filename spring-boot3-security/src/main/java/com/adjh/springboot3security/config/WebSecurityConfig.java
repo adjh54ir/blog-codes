@@ -55,7 +55,11 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/v1/user/login", "/public/**", "/api/v1/token/generateToken").permitAll().anyRequest().authenticated()
+                        .requestMatchers(
+                                "/api/v1/user/login",
+                                "/public/**",
+                                "/api/v1/token/generateToken"
+                        ).permitAll().anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
