@@ -22,11 +22,26 @@ configurations {
 repositories {
     mavenCentral()
 }
+ext {
+    set('bootVer', "3.2.5")
+    set('jacksonVer', "2.16.1")
+}
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+
+    // [Spring Boot Starter]
+    implementation "org.springframework.boot:spring-boot-starter-security:${bootVer}"
+    implementation "org.springframework.boot:spring-boot-starter-web:${bootVer}"
+
+
+    // [OpenSource]
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'      // MyBatis
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.0'             // Jackson Data Binding
+    implementation 'io.jsonwebtoken:jjwt:0.12.6'                                    // JSON-WEB-TOKEN
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'                    // DataType Converter
+
+
+    //
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
