@@ -46,7 +46,7 @@ public class DataSourceConfig {
         SqlSessionFactoryBean session = new SqlSessionFactoryBean();
         session.setDataSource(dataSource);
         session.setMapperLocations(applicationContext.getResources("classpath:mapper/*.xml"));
-        session.setTypeAliasesPackage("com.spring.security.model.dto");
+        session.setTypeAliasesPackage("com.adjh.springboot3security.model.dto");
         session.setConfigLocation(new PathMatchingResourcePatternResolver().getResource("classpath:config/common-mybatis-config.xml"));
         return session.getObject();
     }

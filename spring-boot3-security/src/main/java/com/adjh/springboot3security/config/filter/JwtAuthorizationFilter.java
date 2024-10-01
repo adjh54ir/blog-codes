@@ -70,13 +70,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             if (header != null && !header.equalsIgnoreCase("")) {
 
                 // [STEP2] Header 내에 토큰을 추출합니다.
-                String token = TokenUtils.getTokenFromHeader(header);
+                String token = TokenUtils.getHeaderToToken(header);
 
                 // [STEP3] 추출한 토큰이 유효한지 여부를 체크합니다.
                 if (TokenUtils.isValidToken(token)) {
 
                     // [STEP4] 토큰을 기반으로 사용자 아이디를 반환 받는 메서드
-                    String userId = TokenUtils.getUserIdFromToken(token);
+                    String userId = TokenUtils.getClaimsToUserId(token);
                     logger.debug("[+] userId Check: " + userId);
 
                     // [STEP5] 사용자 아이디가 존재하는지 여부 체크
@@ -114,7 +114,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
      */
     private String jsonResponseWrapper(Exception e) {
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> jsonMap = new HashMap();
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
         String resultMsg;
 
         // JWT 토큰 만료
