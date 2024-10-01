@@ -22,12 +22,9 @@ import java.util.Map;
 public class CustomAuthFailureHandler implements AuthenticationFailureHandler {
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                        AuthenticationException exception) throws IOException {
-
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         log.debug("3.2. CustomAuthFailureHandler");
 
-        // [STEP1] 클라이언트로 전달 할 응답 값을 구성합니다.
         String failMsg = "";
 
         // [STEP2] 발생한 Exception 에 대해서 확인합니다.
