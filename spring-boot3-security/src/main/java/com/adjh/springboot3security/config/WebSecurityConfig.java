@@ -58,7 +58,7 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/api/v1/user/login",
                                 "/public/**",
-                                "/api/v1/token/generateToken"
+                                "/api/v1/token/token"
                         ).permitAll().anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

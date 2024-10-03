@@ -14,4 +14,4 @@ spring:
 # Spring Boot Custom Value
 jwt:
   # 2. spring Boot Security + Key 설정
-  secretKey: test
+  secret: test

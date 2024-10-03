@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .build();
 
         // 사용자 정보가 존재하지 않는 경우
-        if (userId == null || userId.equals("")) {
+        if (userId == null || userId.isEmpty()) {
             return userService.login(userDto)
                     .map(u -> new UserDetailsDto(u, Collections.singleton(new SimpleGrantedAuthority(u.getUserId()))))
                     .orElseThrow(() -> new AuthenticationServiceException(userId));

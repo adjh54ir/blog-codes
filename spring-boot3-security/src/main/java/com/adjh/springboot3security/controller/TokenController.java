@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Please explain the class!!
+ * 테스트를 위해 임시로 구성한 Controller
  *
  * @author : lee
  * @fileName : TokenController
@@ -28,12 +28,10 @@ public class TokenController {
      * @param userDto UserDto
      * @return ApiResponseWrapper<ApiResponse> : 응답 결과 및 응답 코드 반환
      */
-    @PostMapping("/generateToken")
+    @PostMapping("/token")
     public ResponseEntity<Object> generateToken(@RequestBody UserDto userDto) {
         System.out.println("토큰을 생성합니다");
-
         String resultToken = TokenUtils.generateJwtToken(userDto);
-
         return new ResponseEntity<>(resultToken, HttpStatus.OK);
     }
 }

@@ -43,7 +43,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         // 1. 토큰이 필요하지 않는 경우에 대해 API Endpoint 관리
         List<String> list = Arrays.asList(
                 "/api/v1/user/login",
-                "/api/v1/token/generateToken"
+                "/api/v1/token/token"
         );
 
         // 2. 토큰이 필요하지 않는 API 호출 발생 시 : 아래 로직 처리 없이 다음 필터로 이동
