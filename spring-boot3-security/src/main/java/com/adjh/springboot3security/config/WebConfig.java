@@ -24,10 +24,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
-
-    //    private static final String ALLOW_RESPONSE_HEADER = "Authorization";
-    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {"classpath:/static/", "classpath:/public/",
-            "classpath:/", "classpath:/resources/", "classpath:/META-INF/resources/",
+    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+            "classpath:/static/",
+            "classpath:/public/",
+            "classpath:/", "classpath:/resources/",
+            "classpath:/META-INF/resources/",
             "classpath:/META-INF/resources/webjars/"};
 
     @Override

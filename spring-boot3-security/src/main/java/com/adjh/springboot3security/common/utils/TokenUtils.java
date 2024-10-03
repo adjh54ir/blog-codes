@@ -24,9 +24,10 @@ import java.util.Map;
 public class TokenUtils {
 
     // 환경파일에서 지정한 비밀 Salt Key
-    @Value("#{jwt.secretKey}")
+    @Value("${jwt.secret}")
     private static String secretKey = "";
-    private static final SecretKey JWT_SECRET_KEY = createSecretKey();
+    private static final SecretKey JWT_SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    ;
 
     /**
      * '토큰의 만료기간'을 지정하는 메서드
@@ -117,6 +118,7 @@ public class TokenUtils {
     public static String generateJwtToken(UserDto userDto) {
         // 사용자 시퀀스를 기준으로 JWT 토큰을 발급하여 반환해줍니다.
         JwtBuilder builder = Jwts.builder()
+
                 .setHeader(createHeader())                              // Header 구성
                 .claims(createClaims(userDto))                          // Payload - Claims 구성
                 .subject(String.valueOf(userDto.getUserSq()))           // Payload - Subject 구성
