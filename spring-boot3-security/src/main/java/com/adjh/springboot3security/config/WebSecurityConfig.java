@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 /**
  * Spring Security 환경 설정을 구성하기 위한 클래스입니다.
- * 웹 서비스가 로드 될때 Spring Container 의해 관리가 되는 클래스이며 사용자에 대한 ‘인증’과 ‘인가’에 대한 구성을 Bean 메서드로 주입을 한다.
+ * 웹 서비스가 로드 될때 Spring Container 의해 관리가 되는 클래스이며 사용자에 대한 ‘인증’과 ‘인가’에 대한 구성을 Bean 메서드로 주입을 합니다.
  */
 @Slf4j
 @Configuration
@@ -32,7 +32,7 @@ public class WebSecurityConfig {
 
 
     /**
-     * 1. 정적 자원(Resource)에 대해서 인증된 사용자가  정적 자원의 접근에 대해 ‘인가’에 대한 설정을 담당하는 메서드이다.
+     * 1. 정적 자원(Resource)에 대해서 인증된 사용자가  정적 자원의 접근에 대해 ‘인가’에 대한 설정을 담당하는 메서드입니다.
      *
      * @return WebSecurityCustomizer
      */
@@ -43,7 +43,7 @@ public class WebSecurityConfig {
     }
 
     /**
-     * 2. HTTP에 대해서 ‘인증’과 ‘인가’를 담당하는 메서드이며 필터를 통해 인증 방식과 인증 절차에 대해서 등록하며 설정을 담당하는 메서드이다.
+     * 2. HTTP에 대해서 ‘인증’과 ‘인가’를 담당하는 메서드이며 필터를 통해 인증 방식과 인증 절차에 대해서 등록하며 설정을 담당하는 메서드입니다.
      *
      * @param http HttpSecurity
      * @return SecurityFilterChain
@@ -52,21 +52,21 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         log.debug("[+] WebSecurityConfig Start !!! ");
-        http
+
+        // Spring Security를 수행하지 않는 URL
+        String[] notUseSecurityUrlArr = {"/api/v1/user/login", "/public/**", "/api/v1/token/token"};
+
+        return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(
-                                "/api/v1/user/login",
-                                "/public/**",
-                                "/api/v1/token/token"
-                        ).permitAll().anyRequest().authenticated()
+                .authorizeHttpRequests(authz ->
+                        authz
+                                .requestMatchers(notUseSecurityUrlArr)
+                                .permitAll().anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthorizationFilter(), BasicAuthenticationFilter.class)
-                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
+                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).build();
     }
 
 
@@ -82,7 +82,7 @@ public class WebSecurityConfig {
     }
 
     /**
-     * 4. '인증' 제공자로 사용자의 이름과 비밀번호가 요구됩니다.
+     * 4. '인증' 제공자로 사용자의 이름과 비밀번호를 데이터베이스에 제공하여 반환받습니다.
      * - 과정: CustomAuthenticationFilter → AuthenticationManager(interface) → CustomAuthenticationProvider(implements)
      *
      * @return CustomAuthenticationProvider
@@ -118,7 +118,7 @@ public class WebSecurityConfig {
     }
 
     /**
-     * 7. Spring Security 기반의 사용자의 정보가 맞을 경우 수행이 되며 결과값을 리턴해주는 Handler
+     * 7. Spring Security 기반의 사용자의 정보가 '맞을 경우' 수행이 되며 결과값을 리턴해주는 Handler
      *
      * @return CustomLoginSuccessHandler
      */
@@ -128,7 +128,7 @@ public class WebSecurityConfig {
     }
 
     /**
-     * 8. Spring Security 기반의 사용자의 정보가 맞지 않을 경우 수행이 되며 결과값을 리턴해주는 Handler
+     * 8. Spring Security 기반의 사용자의 정보가 '맞지 않을 경우' 수행이 되며 결과값을 리턴해주는 Handler
      *
      * @return CustomAuthFailureHandler
      */

@@ -17,6 +17,10 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    configureEach {
+        // spring-boot-starter-web 라이브러리에 포함되어 있는 logging의 종속성을 제외합니다.
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
 }
 
 repositories {
@@ -32,13 +36,14 @@ dependencies {
     // [Spring Boot Starter]
     implementation "org.springframework.boot:spring-boot-starter-security:${bootVer}"
     implementation "org.springframework.boot:spring-boot-starter-web:${bootVer}"
-
+    implementation "org.springframework.boot:spring-boot-starter-log4j2:${bootVer}"             // Spring Boot Log4j2
 
     // [OpenSource]
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'      // MyBatis
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.0'             // Jackson Data Binding
     implementation 'io.jsonwebtoken:jjwt:0.12.6'                                    // JSON-WEB-TOKEN
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'                    // DataType Converter
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVer}"     // Jackson DatabindFormat Yaml
 
 
     //

@@ -26,7 +26,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         super.setAuthenticationManager(authenticationManager);
     }
 
-
     /**
      * 지정된 URL로 form 전송을 하였을 경우 파라미터 정보를 가져온다.
      *
@@ -45,11 +44,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
         return this.getAuthenticationManager().authenticate(authRequest);
-
     }
-
 
     /**
      * Request로 받은 ID와 패스워드 기반으로 토큰을 발급한다.
@@ -65,7 +61,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             UserDto user = objectMapper.readValue(request.getInputStream(), UserDto.class);
             log.debug("1.CustomAuthenticationFilter :: userId:" + user.getUserId() + " userPw:" + user.getUserPw());
 
-            // ID와 패스워드를 기반으로 토큰 발급
+            // ID와 암호화된 패스워드를 기반으로 토큰 발급
             return new UsernamePasswordAuthenticationToken(user.getUserId(), user.getUserPw());
         } catch (UsernameNotFoundException ae) {
             throw new UsernameNotFoundException(ae.getMessage());

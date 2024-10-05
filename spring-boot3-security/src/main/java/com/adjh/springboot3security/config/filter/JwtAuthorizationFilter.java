@@ -1,7 +1,6 @@
 package com.adjh.springboot3security.config.filter;
 
 import com.adjh.springboot3security.common.utils.TokenUtils;
-import com.adjh.springboot3security.model.constant.AuthConstants;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -41,13 +40,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             throws IOException, ServletException {
 
         // 1. 토큰이 필요하지 않는 경우에 대해 API Endpoint 관리
-        List<String> list = Arrays.asList(
+        List<String> notUseJwtUrlList = Arrays.asList(
                 "/api/v1/user/login",
-                "/api/v1/token/token"
+                "/api/v1/token/token",
+                "/user/login",
+                "/token/token"
         );
 
         // 2. 토큰이 필요하지 않는 API 호출 발생 시 : 아래 로직 처리 없이 다음 필터로 이동
-        if (list.contains(request.getRequestURI())) {
+        if (notUseJwtUrlList.contains(request.getRequestURI())) {
             chain.doFilter(request, response);
             return;
         }
@@ -59,7 +60,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
 
         // [STEP1] Client API 호출에서 "Authorization"를 속성을 확인합니다.
-        String header = request.getHeader(AuthConstants.AUTH_HEADER);
+        String header = request.getHeader("Authorization");
         logger.debug("[+] header Check: " + header);
 
         try {
