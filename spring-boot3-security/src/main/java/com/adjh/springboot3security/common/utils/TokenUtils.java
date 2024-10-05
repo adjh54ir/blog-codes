@@ -2,10 +2,7 @@ package com.adjh.springboot3security.common.utils;
 
 import com.adjh.springboot3security.model.dto.UserDto;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.SecretKey;
 import java.util.Calendar;
@@ -23,11 +20,15 @@ import java.util.Map;
 @Log4j2
 public class TokenUtils {
 
-    // 환경파일에서 지정한 비밀 Salt Key
-    @Value("${jwt.secret}")
-    private static String secretKey = "";
-    private static final SecretKey JWT_SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    ;
+
+    /**
+     * JWTKey를 HS256을 통해서 생성합니다.
+     *
+     * @return
+     */
+    private static SecretKey createJwtSecretKey() {
+        return Jwts.SIG.HS256.key().build();
+    }
 
     /**
      * '토큰의 만료기간'을 지정하는 메서드
@@ -73,16 +74,6 @@ public class TokenUtils {
     }
 
     /**
-     * 환경 파일의 Salt 기반으로 SecretKey 구성합니다.
-     *
-     * @return
-     */
-    private static SecretKey createSecretKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
-
-    /**
      * 토큰을 기반으로 유효한 토큰인지 여부를 반환해주는 메서드
      * - Claim 내에서 사용자 정보를 추출합니다.
      *
@@ -118,11 +109,10 @@ public class TokenUtils {
     public static String generateJwtToken(UserDto userDto) {
         // 사용자 시퀀스를 기준으로 JWT 토큰을 발급하여 반환해줍니다.
         JwtBuilder builder = Jwts.builder()
-
                 .setHeader(createHeader())                              // Header 구성
                 .claims(createClaims(userDto))                          // Payload - Claims 구성
                 .subject(String.valueOf(userDto.getUserSq()))           // Payload - Subject 구성
-                .signWith(createSecretKey())                            // Signature 구성
+                .signWith(createJwtSecretKey())                            // Signature 구성
                 .expiration(createExpiredDate());                       // Expired Date 구성
         return builder.compact();
     }
@@ -148,7 +138,7 @@ public class TokenUtils {
 
     private static Claims getTokenToClaims(String token) {
         return Jwts.parser()
-                .verifyWith(JWT_SECRET_KEY)
+                .verifyWith(createJwtSecretKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

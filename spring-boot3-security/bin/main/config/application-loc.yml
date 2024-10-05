@@ -11,5 +11,7 @@ spring:
       maximum-pool-size: 5
 
 
+# Spring Boot Custom Value
 jwt:
-  secretKey: test
+  # 2. spring Boot Security + Key 설정
+  secret: test
