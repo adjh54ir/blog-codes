@@ -27,8 +27,8 @@ repositories {
     mavenCentral()
 }
 ext {
-    set('bootVer', "3.2.5")
-    set('jacksonVer', "2.18.0")
+    set('bootVer', "3.3.4")
+    set('jacksonVer', "2.16.1")
 }
 
 dependencies {

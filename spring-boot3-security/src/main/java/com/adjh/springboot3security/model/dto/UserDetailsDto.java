@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 /**
- * Spring Security에서 사용되는 UserDetailsDto 클래스 입니다.
+ * Spring Security에서 사용되는 UserDetails 인터페이스를 정의한 DTO 클래스입니다.
  *
  * @author : jonghoon
  * @fileName : WebConfig
