@@ -22,8 +22,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
- * Spring Security 환경 설정을 구성하기 위한 클래스입니다.
+ * Spring Security 환경 설정을 구성하기 위한 설정 클래스입니다.
  * 웹 서비스가 로드 될때 Spring Container 의해 관리가 되는 클래스이며 사용자에 대한 ‘인증’과 ‘인가’에 대한 구성을 Bean 메서드로 주입을 합니다.
+ *
+ * @author : jonghoon
+ * @fileName : WebConfig
+ * @since : 10/1/24
  */
 @Slf4j
 @Configuration

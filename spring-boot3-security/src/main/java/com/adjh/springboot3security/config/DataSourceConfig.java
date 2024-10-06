@@ -15,7 +15,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 /**
- * 데이터베이스와 연결 및 SQL Mapper(MyBatis)와의 연결을 담당하는 설정 파일입니다.
+ * 데이터베이스와 연결 및 SQL Mapper(MyBatis)와의 연결을 담당하는 설정 클래스입니다.
  *
  * @author : jonghoon
  * @fileName : DataSourceConfig

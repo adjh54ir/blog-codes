@@ -10,11 +10,11 @@ import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.*;
 
 /**
- * Please explain the class!!
+ * HTTP 통신에서 CORS, Header에 대한 설정을 담당하는 설정 클래스입니다.
  *
  * @author : jonghoon
  * @fileName : WebConfig
- * @since : 2022/12/24
+ * @since : 10/1/24
  */
 @Slf4j
 @Configuration

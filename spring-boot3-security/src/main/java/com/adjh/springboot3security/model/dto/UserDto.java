@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Please explain the class!!
+ * tb_user 테이블과 매핑되는 DTO 클래스입니다.
  *
  * @author : jonghoon
  * @fileName : UserDto

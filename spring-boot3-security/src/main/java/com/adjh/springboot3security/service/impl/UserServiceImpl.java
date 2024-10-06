@@ -11,6 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 
+/**
+ * 사용자 서비스의 구현체 클래스입니다.
+ *
+ * @author : jonghoon
+ * @fileName : UserDto
+ * @since : 10/1/24
+ */
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {

@@ -11,17 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 테스트를 위해 임시로 구성한 Controller
+ * 토큰 생성 테스트를 위해 임시로 구성한 Controller
  *
- * @author : lee
- * @fileName : TokenController
- * @since : 2023/01/06
+ * @author : jonghoon
+ * @fileName : WebConfig
+ * @since : 10/1/24
  */
 @Slf4j
 @RestController
 @RequestMapping("api/v1/token")
 public class TokenController {
-
     /**
      * [API] 사용자 정보를 기반으로 JWT를 발급하는 API
      *

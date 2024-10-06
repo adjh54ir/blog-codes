@@ -11,18 +11,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * JWT 관련된 토큰 Util
+ * JWT의 구성요소를 생성하고 최종적으로 JWT를 생성하여 유효성을 체크하는 유틸입니다.
  *
  * @author lee
  * @fileName TokenUtils
- * @since 2022.12.23
+ * @since : 10/1/24
  */
 @Log4j2
 public class TokenUtils {
 
-
     /**
-     * JWTKey를 HS256을 통해서 생성합니다.
+     * JWTKey 를 HS256을 통해서 생성합니다.
      *
      * @return
      */

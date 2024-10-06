@@ -14,10 +14,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
-
 /**
- * 아이디와 비밀번호 기반의 데이터를 Form 데이터로 전송을 받아 '인증'을 담당하는 필터입니다.
+ * 아이디와 비밀번호 기반의 데이터를 Form 데이터로 전송을 받아 '인증'을 담당하는 필터 역할의 클래스입니다.
+ * HTTP 응답에 CORS(Cross-Origin Resource Sharing) 관련 헤더를 설정하는 필터 역할의 클래스입니다.
+ *
+ * @author : jonghoon
+ * @fileName : CustomAuthenticationFilter
+ * @since : 10/1/24
  */
+
 @Slf4j
 @Component
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {

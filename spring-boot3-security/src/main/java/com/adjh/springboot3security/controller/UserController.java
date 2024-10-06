@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 /**
- * 사용자 관련 Controller
+ * 로그인 테스트를 위해 임시로 구성한 Controller
+ *
+ * @author : jonghoon
+ * @fileName : WebConfig
+ * @since : 10/1/24
  */
 @Slf4j
 @Controller
