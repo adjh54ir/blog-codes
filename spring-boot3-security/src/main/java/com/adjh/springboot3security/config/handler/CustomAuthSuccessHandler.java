@@ -1,7 +1,6 @@
 package com.adjh.springboot3security.config.handler;
 
 import com.adjh.springboot3security.common.utils.TokenUtils;
-import com.adjh.springboot3security.model.constant.AuthConstants;
 import com.adjh.springboot3security.model.dto.UserDetailsDto;
 import com.adjh.springboot3security.model.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +34,7 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
         UserDto userDto = ((UserDetailsDto) authentication.getPrincipal()).getUserDto();
 
         // [STEP2] 응답 데이터를 구성합니다.
-        Map<String, Object> responseMap = new HashMap<String, Object>();
+        Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("userInfo", userDto);
 
         // [STEP3] 사용자의 상태에 따라 응답 데이터를 설정합니다.
@@ -49,7 +48,7 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
 
             String token = TokenUtils.generateJwtToken(userDto);
             responseMap.put("token", token);
-            response.addHeader(AuthConstants.AUTH_HEADER, AuthConstants.TOKEN_TYPE + " " + token);
+            response.addHeader("Authorization", "BEARER " + token);
         }
 
         // [STEP4] 구성한 응답 값을 JSON 형태로 전달합니다.
