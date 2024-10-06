@@ -22,13 +22,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
- * 지정한 URL 별 JWT 유효성 검증을 수행하며 직접적인 사용자 '인증'을 확인합니다.
+ * 지정한 URL 별 JWT 유효성 검증을 수행하며 직접적인 사용자 '인증'을 확인하는 필터 역할의 클래스입니다.
  *
- * @author lee
- * @fileName JwtAuthorizationFilter
- * @since 2022.12.23
+ * @author : jonghoon
+ * @fileName : CustomAuthenticationFilter
+ * @since : 10/1/24
  */
 @Slf4j
 @Component

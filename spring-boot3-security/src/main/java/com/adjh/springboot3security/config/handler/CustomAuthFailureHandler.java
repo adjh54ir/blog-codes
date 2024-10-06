@@ -15,7 +15,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 사용자의 ‘인증’에 대해 실패하였을 경우 수행되는 Handler로 실패에 대한 사용자에게 반환값을 구성하여 전달합니다.
+ * 사용자의 '인증'에 대해 실패하였을떄, 수행하여 사용자에게 응답 값을 제공해주는 Handler입니다.
+ *
+ * @author : jonghoon
+ * @fileName : CustomAuthenticationFilter
+ * @since : 10/1/24
  */
 @Slf4j
 @Configuration
