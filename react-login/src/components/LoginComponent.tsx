@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import LoginService from '../services/LoginService';
 import { LoginType } from '../types/LoginType';
+import { useNavigate } from 'react-router';
 
 const LoginComponent = () => {
-	useEffect(() => {}, []);
+	useEffect(() => { }, []);
+
+	const navigate = useNavigate();
 
 	const [userInfo, setUserInfo] = useState<LoginType.LoginType>({
 		userId: '',
@@ -12,12 +15,27 @@ const LoginComponent = () => {
 
 	const loginHandler = (() => {
 		return {
-			login: () => {
+			login: async () => {
 				console.log('[+] 로그인을 수행합니다.', userInfo);
 
-				LoginService.login(userInfo)
+				await LoginService.login(userInfo)
 					.then((res) => {
-						console.log('[+] 로그인에 성공하였습니다.', res);
+						const { userInfo, resultCode, failMsg, token } = res.data;
+						console.log(userInfo, resultCode, failMsg);
+
+						if (userInfo && token) {
+							console.log('[+] 로그인에 성공하였습니다.', res);
+
+							if (localStorage.getItem("token")) {
+								localStorage.setItem("token", "");
+							}
+							localStorage.setItem("token", token); 			// 로컬 스토리지내에 저장합니다.
+							navigate('/main');
+						}
+						else {
+							console.log('[-] 로그인에 실패하였습니다.');
+							alert("아이디와 비밀번호를 확인해주세요.")
+						}
 					})
 					.catch((error) => {
 						console.log('[-] 로그인에 실패하였습니다.', error);
