@@ -51,6 +51,7 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
             responseMap.put("failMsg", null);
 
             String token = TokenUtils.generateJwtToken(userDto);
+            System.out.println("생성된 토큰 :: " + token);
             responseMap.put("token", token);
             response.addHeader("Authorization", "BEARER " + token);
         }
