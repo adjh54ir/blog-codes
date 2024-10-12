@@ -26,16 +26,16 @@ public class HeaderFilter implements Filter {
         res.setHeader("Access-Control-Allow-Origin", "*");
 
         // GET, POST, PUT, DELETE 메소드를 허용합니다
-        res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+        res.setHeader("Access-Control-Allow-Methods", "*");
 
         // 프리플라이트 요청의 결과를 3600초 동안 캐시할 수 있도록 설정합니다
         res.setHeader("Access-Control-Max-Age", "3600");
 
         // 특정 헤더(X-Requested-With, Content-Type, Authorization, X-XSRF-token)를 허용합니다
-        res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization, X-XSRF-token");
+        res.setHeader("Access-Control-Allow-Headers", "*");
 
         // 자격 증명(credentials)을 허용하지 않도록 설정합니다
-        res.setHeader("Access-Control-Allow-Credentials", "false");
+        res.setHeader("Access-Control-Allow-Credentials", "true");
 
         chain.doFilter(request, response);
     }

@@ -30,13 +30,15 @@ const MainComponenet = () => {
 					userSt: ''
 				};
 
-				await UserServices.selectUserList(userInfo, accessToken!)
-					.then((res) => {
-						console.log(res.data);
-					})
-					.catch((error) => {
-						console.log(`error :: ${error} `)
-					})
+				const result =  await UserServices.selectUserList(userInfo, accessToken!);
+				console.log(result )
+				// await UserServices.selectUserList(userInfo, accessToken!)
+				// 	.then((res) => {
+				// 		console.log(res.data);
+				// 	})
+				// 	.catch((error) => {
+				// 		console.log(`error :: ${error} `)
+				// 	})
 
 			},
 		}

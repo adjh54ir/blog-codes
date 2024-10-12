@@ -38,12 +38,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain chain)
             throws IOException, ServletException {
 
+        System.out.println("request.getRequestURI() " + request.getRequestURI());
         // 1. 토큰이 필요하지 않는 경우에 대해 API Endpoint 관리
         List<String> notUseJwtUrlList = Arrays.asList(
                 "/api/v1/user/login",
                 "/api/v1/token/token",
                 "/user/login",
                 "/token/token"
+//                "/api/v1/user/user"
         );
 
         // 2. 토큰이 필요하지 않는 API 호출 발생 시 : 아래 로직 처리 없이 다음 필터로 이동
@@ -68,6 +70,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
                 // [STEP2] Header 내에 토큰을 추출합니다.
                 String token = TokenUtils.getHeaderToToken(header);
+                System.out.println("추출된 토큰 :: " + token);
 
                 // [STEP3] 추출한 토큰이 유효한지 여부를 체크합니다.
                 if (TokenUtils.isValidToken(token)) {
@@ -78,7 +81,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
                     // [STEP5] 사용자 아이디가 존재하는지 여부 체크
                     if (StringUtils.isNotBlank(userId)) {
-                        chain.doFilter(request, response);
+                        chain.doFilter(request, response);      // 리소스로 접근
+                        return;
                     } else {
                         throw new Exception("토큰 내에 사용자 아이디가 존재하지 않습니다");    // 사용자 아이디가 존재하지 않는 경우
                     }
@@ -125,7 +129,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             resultMsg = "OTHER TOKEN ERROR";
         }
         // Custom Error Code 구성
-        jsonMap.put("status", 401);
+        jsonMap.put("status", 403);
         jsonMap.put("code", "9999");
         jsonMap.put("message", resultMsg);
         jsonMap.put("reason", e.getMessage());

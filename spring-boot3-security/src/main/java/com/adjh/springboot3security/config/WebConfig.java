@@ -21,15 +21,6 @@ import org.springframework.web.servlet.config.annotation.*;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("/*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true);
-    }
-
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/static/",
             "classpath:/public/",
