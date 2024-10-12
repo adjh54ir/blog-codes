@@ -30,7 +30,7 @@ public class TokenController {
     @PostMapping("/token")
     public ResponseEntity<Object> generateToken(@RequestBody UserDto userDto) {
         System.out.println("토큰을 생성합니다");
-        String resultToken = TokenUtils.generateJwtToken(userDto);
+        String resultToken = TokenUtils.generateJwt(userDto);
         return new ResponseEntity<>(resultToken, HttpStatus.OK);
     }
 }

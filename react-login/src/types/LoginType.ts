@@ -5,7 +5,8 @@ export declare module LoginType {
 	}
 	interface loginApiResponseType {
 		userInfo: any;
-		token?: string;
+		accessToken?: string;
+		refreshToken?: string;
 		resultCode: string | number;
 		failMsg: string;
 	}

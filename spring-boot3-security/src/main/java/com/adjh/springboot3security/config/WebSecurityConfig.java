@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -21,6 +20,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 /**
  * Spring Security 환경 설정을 구성하기 위한 설정 클래스입니다.
@@ -37,7 +41,7 @@ public class WebSecurityConfig {
 
 
     /**
-     * 1. 정적 자원(Resource)에 대해서 인증된 사용자가  정적 자원의 접근에 대해 ‘인가’에 대한 설정을 담당하는 메서드입니다.
+     * 1. 정적 자원(Resource)에 대해서 인증된 사용자가 정적 자원의 접근에 대해 ‘인가’에 대한 설정을 담당하는 메서드입니다.
      *
      * @return WebSecurityCustomizer
      */
@@ -56,28 +60,14 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        log.debug("[+] WebSecurityConfig Start !!! ");
-
-        // Spring Security를 수행하지 않는 URL
-        String[] notUseSecurityUrlArr = {
-                "/api/v1/user/login",
-                "/public/**",
-                "/api/v1/token/token",
-//                "/api/v1/user/user"
-        };
-
         return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(auth ->
-                        auth
-                                .requestMatchers(notUseSecurityUrlArr)
-                                .permitAll().anyRequest().authenticated()
-                )
-                .addFilterBefore(jwtAuthorizationFilter(), BasicAuthenticationFilter.class)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .formLogin(AbstractHttpConfigurer::disable)
-                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .csrf(AbstractHttpConfigurer::disable)                                                          // CSRF 보호 비활성화
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))                              // CORS 커스텀 설정 적용
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())                                   // 우선 모든 요청에 대한 허용
+                .addFilterBefore(jwtAuthorizationFilter(), BasicAuthenticationFilter.class)                     // JWT 인증 (커스텀 필터)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))   // 세션 미사용 (JWT 사용)
+                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)      // 사용자 인증(커스텀 필터)
+                .formLogin(AbstractHttpConfigurer::disable)                                                     // 폼 로그인 비활성화
                 .build();
     }
 
@@ -161,4 +151,22 @@ public class WebSecurityConfig {
     }
 
 
+    /**
+     * 10. CORS에 대한 설정을 커스텀으로 구성합니다.
+     *
+     * @return CorsConfigurationSource
+     */
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));      // 허용할 오리진
+        configuration.setAllowedMethods(List.of("*"));      // 허용할 HTTP 메서드
+        configuration.setAllowedHeaders(List.of("*"));      // 모든 헤더 허용
+        configuration.setAllowCredentials(true);                // 인증 정보 허용
+        configuration.setMaxAge(3600L);                         // 프리플라이트 요청 결과를 3600초 동안 캐시
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);             // 모든 경로에 대해 이 설정 적용
+        return source;
+    }
 }

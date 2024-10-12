@@ -4,7 +4,7 @@ import { LoginType } from '../types/LoginType';
 import { useNavigate } from 'react-router';
 
 const LoginComponent = () => {
-	useEffect(() => { }, []);
+	useEffect(() => {}, []);
 
 	const navigate = useNavigate();
 
@@ -20,21 +20,22 @@ const LoginComponent = () => {
 
 				await LoginService.login(userInfo)
 					.then((res) => {
-						const { userInfo, resultCode, failMsg, token } = res.data;
+						const { userInfo, resultCode, failMsg, accessToken, refreshToken } = res.data;
 						console.log(userInfo, resultCode, failMsg);
+						console.log(accessToken, refreshToken);
 
-						if (userInfo && token) {
+						if (userInfo && accessToken) {
 							console.log('[+] 로그인에 성공하였습니다.', res);
 
-							if (localStorage.getItem("token")) {
-								localStorage.setItem("token", "");
+							if (localStorage.getItem('accessToken')) {
+								localStorage.setItem('accessToken', '');
 							}
-							localStorage.setItem("token", token); 			// 로컬 스토리지내에 저장합니다.
+							localStorage.setItem('accessToken', accessToken); // 로컬 스토리지내에 저장합니다.
+							localStorage.setItem('refreshToken', accessToken); // 로컬 스토리지내에 저장합니다.
 							navigate('/main');
-						}
-						else {
+						} else {
 							console.log('[-] 로그인에 실패하였습니다.');
-							alert("아이디와 비밀번호를 확인해주세요.")
+							alert('아이디와 비밀번호를 확인해주세요.');
 						}
 					})
 					.catch((error) => {
