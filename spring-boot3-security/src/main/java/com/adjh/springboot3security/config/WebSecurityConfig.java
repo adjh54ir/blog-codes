@@ -59,7 +59,12 @@ public class WebSecurityConfig {
         log.debug("[+] WebSecurityConfig Start !!! ");
 
         // Spring Security를 수행하지 않는 URL
-        String[] notUseSecurityUrlArr = {"/api/v1/user/login", "/public/**", "/api/v1/token/token"};
+        String[] notUseSecurityUrlArr = {
+                "/api/v1/user/login",
+                "/public/**",
+                "/api/v1/token/token",
+//                "/api/v1/user/user"
+        };
 
         return http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -69,10 +74,11 @@ public class WebSecurityConfig {
                                 .requestMatchers(notUseSecurityUrlArr)
                                 .permitAll().anyRequest().authenticated()
                 )
+                .addFilterBefore(jwtAuthorizationFilter(), BasicAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
-                .addFilterBefore(jwtAuthorizationFilter(), BasicAuthenticationFilter.class)
-                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).build();
+                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
 
