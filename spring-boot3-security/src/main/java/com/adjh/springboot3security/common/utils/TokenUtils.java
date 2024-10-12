@@ -25,10 +25,16 @@ import java.util.Map;
 @Component
 public class TokenUtils {
 
-    private static String JWT_SECRET_KEY;
+    private static SecretKey JWT_SECRET_KEY;
 
+    /**
+     * JWT_SECRET_KEY 변수값에 환경 변수에서 불러온 SECRET_KEY를 주입합니다.
+     *
+     * @param jwtSecretKey
+     */
     public TokenUtils(@Value("${jwt.secret}") String jwtSecretKey) {
-        TokenUtils.JWT_SECRET_KEY = jwtSecretKey;
+        SecretKey key = Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
+        TokenUtils.JWT_SECRET_KEY = key;
     }
 
 
@@ -39,9 +45,10 @@ public class TokenUtils {
      */
     private static Date createExpiredDate() {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.HOUR, 1);      // 1시간
-        // c.add(Calendar.HOUR, 8);     // 8시간
-        // c.add(Calendar.DATE, 1);         // 1일
+        c.add(Calendar.SECOND, 3);        // 10초
+        // c.add(Calendar.HOUR, 1);             // 1시간
+        // c.add(Calendar.HOUR, 8);             // 8시간
+        // c.add(Calendar.DATE, 1);             // 1일
         return c.getTime();
     }
 
@@ -111,17 +118,14 @@ public class TokenUtils {
      * @param userDto UserDto : 사용자 정보
      * @return String : 토큰
      */
-    public static String generateJwtToken(UserDto userDto) {
-        SecretKey key = Keys.hmacShaKeyFor(JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8));
-
-        log.debug("생성된 JWT Secret Key: " + key);
-
+    public static String generateJwt(UserDto userDto) {
+        log.debug("생성된 JWT Secret Key: " + JWT_SECRET_KEY);
         // 사용자 시퀀스를 기준으로 JWT 토큰을 발급하여 반환해줍니다.
         JwtBuilder builder = Jwts.builder()
                 .setHeader(createHeader())                              // Header 구성
                 .claims(createClaims(userDto))                          // Payload - Claims 구성
                 .subject(String.valueOf(userDto.getUserSq()))           // Payload - Subject 구성
-                .signWith(key)                            // Signature 구성
+                .signWith(JWT_SECRET_KEY)                               // Signature 구성
                 .expiration(createExpiredDate());                       // Expired Date 구성
         return builder.compact();
     }
@@ -139,14 +143,13 @@ public class TokenUtils {
     }
 
     public static String generateRefreshToken(UserDto userDto) {
-        SecretKey key = Keys.hmacShaKeyFor(JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
-        log.debug("JWT Secret Key: " + key);
+        log.debug("JWT Secret Key: " + JWT_SECRET_KEY);
         return Jwts.builder()
                 .setHeader(createHeader())
                 .claims(createClaims(userDto))
                 .subject(String.valueOf(userDto.getUserSq()))
-                .signWith(key)
+                .signWith(JWT_SECRET_KEY)
                 .expiration(createRefreshTokenExpiredDate())
                 .compact();
     }
@@ -173,15 +176,8 @@ public class TokenUtils {
     private static Claims getTokenToClaims(String token) {
         System.out.println("확인111  : " + token);
         System.out.println("확인222  : " + JWT_SECRET_KEY);
-
-        SecretKey key = Keys.hmacShaKeyFor(JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8));
-
-        System.out.println("확인된 JWT Secret Key: " + key);
-//        String encodedKey = Base64.getEncoder().encodeToString(JWT_SECRET_KEY.getEncoded());
-//        System.out.println("JWT Secret Key: " + encodedKey);
-
         return Jwts.parser()
-                .verifyWith(key)
+                .verifyWith(JWT_SECRET_KEY)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

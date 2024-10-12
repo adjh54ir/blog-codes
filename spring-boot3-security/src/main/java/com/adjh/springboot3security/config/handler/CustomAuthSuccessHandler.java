@@ -42,7 +42,7 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
         responseMap.put("userInfo", userDto);
 
         // [STEP3] 사용자의 상태에 따라 응답 데이터를 설정합니다.
-        if ("D".equals(userDto.getUserSt())) {
+        if ("D" .equals(userDto.getUserSt())) {
             responseMap.put("resultCode", 9001);
             responseMap.put("token", null);
             responseMap.put("failMsg", "휴면 계정입니다.");
@@ -50,10 +50,12 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
             responseMap.put("resultCode", 200);
             responseMap.put("failMsg", null);
 
-            String token = TokenUtils.generateJwtToken(userDto);
-            System.out.println("생성된 토큰 :: " + token);
-            responseMap.put("token", token);
-            response.addHeader("Authorization", "BEARER " + token);
+            String accessToken = TokenUtils.generateJwt(userDto);
+            String refreshToken = TokenUtils.generateRefreshToken(userDto);
+            System.out.println("생성된 토큰 :: " + accessToken);
+            responseMap.put("accessToken", accessToken);
+            responseMap.put("refreshToken", refreshToken);
+            response.addHeader("Authorization", "BEARER " + accessToken);
         }
 
         // [STEP4] 구성한 응답 값을 JSON 형태로 전달합니다.

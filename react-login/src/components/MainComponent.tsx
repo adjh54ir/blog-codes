@@ -10,39 +10,35 @@ const MainComponenet = () => {
 	const eventHandler = (() => {
 		return {
 			logout: () => {
-				localStorage.removeItem("token");
-				navigation("/");
-
-			}
-		}
-
+				localStorage.removeItem('accessToken');
+				navigation('/');
+			},
+		};
 	})();
 
 	const apiHandler = (() => {
 		return {
 			accessResource: async () => {
-				console.log("[+] 리소스 접근을 시도합니다.")
-				const accessToken = localStorage.getItem("token")
-				console.log("accessToken :: ", accessToken)
+				console.log('[+] 리소스 접근을 시도합니다.');
+				const accessToken = localStorage.getItem('accessToken');
+				console.log('accessToken :: ', accessToken);
+				const refreshToken = localStorage.getItem('refreshToken');
+				console.log('refreshToken :: ', refreshToken);
 				const userInfo: UserType.UserInfoType = {
 					userId: '',
 					userNm: '',
-					userSt: ''
+					userSt: '',
 				};
 
-				const result =  await UserServices.selectUserList(userInfo, accessToken!);
-				console.log(result )
-				// await UserServices.selectUserList(userInfo, accessToken!)
-				// 	.then((res) => {
-				// 		console.log(res.data);
-				// 	})
-				// 	.catch((error) => {
-				// 		console.log(`error :: ${error} `)
-				// 	})
-
+				await UserServices.selectUserList(userInfo, accessToken!)
+					.then((res) => {
+						console.log(res.data);
+					})
+					.catch((error) => {
+						console.log(`error :: ${error} `);
+					});
 			},
-		}
-
+		};
 	})();
 
 	return (
@@ -50,13 +46,16 @@ const MainComponenet = () => {
 			<h1>로그인에 성공하였습니다.</h1>
 
 			<div>
-				<button type='button' onClick={apiHandler.accessResource}>리소스 접근</button>
+				<button type='button' onClick={apiHandler.accessResource}>
+					리소스 접근
+				</button>
 			</div>
 
 			<div>
-				<button type='button' onClick={eventHandler.logout}>로그아웃</button>
+				<button type='button' onClick={eventHandler.logout}>
+					로그아웃
+				</button>
 			</div>
-
 		</>
 	);
 };
