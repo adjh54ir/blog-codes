@@ -1,6 +1,7 @@
 package com.adjh.springboot3security.common.utils;
 
 import com.adjh.springboot3security.model.dto.UserDto;
+import com.adjh.springboot3security.model.dto.ValidTokenDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.log4j.Log4j2;
@@ -89,25 +90,24 @@ public class TokenUtils {
      * @param token String  : 토큰
      * @return boolean      : 유효한지 여부 반환
      */
-    public static boolean isValidToken(String token) {
+    public static ValidTokenDto isValidToken(String token) {
+        Map<String, Object> result = new HashMap<>();
         try {
             Claims claims = getTokenToClaims(token);
             log.info("expireTime :" + claims.getExpiration());
             log.info("userId :" + claims.get("userId"));
             log.info("userNm :" + claims.get("userNm"));
-            return true;
+
+            return ValidTokenDto.builder().isValid(true).errorName(null).build();
         } catch (ExpiredJwtException exception) {
-            log.debug("token expired " + token);
-            log.error("Token Expired" + exception);
-            return false;
+            log.error("Token Expired", exception);
+            return ValidTokenDto.builder().isValid(false).errorName("TOKEN_EXPIRED").build();
         } catch (JwtException exception) {
-            log.debug("token expired " + token);
-            log.error("Token Tampered" + exception);
-            return false;
+            log.error("Token Tampered", exception);
+            return ValidTokenDto.builder().isValid(false).errorName("TOKEN_INVALID").build();
         } catch (NullPointerException exception) {
-            log.debug("token expired " + token);
-            log.error("Token is null" + exception);
-            return false;
+            log.error("Token is null", exception);
+            return ValidTokenDto.builder().isValid(false).errorName("TOKEN_NULL").build();
         }
     }
 
