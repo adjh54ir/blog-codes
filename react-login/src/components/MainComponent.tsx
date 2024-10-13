@@ -30,7 +30,7 @@ const MainComponenet = () => {
 					userSt: '',
 				};
 
-				await UserServices.selectUserList(userInfo, accessToken!)
+				await UserServices.selectUserList(userInfo, accessToken!, refreshToken!)
 					.then((res) => {
 						console.log(res.data);
 					})

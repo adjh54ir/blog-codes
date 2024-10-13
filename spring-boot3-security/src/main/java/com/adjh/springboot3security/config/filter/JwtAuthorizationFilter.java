@@ -1,6 +1,7 @@
 package com.adjh.springboot3security.config.filter;
 
 import com.adjh.springboot3security.common.utils.TokenUtils;
+import com.adjh.springboot3security.model.dto.ValidTokenDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -33,57 +34,74 @@ import java.util.Map;
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private static final String HTTP_METHOD_OPTIONS = "OPTIONS";
+    private static final List<String> WHITELIST_URLS = Arrays.asList(
+            "/api/v1/user/login",
+            "/api/v1/token/token",
+            "/user/login",
+            "/token/token"
+    );
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain chain)
             throws IOException, ServletException {
-
-        // 1. 토큰이 필요하지 않는 경우에 대해 API Endpoint 관리
-        List<String> notUseJwtUrlList = Arrays.asList(
-                "/api/v1/user/login",
-                "/api/v1/token/token",
-                "/user/login",
-                "/token/token"
-        );
-
-        // 2. 토큰이 필요하지 않는 API 호출 발생 시 : 아래 로직 처리 없이 다음 필터로 이동
-        if (notUseJwtUrlList.contains(request.getRequestURI())) {
+        // 2. 토큰이 필요하지 않는 API 호출 발생 시 || 토큰이 필요없는 HTTP Method OPTIONS 호출 발생 시 : 아래 로직 처리 없이 다음 필터로 이동
+        if (WHITELIST_URLS.contains(request.getRequestURI()) || request.getMethod().equalsIgnoreCase(HTTP_METHOD_OPTIONS)) {
             chain.doFilter(request, response);
             return;
         }
-
-        // 3. 토큰이 필요없는 HTTP Method OPTIONS 호출 발생 시:  아래 로직 처리 없이 다음 필터로 이동
-        if (request.getMethod().equalsIgnoreCase(HTTP_METHOD_OPTIONS)) {
-            chain.doFilter(request, response);
-            return;
-        }
-
         // [STEP1] Client API 호출에서 "Authorization"를 속성을 확인합니다.
-        String header = request.getHeader("Authorization");
-        logger.debug("[+] header Check: " + header);
+        String accessTokenHeader = request.getHeader("Authorization");
+        String refreshTokenHeader = request.getHeader("x-refresh-token");
 
         try {
-            // [STEP2-1] Header 내에 토큰이 존재하는 경우 : null, isEmpty() 체크 수행
-            if (StringUtils.isNotBlank(header)) {
+            // [STEP2-1] accessToken, refreshToken 존재여부를 체크합니다.
+            if (StringUtils.isNotBlank(accessTokenHeader) || StringUtils.isNotBlank(refreshTokenHeader)) {
 
-                // [STEP2] Header 내에 토큰을 추출합니다.
-                String token = TokenUtils.getHeaderToToken(header);
-                System.out.println("추출된 토큰 :: " + token);
+                // [STEP2] Header 내에 accessToken, refreshToken을 추출합니다.
+                String accessToken = TokenUtils.getHeaderToToken(accessTokenHeader);
+                String refreshToken = TokenUtils.getHeaderToToken(accessTokenHeader);
 
-                // [STEP3] 추출한 토큰이 유효한지 여부를 체크합니다.
-                if (TokenUtils.isValidToken(token)) {
+                ValidTokenDto accTokenValidDto = TokenUtils.isValidToken(accessToken);
 
-                    // [STEP4] 토큰을 기반으로 사용자 아이디를 반환 받는 메서드
-                    String userId = TokenUtils.getClaimsToUserId(token);
-                    logger.debug("[+] userId Check: " + userId);
+                // [STEP3-1] accessToken이 유효한 경우
+                if (accTokenValidDto.isValid()) {
 
-                    // [STEP5] 사용자 아이디가 존재하는지 여부 체크
-                    if (StringUtils.isNotBlank(userId)) {
-                        chain.doFilter(request, response);      // 리소스로 접근
+                    // [STEP4] Claim 내에 사용자 정보가 있는 경우
+                    if (StringUtils.isNotBlank(TokenUtils.getClaimsToUserId(accessToken))) {
+                        chain.doFilter(request, response);      // 리소스로 접근을 허용합니다.
                     } else {
                         throw new Exception("토큰 내에 사용자 아이디가 존재하지 않습니다");    // 사용자 아이디가 존재하지 않는 경우
                     }
-                } else {
+                }
+                // [STEP3-2] accessToken이 유효하지 않은 경우
+                else {
+
+                    // [STEP4] 에러 메시지를 확인하여 만료가 된 경우 => Refresh 토큰을 확인합니다.
+                    if (accTokenValidDto.getErrorName().equals("TOKEN_EXPIRED")) {
+                        log.debug("headerRefreshToken :: " + refreshToken);
+
+                        // Refresh Token이 유효한 경우
+                        if (TokenUtils.isValidToken(refreshToken).isValid()) {
+                            String userId = TokenUtils.getClaimsToUserId(refreshToken);
+                            // [STEP5] 사용자 아이디가 존재하는지 여부 체크
+                            if (StringUtils.isNotBlank(userId)) {
+
+                                // ==========> refresh Token을 기반으로 Access Token을 발급해줍니다.
+
+                                chain.doFilter(request, response);      // 리소스로 접근
+                            } else {
+
+                                // 만료된 경우
+                                if (TokenUtils.isValidToken(refreshToken).getErrorName().equals("TOKEN_EXPIRED")) {
+
+                                }
+
+                                throw new Exception("토큰 내에 사용자 아이디가 존재하지 않습니다");    // 사용자 아이디가 존재하지 않는 경우
+                            }
+                        } else {
+                            System.out.println("refresh Token!! Error ::");
+                        }
+                    }
                     throw new Exception("토큰이 유효하지 않습니다.");                      // 토큰이 유효하지 않은 경우
                 }
             } else {
