@@ -34,8 +34,7 @@ public class TokenUtils {
      * @param jwtSecretKey
      */
     public TokenUtils(@Value("${jwt.secret}") String jwtSecretKey) {
-        SecretKey key = Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
-        TokenUtils.JWT_SECRET_KEY = key;
+        TokenUtils.JWT_SECRET_KEY = Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
     }
 
 
@@ -46,8 +45,8 @@ public class TokenUtils {
      */
     private static Date createExpiredDate() {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.SECOND, 3);        // 10초
-        // c.add(Calendar.HOUR, 1);             // 1시간
+//        c.add(Calendar.SECOND, 3);        // 10초
+        c.add(Calendar.HOUR, 1);             // 1시간
         // c.add(Calendar.HOUR, 8);             // 8시간
         // c.add(Calendar.DATE, 1);             // 1일
         return c.getTime();
@@ -90,24 +89,25 @@ public class TokenUtils {
      * @param token String  : 토큰
      * @return boolean      : 유효한지 여부 반환
      */
-    public static ValidTokenDto isValidToken(String token) {
-        Map<String, Object> result = new HashMap<>();
+    public static boolean isValidToken(String token) {
         try {
             Claims claims = getTokenToClaims(token);
             log.info("expireTime :" + claims.getExpiration());
             log.info("userId :" + claims.get("userId"));
             log.info("userNm :" + claims.get("userNm"));
-
-            return ValidTokenDto.builder().isValid(true).errorName(null).build();
+            return true;
         } catch (ExpiredJwtException exception) {
-            log.error("Token Expired", exception);
-            return ValidTokenDto.builder().isValid(false).errorName("TOKEN_EXPIRED").build();
+            log.debug("token expired " + token);
+            log.error("Token Expired" + exception);
+            return false;
         } catch (JwtException exception) {
-            log.error("Token Tampered", exception);
-            return ValidTokenDto.builder().isValid(false).errorName("TOKEN_INVALID").build();
+            log.debug("token expired " + token);
+            log.error("Token Tampered" + exception);
+            return false;
         } catch (NullPointerException exception) {
-            log.error("Token is null", exception);
-            return ValidTokenDto.builder().isValid(false).errorName("TOKEN_NULL").build();
+            log.debug("token expired " + token);
+            log.error("Token is null" + exception);
+            return false;
         }
     }
 

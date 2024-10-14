@@ -4,7 +4,7 @@ import { LoginType } from '../types/LoginType';
 import { useNavigate } from 'react-router';
 
 const LoginComponent = () => {
-	useEffect(() => {}, []);
+	useEffect(() => { }, []);
 
 	const navigate = useNavigate();
 
@@ -31,7 +31,6 @@ const LoginComponent = () => {
 								localStorage.setItem('accessToken', '');
 							}
 							localStorage.setItem('accessToken', accessToken); // 로컬 스토리지내에 저장합니다.
-							localStorage.setItem('refreshToken', refreshToken!); // 로컬 스토리지내에 저장합니다.
 							navigate('/main');
 						} else {
 							console.log('[-] 로그인에 실패하였습니다.');
