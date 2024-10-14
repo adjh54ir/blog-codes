@@ -13,7 +13,7 @@ import java.util.Collection;
  * Spring Security에서 사용되는 UserDetails 인터페이스를 정의한 DTO 클래스입니다.
  *
  * @author : jonghoon
- * @fileName : WebConfig
+ * @fileName : UserDetailsDto
  * @since : 10/1/24
  */
 @Slf4j
@@ -28,11 +28,10 @@ public class UserDetailsDto implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-
     /**
      * 사용자의 권한 목록을 반환합니다.
      *
-     * @return
+     * @return Collection<? extends GrantedAuthority>
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -42,7 +41,7 @@ public class UserDetailsDto implements UserDetails {
     /**
      * 사용자의 비밀번호를 반환합니다.
      *
-     * @return
+     * @return String
      */
     @Override
     public String getPassword() {
@@ -53,7 +52,7 @@ public class UserDetailsDto implements UserDetails {
     /**
      * 사용자의 이름을 반환합니다.
      *
-     * @return
+     * @return String
      */
     @Override
     public String getUsername() {
@@ -64,7 +63,7 @@ public class UserDetailsDto implements UserDetails {
      * 계정이 만료되지 않았는지 여부를 반환합니다.
      * 현재 항상 false를 반환하므로, 모든 계정이 만료된 것으로 처리됩니다.
      *
-     * @return
+     * @return boolean
      */
     @Override
     public boolean isAccountNonExpired() {
@@ -74,7 +73,7 @@ public class UserDetailsDto implements UserDetails {
     /**
      * 계정이 잠기지 않았는지 여부를 반환합니다.
      *
-     * @return
+     * @return boolean
      */
     @Override
     public boolean isAccountNonLocked() {
@@ -85,19 +84,17 @@ public class UserDetailsDto implements UserDetails {
     /**
      * 자격 증명(비밀번호)이 만료되지 않았는지 여부를 반환합니다.
      *
-     * @return
+     * @return boolean
      */
     @Override
     public boolean isCredentialsNonExpired() {
         return false;
     }
 
-    // 계정이 활성화되어 있는지 여부를 반환합니다.
-
     /**
      * 계정이 활성화되어 있는지 여부를 반환합니다.
      *
-     * @return
+     * @return boolean
      */
     @Override
     public boolean isEnabled() {
