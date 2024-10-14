@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { LoginType } from '../types/LoginType';
+import AxiosInterceptor from '../common/interceptor/AxiosInterceptor';
 
 class LoginService {
 	/**
@@ -8,7 +9,7 @@ class LoginService {
 	 */
 	login = async (loginInfo: LoginType.LoginType): Promise<AxiosResponse<Boolean & LoginType.loginApiResponseType, any>> => {
 		try {
-			const response = await axios.post(`/api/v1/user/login`, loginInfo);
+			const response = await AxiosInterceptor.post(`/api/v1/user/login`, loginInfo);
 			console.log('Response:', response.data);
 			return response;
 		} catch (error) {

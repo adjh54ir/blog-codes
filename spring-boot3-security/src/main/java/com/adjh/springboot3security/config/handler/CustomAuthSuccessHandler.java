@@ -42,17 +42,17 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
         responseMap.put("userInfo", userDto);
 
         // [STEP3] 사용자의 상태에 따라 응답 데이터를 설정합니다.
-        if ("D" .equals(userDto.getUserSt())) {
+        if ("D".equals(userDto.getUserSt())) {
             responseMap.put("resultCode", 9001);
             responseMap.put("token", null);
             responseMap.put("failMsg", "휴면 계정입니다.");
         } else {
             responseMap.put("resultCode", 200);
             responseMap.put("failMsg", null);
-
             String accessToken = TokenUtils.generateJwt(userDto);
             String refreshToken = TokenUtils.generateRefreshToken(userDto);
-            System.out.println("생성된 토큰 :: " + accessToken);
+            log.debug("생성된 토큰(접근 토큰) :: {}", accessToken);
+            log.debug("생성된 토큰(리프레시 토큰) :: {}", accessToken);
             responseMap.put("accessToken", accessToken);
             responseMap.put("refreshToken", refreshToken);
             response.addHeader("Authorization", "BEARER " + accessToken);
