@@ -7,11 +7,13 @@ class UserService {
 	selectUserList = async (
 		userInfo: UserType.UserInfoType,
 		accessToken: string,
+		refreshToken: string,
 	): Promise<AxiosResponse<Boolean & CommonType.loginApiResponseType[], any>> => {
 		return await axios.post(`/api/v1/user/user`, userInfo, {
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${accessToken}`,
+				'x-refresh-token': `Bearer ${refreshToken}`,
 			},
 		});
 	};

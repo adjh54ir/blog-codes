@@ -30,8 +30,6 @@ public class TokenUtils {
 
     /**
      * JWT_SECRET_KEY 변수값에 환경 변수에서 불러온 SECRET_KEY를 주입합니다.
-     *
-     * @param jwtSecretKey
      */
     public TokenUtils(@Value("${jwt.secret}") String jwtSecretKey) {
         TokenUtils.JWT_SECRET_KEY = Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
@@ -45,8 +43,8 @@ public class TokenUtils {
      */
     private static Date createExpiredDate() {
         Calendar c = Calendar.getInstance();
-//        c.add(Calendar.SECOND, 3);        // 10초
-        c.add(Calendar.HOUR, 1);             // 1시간
+        c.add(Calendar.SECOND, 3);        // 10초
+        // c.add(Calendar.HOUR, 1);             // 1시간
         // c.add(Calendar.HOUR, 8);             // 8시간
         // c.add(Calendar.DATE, 1);             // 1일
         return c.getTime();
@@ -89,25 +87,24 @@ public class TokenUtils {
      * @param token String  : 토큰
      * @return boolean      : 유효한지 여부 반환
      */
-    public static boolean isValidToken(String token) {
+    public static ValidTokenDto isValidToken(String token) {
+        Map<String, Object> result = new HashMap<>();
         try {
             Claims claims = getTokenToClaims(token);
-            log.info("expireTime :" + claims.getExpiration());
+            log.info("expireTime :{}", claims.getExpiration());
             log.info("userId :" + claims.get("userId"));
             log.info("userNm :" + claims.get("userNm"));
-            return true;
+
+            return ValidTokenDto.builder().isValid(true).errorName(null).build();
         } catch (ExpiredJwtException exception) {
-            log.debug("token expired " + token);
-            log.error("Token Expired" + exception);
-            return false;
+            log.error("Token Expired", exception);
+            return ValidTokenDto.builder().isValid(false).errorName("TOKEN_EXPIRED").build();
         } catch (JwtException exception) {
-            log.debug("token expired " + token);
-            log.error("Token Tampered" + exception);
-            return false;
+            log.error("Token Tampered", exception);
+            return ValidTokenDto.builder().isValid(false).errorName("TOKEN_INVALID").build();
         } catch (NullPointerException exception) {
-            log.debug("token expired " + token);
-            log.error("Token is null" + exception);
-            return false;
+            log.error("Token is null", exception);
+            return ValidTokenDto.builder().isValid(false).errorName("TOKEN_NULL").build();
         }
     }
 
@@ -192,6 +189,21 @@ public class TokenUtils {
     public static String getClaimsToUserId(String token) {
         Claims claims = getTokenToClaims(token);
         return claims.get("userId").toString();
+    }
+
+    /**
+     * 'Claims' 내에서 토큰을 기반으로 사용자 정보를 반환하는 메서드
+     *
+     * @param token
+     * @return
+     */
+    public static UserDto getClaimsToUserDto(String token) {
+
+        Claims claims = getTokenToClaims(token);
+        String userId = claims.get("userId").toString();
+        String userNm = claims.get("userNm").toString();
+        return UserDto.builder().userId(userId).userNm(userNm).build();
+
     }
 }
 

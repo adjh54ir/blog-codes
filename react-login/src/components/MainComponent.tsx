@@ -22,13 +22,15 @@ const MainComponenet = () => {
 				console.log('[+] 리소스 접근을 시도합니다.');
 				const accessToken = localStorage.getItem('accessToken');
 				console.log('accessToken :: ', accessToken);
+				const refreshToken = localStorage.getItem('refreshToken');
+				console.log('refreshToken :: ', refreshToken);
 				const userInfo: UserType.UserInfoType = {
 					userId: '',
 					userNm: '',
 					userSt: '',
 				};
 
-				await UserServices.selectUserList(userInfo, accessToken!)
+				await UserServices.selectUserList(userInfo, accessToken!, refreshToken!)
 					.then((res) => {
 						console.log(res.data);
 					})
