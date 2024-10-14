@@ -74,8 +74,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 if (accTokenValidDto.isValid()) {
                     // [STEP4] Claim 내에 사용자 정보를 추출합니다.
                     if (StringUtils.isNotBlank(TokenUtils.getClaimsToUserId(paramAccessToken))) {
-                        chain.doFilter(request, response);      // 리소스로 접근을 허용합니다.
-                        return;
+                        chain.doFilter(request, response);                                              // 리소스로 접근을 허용합니다.
                     } else {
                         throw new Exception("토큰 내에 사용자 아이디가 존재하지 않습니다");    // 사용자 아이디가 존재하지 않는 경우
                     }
