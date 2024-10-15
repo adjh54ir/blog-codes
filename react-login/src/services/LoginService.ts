@@ -2,17 +2,18 @@ import axios, { AxiosResponse } from 'axios';
 import AxiosBlackListIntance from '../common/instance/AxiosBlackListIntance';
 import AxiosCustomInstance from '../common/instance/AxiosCustomInstance';
 import { LoginType } from '../types/LoginType';
+import AxiosTokenProgressIntance from '../common/instance/AxiosTokenProgressIntance';
 
 class LoginService {
 	/**
-	 * 사용자 아이디, 비밀번호를 기반으로 API 호출
+	 * 로그인을 수행합니다.
 	 * @param loginInfo
 	 */
 	login = async (
 		loginInfo: LoginType.LoginType,
 	): Promise<AxiosResponse<Boolean & LoginType.loginApiResponseType, any>> => {
 		try {
-			return await AxiosBlackListIntance.post('/api/v1/user/login', loginInfo);
+			return await AxiosTokenProgressIntance.post('/api/v1/user/login', loginInfo);
 		} catch (error) {
 			throw new Error(`Axios Login Error :${error}`);
 		}

@@ -16,7 +16,7 @@ const AxiosCustomInstance = axios.create({
  * 요청 인터셉터 추가
  * - 요청이 서버로 전송되기 전에 실행이 됩니다.
  */
-AxiosCustomInstance.interceptors.request.use(
+const reqInterceptor = AxiosCustomInstance.interceptors.request.use(
 	(config) => {
 		console.log('[+] 요청 전달 이전에 수행이 됩니다. ', config);
 		return config;
@@ -31,7 +31,7 @@ AxiosCustomInstance.interceptors.request.use(
  * 응답 인터셉터 추가
  * - 서버로부터 응답을 받은 후, 그 응답이 then/catch 핸들러로 전달되기 전에 실행됩니다.
  */
-AxiosCustomInstance.interceptors.response.use(
+const resInterceptor = AxiosCustomInstance.interceptors.response.use(
 	(response) => {
 		console.log('[+] 응답이 정상적으로 수행된 경우 수행이 됩니다. ', response);
 		return response;
@@ -41,4 +41,11 @@ AxiosCustomInstance.interceptors.response.use(
 		return Promise.reject(error);
 	},
 );
+
+
+
+AxiosCustomInstance.interceptors.request.eject(reqInterceptor)
+AxiosCustomInstance.interceptors.response.eject(resInterceptor)
+
+
 export default AxiosCustomInstance;
