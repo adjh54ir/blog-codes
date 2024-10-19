@@ -1,8 +1,6 @@
-import React from 'react';
 import UserServices from '../services/UserServices';
 import { UserType } from '../types/UserTypes';
 import { useNavigate } from 'react-router';
-import { eventWrapper } from '@testing-library/user-event/dist/utils';
 
 const MainComponenet = () => {
 	const navigation = useNavigate();
@@ -19,7 +17,6 @@ const MainComponenet = () => {
 	const apiHandler = (() => {
 		return {
 			accessResource: async () => {
-				console.log('[+] 리소스 접근을 시도합니다.');
 				const userInfo: UserType.UserInfoType = {
 					userId: '',
 					userNm: '',

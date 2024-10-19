@@ -149,7 +149,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
         // [CASE3] 이외 JWT내에서 오류 발생
         else {
-            resultMsg = "OTHER TOKEN ERROR";
+            resultMsg = "OTHER TOKEN ERROR" + e;
         }
         // Custom Error Code 구성
         resultMap.put("status", 403);
