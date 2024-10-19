@@ -8,7 +8,7 @@ import AxiosJwtInstance from '../common/instance/AxiosJwtInstance';
  */
 class UserService {
 	/**
-	 * 사용자 정보 리스트 조회
+	 * 사용자 리스트를 조회합니다.
 	 * @param userInfo
 	 * @returns
 	 */

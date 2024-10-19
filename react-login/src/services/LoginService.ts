@@ -1,10 +1,11 @@
 import { AxiosResponse } from 'axios';
 import AxiosJwtInstance from '../common/instance/AxiosJwtInstance';
 import { LoginType } from '../types/LoginType';
+import AxiosTokenProgressIntance from '../common/instance/AxiosTokenProgressIntance';
 
 class LoginService {
 	/**
-	 * 사용자 아이디, 비밀번호를 기반으로 API 호출
+	 * 로그인을 수행합니다.
 	 * @param loginInfo
 	 */
 	login = async (
