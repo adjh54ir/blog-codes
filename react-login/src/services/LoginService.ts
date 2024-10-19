@@ -1,6 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import AxiosBlackListIntance from '../common/instance/AxiosBlackListIntance';
-import AxiosCustomInstance from '../common/instance/AxiosCustomInstance';
+import { AxiosResponse } from 'axios';
+import AxiosJwtInstance from '../common/instance/AxiosJwtInstance';
 import { LoginType } from '../types/LoginType';
 
 class LoginService {
@@ -11,11 +10,7 @@ class LoginService {
 	login = async (
 		loginInfo: LoginType.LoginType,
 	): Promise<AxiosResponse<Boolean & LoginType.loginApiResponseType, any>> => {
-		try {
-			return await AxiosBlackListIntance.post('/api/v1/user/login', loginInfo);
-		} catch (error) {
-			throw new Error(`Axios Login Error :${error}`);
-		}
+		return await AxiosJwtInstance.post('/api/v1/user/login', loginInfo);
 	};
 }
 
