@@ -43,7 +43,7 @@ public class TokenUtils {
      */
     private static Date createExpiredDate() {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.SECOND, 3);        // 10초
+        c.add(Calendar.SECOND, 5);        // 10초
         // c.add(Calendar.HOUR, 1);             // 1시간
         // c.add(Calendar.HOUR, 8);             // 8시간
         // c.add(Calendar.DATE, 1);             // 1일
@@ -88,13 +88,11 @@ public class TokenUtils {
      * @return boolean      : 유효한지 여부 반환
      */
     public static ValidTokenDto isValidToken(String token) {
-        Map<String, Object> result = new HashMap<>();
         try {
             Claims claims = getTokenToClaims(token);
             log.info("expireTime :{}", claims.getExpiration());
             log.info("userId :" + claims.get("userId"));
             log.info("userNm :" + claims.get("userNm"));
-
             return ValidTokenDto.builder().isValid(true).errorName(null).build();
         } catch (ExpiredJwtException exception) {
             log.error("Token Expired", exception);
@@ -135,6 +133,7 @@ public class TokenUtils {
      */
     private static Date createRefreshTokenExpiredDate() {
         Calendar c = Calendar.getInstance();
+//        c.add(Calendar.SECOND, 10);        // 10초
         c.add(Calendar.DATE, 14);
         return c.getTime();
     }

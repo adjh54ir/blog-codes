@@ -24,7 +24,7 @@ const MainComponenet = () => {
 				};
 				await UserServices.selectUserList(userInfo)
 					.then((res) => {
-						console.log(res.data);
+						console.log('결과 값 :: ', res.data);
 					})
 					.catch((error) => {
 						console.log(`error :: ${error} `);
