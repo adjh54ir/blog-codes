@@ -39,14 +39,21 @@ public class TokenUtils {
     /**
      * '토큰의 만료기간'을 지정하는 메서드
      *
+     * @param isAccessToken : AccessToken 인지 여부
      * @return {Date} Calendar
      */
-    private static Date createExpiredDate() {
+    private static Date createExpiredDate(boolean isAccessToken) {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.SECOND, 5);        // 10초
-        // c.add(Calendar.HOUR, 1);             // 1시간
-        // c.add(Calendar.HOUR, 8);             // 8시간
-        // c.add(Calendar.DATE, 1);             // 1일
+
+        if (isAccessToken) {
+            c.add(Calendar.SECOND, 5);        // 10초
+            // c.add(Calendar.HOUR, 1);             // 1시간
+            // c.add(Calendar.HOUR, 8);             // 8시간
+            // c.add(Calendar.DATE, 1);             // 1일
+        } else {
+            //        c.add(Calendar.SECOND, 10);        // 10초
+            c.add(Calendar.DATE, 14);
+        }
         return c.getTime();
     }
 
@@ -65,18 +72,17 @@ public class TokenUtils {
     /**
      * '사용자 정보' 기반으로 'Claims' 생성하는 메서드
      *
-     * @param userDto 사용자 정보
+     * @param userDto       사용자 정보
+     * @param isAccessToken : AccessToken 인지 여부
      * @return Map<String, Object>
      */
-    private static Map<String, Object> createClaims(UserDto userDto) {
+    private static Map<String, Object> createClaims(UserDto userDto, boolean isAccessToken) {
         // 공개 클레임에 사용자의 이름과 이메일을 설정하여 정보를 조회할 수 있다.
         Map<String, Object> claims = new HashMap<>();
-
-        log.info("userId :" + userDto.getUserId());
-        log.info("userNm :" + userDto.getUserNm());
-
         claims.put("userId", userDto.getUserId());
-        claims.put("userNm", userDto.getUserNm());
+        if (isAccessToken) {
+            claims.put("userNm", userDto.getUserNm());
+        }
         return claims;
     }
 
@@ -114,42 +120,31 @@ public class TokenUtils {
      * @return String : 토큰
      */
     public static String generateJwt(UserDto userDto) {
-        log.debug("생성된 JWT Secret Key: " + JWT_SECRET_KEY);
         // 사용자 시퀀스를 기준으로 JWT 토큰을 발급하여 반환해줍니다.
         JwtBuilder builder = Jwts.builder()
-                .setHeader(createHeader())                              // Header 구성
-                .claims(createClaims(userDto))                          // Payload - Claims 구성
+                .setHeader(createHeader())                                  // Header 구성
+                .claims(createClaims(userDto, true))        // Payload - Claims 구성
                 .subject(String.valueOf(userDto.getUserSq()))           // Payload - Subject 구성
                 .signWith(JWT_SECRET_KEY)                               // Signature 구성
-                .expiration(createExpiredDate());                       // Expired Date 구성
+                .expiration(createExpiredDate(true));                       // Expired Date 구성
         return builder.compact();
     }
 
-
     /**
-     * Refresh Token으로 기간을 14일로 지정합니다.
+     * ReFresh Token을 생성합니다.
      *
+     * @param userDto
      * @return
      */
-    private static Date createRefreshTokenExpiredDate() {
-        Calendar c = Calendar.getInstance();
-//        c.add(Calendar.SECOND, 10);        // 10초
-        c.add(Calendar.DATE, 14);
-        return c.getTime();
-    }
-
     public static String generateRefreshToken(UserDto userDto) {
-
-        log.debug("JWT Secret Key: " + JWT_SECRET_KEY);
         return Jwts.builder()
                 .setHeader(createHeader())
-                .claims(createClaims(userDto))
+                .claims(createClaims(userDto, false))
                 .subject(String.valueOf(userDto.getUserSq()))
                 .signWith(JWT_SECRET_KEY)
-                .expiration(createRefreshTokenExpiredDate())
+                .expiration(createExpiredDate(false))
                 .compact();
     }
-
 
     /**
      * 'Header' 내에서 'Token' 정보를 반환하는 메서드
@@ -194,15 +189,18 @@ public class TokenUtils {
      * 'Claims' 내에서 토큰을 기반으로 사용자 정보를 반환하는 메서드
      *
      * @param token
-     * @return
+     * @param isAccessToken : AccessToken 인지 여부
+     * @return Claim 내의 사용자 정보를 반환합니다.
      */
-    public static UserDto getClaimsToUserDto(String token) {
-
+    public static UserDto getClaimsToUserDto(String token, boolean isAccessToken) {
         Claims claims = getTokenToClaims(token);
         String userId = claims.get("userId").toString();
-        String userNm = claims.get("userNm").toString();
-        return UserDto.builder().userId(userId).userNm(userNm).build();
-
+        if (isAccessToken) {
+            String userNm = claims.get("userNm").toString();
+            return UserDto.builder().userId(userId).userNm(userNm).build();
+        } else {
+            return UserDto.builder().userId(userId).build();
+        }
     }
 }
 
