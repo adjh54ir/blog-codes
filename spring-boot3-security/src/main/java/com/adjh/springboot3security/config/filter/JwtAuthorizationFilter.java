@@ -56,63 +56,57 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
 
         try {
-            // [STEP2] Client 호출 내에서 Header의 Access Token, Refresh Token 정보를 추출합니다.
+            // [STEP2] Header 내에 Authorization, x-refresh-token를 확인하여 접근/갱신 토큰의 존재여부를 체크합니다.
             String accessTokenHeader = request.getHeader(ACCESS_TOKEN_HEADER_KEY);
             String refreshTokenHeader = request.getHeader(REFRESH_TOKEN_HEADER_KEY);
 
-            // [STEP2-1] accessToken, refreshToken 존재여부를 체크합니다.
+            // [STEP2-1] 토큰이 존재하면 다음 프로세스를 진행합니다.
             if (StringUtils.isNotBlank(accessTokenHeader) || StringUtils.isNotBlank(refreshTokenHeader)) {
 
-                // [STEP3] Header 내에 accessToken, refreshToken 값을 추출합니다.
                 String paramAccessToken = TokenUtils.getHeaderToToken(accessTokenHeader);
                 String paramRefreshToken = TokenUtils.getHeaderToToken(refreshTokenHeader);
 
-                // [STEP4] 우선, 접근 토큰이 유효한지 확인합니다.
+                // [STEP3] 접근 토큰(Access Token)의 유효성을 체크합니다.
                 ValidTokenDto accTokenValidDto = TokenUtils.isValidToken(paramAccessToken);
 
-                // [STEP5-1] accessToken이 유효한 경우
+                // [STEP3-1] 접근 토큰이 유효하다면 다음 프로세스를 진행합니다.
                 if (accTokenValidDto.isValid()) {
-                    // [STEP4] Claim 내에 사용자 정보를 추출합니다.
+                    // [STEP4] 접근 토큰(Access Token)내에 전달하려는 사용자 정보를 확인합니다.
+                    // [STEP4-1] 사용자 정보가 존재한다면 다음 필터로 이동을 합니다.
                     if (StringUtils.isNotBlank(TokenUtils.getClaimsToUserId(paramAccessToken))) {
-                        chain.doFilter(request, response);                                              // 리소스로 접근을 허용합니다.
-                    } else {
-                        throw new Exception("토큰 내에 사용자 아이디가 존재하지 않습니다");    // 사용자 아이디가 존재하지 않는 경우
+                        chain.doFilter(request, response);
+                    }
+                    // [STEP4-2] 사용자 정보가 존재하지 않는 다면 에러 메시지를 클라이언트에게 전달합니다.
+                    else {
+                        throw new Exception("토큰 내에 사용자 아이디가 존재하지 않습니다");
                     }
                 }
-                // [STEP5-2] accessToken이 유효하지 않은 경우 : 토큰시간이 만료된 상태에 대해서만 체크를 수행합니다.
+                // [STEP3-2] 접근 토큰이 존재하지 않으면 접근 토큰의 에러 정보를 확인합니다.
                 else {
-                    // [STEP6] 에러 메시지를 확인하여 만료가 된 경우 => Refresh 토큰을 확인합니다.
+                    // [STEP5] 접근 토큰(Access Token)에서 발생한 오류가 만료된 (TOKEN_EXPIRED)오류 인지를 체크합니다.
+                    // [STEP5-1] 오류가 토큰이 만료된 오류 인 경우 다음 프로세스를 진행합니다.
                     if (accTokenValidDto.getErrorName().equals("TOKEN_EXPIRED")) {
 
-                        // [STEP7-1] Refresh Token이 유효한 경우
+                        // [STEP6] 리프레시 토큰(Refresh Token)이 유효한지 체크를 합니다.
+                        // [STEP6-1] 리프레시 토큰이 유효하다면 접근 토큰을 갱신합니다. 갱신하여 재 생성된 접근 토큰을 반환합니다.
                         if (TokenUtils.isValidToken(paramRefreshToken).isValid()) {
-                            // ⭐️⭐️⭐️ 해당 경우에 refresh 토큰을 기반으로 access 토큰을 발급합니다.
-                            System.out.println("[+] Refresh Token이 유효한 경우 : 토큰을 재발급 합니다");
-
                             // Token 내에 사용자 정보를 추출하고 이를 기반으로 토큰을 생성합니다.
                             UserDto claimsToUserDto = TokenUtils.getClaimsToUserDto(paramRefreshToken);
-                            String token = TokenUtils.generateJwt(claimsToUserDto);
-
-                            Map<String, Object> resultMap = new HashMap<>();
-                            ObjectMapper om = new ObjectMapper();
-                            resultMap.put("resultCode", 200);
-                            resultMap.put("failMsg", null);
-                            resultMap.put("accessToken", token);
-                            response.setCharacterEncoding("UTF-8");
-                            response.setContentType("application/json");
-                            PrintWriter printWriter = response.getWriter();
-                            printWriter.write(om.writeValueAsString(resultMap));
-                            printWriter.flush();
-                            printWriter.close();
+                            String token = TokenUtils.generateJwt(claimsToUserDto);         // 접근 토큰(AccessToken)을 새로 발급합니다.
+                            sendToClientAccessToken(token, response);                       // 발급한 접근 토큰을 클라이언트에게 전달합니다.
+                            chain.doFilter(request, response);                              // 리소스로 접근을 허용합니다.
                         }
-                        // [STEP7-2] Refresh Token이 유효하지 않은 경우 => 재 로그인 요청
+                        // [STEP6-2] 리프레시 토큰이 유효하지 않다면 에러 메시지를 클라이언트에게 전달합니다.
                         else {
                             throw new Exception("재 로그인이 필요합니다.");
                         }
                     }
+                    // [STEP5-2] 오류가 토큰이 만료된 경우가 아닌 경우 에러 메시지를 클라이언트에게 전달합니다.
                     throw new Exception("토큰이 유효하지 않습니다.");                      // 토큰이 유효하지 않은 경우
                 }
-            } else {
+            }
+            // [STEP2-2] 토큰이 존재하지 않으면 “토큰이 존재하지 않습니다”라는 에러메시지를 클라이언트에게 전달합니다.
+            else {
                 throw new Exception("토큰이 존재하지 않습니다.");                          // 토큰이 존재하지 않는 경우
             }
         }
@@ -127,6 +121,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             printWriter.close();
         }
     }
+
 
     /**
      * JWT 내에 Exception 발생 시 JSON 형태의 예외 응답값을 구성하는 메서드
@@ -163,5 +158,30 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             log.error("내부적으로 JSON Parsing Error 발생 " + err);
             return "{}"; // 빈 JSON 객체를 반환
         }
+    }
+
+    /**
+     * 클라이언트에게 접근 토큰을 전달합니다.
+     *
+     * @param token
+     * @param response
+     */
+    private void sendToClientAccessToken(String token, HttpServletResponse response) {
+        Map<String, Object> resultMap = new HashMap<>();
+        ObjectMapper om = new ObjectMapper();
+        resultMap.put("status", 401);
+        resultMap.put("failMsg", null);
+        resultMap.put("accessToken", token);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        try {
+            PrintWriter printWriter = response.getWriter();
+            printWriter.write(om.writeValueAsString(resultMap));
+            printWriter.flush();
+            printWriter.close();
+        } catch (IOException e) {
+            log.error("[-] 결과값 생성에 실패하였습니다 : {}", e);
+        }
+
     }
 }

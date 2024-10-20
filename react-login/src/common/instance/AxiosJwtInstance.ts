@@ -21,6 +21,8 @@ const AxiosJwtInstance = axios.create({
  */
 AxiosJwtInstance.interceptors.request.use(
 	(config) => {
+		console.log('[+] 요청이 정상적으로 수행된 경우 수행이 됩니다. ', config);
+
 		// BLACK_LIST 내에 요청 URL이 포함되는지 확인합니다.
 		if (!BLACK_LIST.some((url) => config.url?.includes(url))) {
 			const accessToken = localStorage.getItem('accessToken'); // 접근 토큰을 로컬스토리지 내에서 가져옵니다.
@@ -28,7 +30,7 @@ AxiosJwtInstance.interceptors.request.use(
 
 			// 발급받은 토큰을 확인합니다.
 			if (accessToken && refreshToken) {
-				console.log('[+] 발급받은 토큰을 Header내에 추가합니다.');
+				// console.log('[+] 발급받은 토큰을 Header내에 추가합니다.');
 				config.headers['Authorization'] = `Bearer ${accessToken}`;
 				config.headers['x-refresh-token'] = `Bearer ${refreshToken}`;
 			}
@@ -48,6 +50,14 @@ AxiosJwtInstance.interceptors.request.use(
 AxiosJwtInstance.interceptors.response.use(
 	(response) => {
 		console.log('[+] 응답이 정상적으로 수행된 경우 수행이 됩니다. ', response);
+
+		// 상태코드가 401이고 accessToken이 존재하면, 토큰을 재발급 하고 API를 재 호출합니다
+		if (response.data.status === 401 && response.data.accessToken) {
+			const responseConfig = response.config; // 요청에 대한 환경 정보를 다시 가져옵니다.
+			localStorage.setItem('accessToken', response.data.accessToken); // 인증 토큰(access Token)을 재 갱신합니다.
+			responseConfig.headers['Authorization'] = response.data.accessToken; // API 재 호출 시 Authorization 값을 갱신하여 전달합니다.
+			return AxiosJwtInstance(responseConfig); // API를 재 호출합니다.
+		}
 		return response;
 	},
 	(error) => {
