@@ -91,7 +91,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                         // [STEP6-1] 리프레시 토큰이 유효하다면 접근 토큰을 갱신합니다. 갱신하여 재 생성된 접근 토큰을 반환합니다.
                         if (TokenUtils.isValidToken(paramRefreshToken).isValid()) {
                             // Token 내에 사용자 정보를 추출하고 이를 기반으로 토큰을 생성합니다.
-                            UserDto claimsToUserDto = TokenUtils.getClaimsToUserDto(paramRefreshToken);
+                            UserDto claimsToUserDto = TokenUtils.getClaimsToUserDto(paramRefreshToken, false);
+                            System.out.println("claimsToUserDto ::  " + claimsToUserDto);
                             String token = TokenUtils.generateJwt(claimsToUserDto);         // 접근 토큰(AccessToken)을 새로 발급합니다.
                             sendToClientAccessToken(token, response);                       // 발급한 접근 토큰을 클라이언트에게 전달합니다.
                             chain.doFilter(request, response);                              // 리소스로 접근을 허용합니다.
