@@ -6,14 +6,15 @@
     <!--로그인-->
     <select id="login" resultType="userDto">
         SELECT t1.*
-        FROM tb_user t1
+        FROM test_scma.tb_user t1
         WHERE user_id = #{userId}
     </select>
 
     <!--사용자 리스트 조회 -->
     <select id="selectUserList" resultType="userDto">
         SELECT t1.*
-        FROM tb_user t1
+        FROM test_scma.tb_user t1
+        WHERE t1.user_st = 'S'
     </select>
 
 
