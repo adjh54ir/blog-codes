@@ -10,8 +10,20 @@ spring:
       pool-name: Hikari Connection Pool  # Alias
       maximum-pool-size: 5
 
+# Spring Boot Log4j2 Configuration
+logging:
+  # default Logging 프레임워크 설정 파일을 참조
+  config: classpath:log4j2/log4j2-local.yml
+
+  # Hikari Connection Pool Debug
+  level:
+    # Tomcat Internal Log
+    org:
+      apache:
+        tomcat: false
+        catalina: false
 
 # Spring Boot Custom Value
 jwt:
-  # 2. spring Boot Security + Key 설정
-  secret: test
+  # 2. spring Boot Security + Key 설정(* 반드시 32이상 글자로 구성되어야 함)
+  secret: 7Hs9x2mK4Lp6Rw3tYzAqBcDfGjNvXeUi
