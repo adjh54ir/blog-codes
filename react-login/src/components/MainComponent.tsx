@@ -1,54 +1,29 @@
-import UserServices from '../services/UserServices';
-import { UserType } from '../types/UserTypes';
 import { useNavigate } from 'react-router';
 
 const MainComponenet = () => {
 	const navigation = useNavigate();
 
-	const eventHandler = (() => {
+	const moveToHandler = (() => {
 		return {
-			logout: () => {
-				localStorage.removeItem('accessToken');
-				navigation('/');
-			},
-		};
-	})();
-
-	const apiHandler = (() => {
-		return {
-			accessResource: async () => {
-				const userInfo: UserType.UserInfoType = {
-					userId: '',
-					userNm: '',
-					userSt: '',
-				};
-				await UserServices.selectUserList(userInfo)
-					.then((res) => {
-						console.log('결과 값 :: ', res.data);
-					})
-					.catch((error) => {
-						console.log(`error :: ${error} `);
-					});
-			},
+			login: () => navigation('/login'),
+			oAuthLogin: () => navigation('/oAuthLogin'),
 		};
 	})();
 
 	return (
-		<>
-			<h1>로그인에 성공하였습니다.</h1>
-
-			<div>
-				<button type='button' onClick={apiHandler.accessResource}>
-					리소스 접근
+		<div style={{ width: '100%', textAlign: 'center' }}>
+			<div style={{ marginBottom: 100 }}>
+				<h1>로그인을 선택하세요.</h1>
+			</div>
+			<div style={{ flexDirection: 'row' }}>
+				<button type='button' style={{ width: 200, height: 100 }} onClick={moveToHandler.login}>
+					JWT 기반 일반 로그인
+				</button>
+				<button type='button' style={{ width: 200, height: 100, marginLeft: 100 }} onClick={moveToHandler.oAuthLogin}>
+					OAuth 로그인
 				</button>
 			</div>
-
-			<div>
-				<button type='button' onClick={eventHandler.logout}>
-					로그아웃
-				</button>
-			</div>
-		</>
+		</div>
 	);
 };
 export default MainComponenet;
