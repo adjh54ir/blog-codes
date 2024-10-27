@@ -17,7 +17,7 @@ const OauthLoginComponent = () => {
 	const oAuthLoginHandler = (() => {
 		return {
 			kakao: () => {
-				console.log("카카오 로그인")
+				console.log('카카오 로그인');
 			},
 		};
 	})();
