@@ -5,6 +5,8 @@ import com.adjh.springbootoauth2.config.filter.JwtAuthorizationFilter;
 import com.adjh.springbootoauth2.config.handler.CustomAuthFailureHandler;
 import com.adjh.springbootoauth2.config.handler.CustomAuthSuccessHandler;
 import com.adjh.springbootoauth2.config.handler.CustomAuthenticationProvider;
+import com.adjh.springbootoauth2.config.handler.CustomOAuth2SuccessHandler;
+import com.adjh.springbootoauth2.service.CustomOAuth2UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +41,13 @@ import java.util.List;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+    private final CustomOAuth2UserService oAuth2UserService;
+    private final CustomOAuth2SuccessHandler oAuth2SuccessHandler;
+
+    public WebSecurityConfig(CustomOAuth2UserService oAuth2UserService, CustomOAuth2SuccessHandler oAuth2SuccessHandler) {
+        this.oAuth2UserService = oAuth2UserService;
+        this.oAuth2SuccessHandler = oAuth2SuccessHandler;
+    }
 
     /**
      * 1. 정적 자원(Resource)에 대해서 인증된 사용자가 정적 자원의 접근에 대해 ‘인가’에 대한 설정을 담당하는 메서드입니다.
@@ -68,9 +77,12 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))   // 세션 미사용 (JWT 사용)
                 .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)      // 사용자 인증(커스텀 필터)
                 .formLogin(AbstractHttpConfigurer::disable)                                                     // 폼 로그인 비활성화
+                // [Spring Boot OAuth 2.0] OAuth 2.0 설정 : 로그인 기능에 대한 커스텀 설정을 적용합니다.
+                .oauth2Login(oauth -> oauth.userInfoEndpoint(oauthConfig ->
+                                oauthConfig.userService(oAuth2UserService))                             // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때의 설정을 담당
+                        .successHandler(oAuth2SuccessHandler))                                          // 로그인 성공 시 핸들러
                 .build();
     }
-
 
     /**
      * 3. authenticate 의 인증 메서드를 제공하는 매니져로'Provider'의 인터페이스를 의미합니다.
