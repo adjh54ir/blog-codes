@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import LoginService from '../../services/LoginService';
 import UserServices from '../../services/UserServices';
 import { UserType } from '../../types/UserTypes';
 
@@ -8,7 +9,18 @@ const LoginSucessComponent = () => {
 
 	const eventHandler = (() => {
 		return {
-			logout: () => {
+			logout: async() => {
+				/**
+				 * 로그아웃 서비스 호출
+				 */
+				await LoginService.logout()
+					.then((res) => {
+						console.log('결과 값 :: ', res.data);
+					})
+					.catch((error) => {
+						console.log(`error :: ${error} `);
+					});
+
 				localStorage.removeItem('accessToken');
 				navigation('/login');
 			},
@@ -23,6 +35,9 @@ const LoginSucessComponent = () => {
 					userNm: '',
 					userSt: '',
 				};
+
+				
+
 				await UserServices.selectUserList(userInfo)
 					.then((res) => {
 						console.log('결과 값 :: ', res.data);

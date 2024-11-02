@@ -5,6 +5,8 @@ import com.adjh.springboot3security.config.filter.JwtAuthorizationFilter;
 import com.adjh.springboot3security.config.handler.CustomAuthFailureHandler;
 import com.adjh.springboot3security.config.handler.CustomAuthSuccessHandler;
 import com.adjh.springboot3security.config.handler.CustomAuthenticationProvider;
+import com.adjh.springboot3security.config.handler.CustomLogoutHandler;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -15,10 +17,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -68,6 +72,7 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))   // 세션 미사용 (JWT 사용)
                 .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)      // 사용자 인증(커스텀 필터)
                 .formLogin(AbstractHttpConfigurer::disable)                                                     // 폼 로그인 비활성화
+                .logout(this::configureLogout)                                                                  // 로그아웃 처리를 합니다.
                 .build();
     }
 
@@ -167,5 +172,31 @@ public class WebSecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);             // 모든 경로에 대해 이 설정 적용
         return source;
+    }
+
+
+    /**
+     * 11. 로그아웃에 대한 설정을 관리합니다.
+     *
+     * @param logout
+     */
+    private void configureLogout(LogoutConfigurer<HttpSecurity> logout) {
+        logout
+                // 1. 로그아웃 엔드포인트를 지정합니다.
+                .logoutUrl("/api/v1/user/logout")
+                // 2. 엔드포인트 호출에 대한 처리 Handler를 구성합니다.
+                .addLogoutHandler(customLogoutHandler())
+                // 3. 로그아웃 처리가 완료되었을때 처리를 수행합니다.
+                .logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK));
+    }
+
+    /**
+     * 12. 로그아웃 처리를 위한 Handler를 커스텀으로 구성합니다.
+     *
+     * @return
+     */
+    @Bean
+    public LogoutHandler customLogoutHandler() {
+        return new CustomLogoutHandler();
     }
 }

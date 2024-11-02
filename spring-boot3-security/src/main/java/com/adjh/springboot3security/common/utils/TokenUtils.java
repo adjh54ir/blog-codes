@@ -46,7 +46,7 @@ public class TokenUtils {
         Calendar c = Calendar.getInstance();
 
         if (isAccessToken) {
-            c.add(Calendar.SECOND, 5);        // 10초
+            c.add(Calendar.MINUTE, 15);        // 10초
             // c.add(Calendar.HOUR, 1);             // 1시간
             // c.add(Calendar.HOUR, 8);             // 8시간
             // c.add(Calendar.DATE, 1);             // 1일
