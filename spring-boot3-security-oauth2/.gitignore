@@ -2,6 +2,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,gradle,intellij,git
 
 /logs
+application-oauth2-loc.yml
+application-oauth2.yml
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:

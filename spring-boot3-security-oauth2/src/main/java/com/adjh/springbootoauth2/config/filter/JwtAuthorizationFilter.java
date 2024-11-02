@@ -42,7 +42,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             "/api/v1/user/login",
             "/api/v1/token/token",
             "/user/login",
-            "/token/token"
+            "/token/token",
+            "/api/v1/oauth2/kakao",
+            "/api/v1/oauth2/naver"
+
+
     );
 
     @Override
@@ -59,6 +63,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             // [STEP2] Header 내에 Authorization, x-refresh-token 를 확인하여 접근/갱신 토큰의 존재여부를 체크합니다.
             String accessTokenHeader = request.getHeader(ACCESS_TOKEN_HEADER_KEY);
             String refreshTokenHeader = request.getHeader(REFRESH_TOKEN_HEADER_KEY);
+
+            log.debug("접근 로그 : ", accessTokenHeader);
+            log.debug("갱신 로그 : ", refreshTokenHeader);
 
             // [STEP2-1] 토큰이 존재하면 다음 프로세스를 진행합니다.
             if (StringUtils.isNotBlank(accessTokenHeader) || StringUtils.isNotBlank(refreshTokenHeader)) {

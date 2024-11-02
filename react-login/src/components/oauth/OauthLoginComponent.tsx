@@ -14,14 +14,29 @@ const OauthLoginComponent = () => {
 		userPw: '',
 	});
 
+
+	
 	const oAuthLoginHandler = (() => {
 		return {
+			/**
+			 * 카카오 로그인
+			 */
 			kakao: () => {
-				console.log('카카오 로그인');
+				const kakaoAuthUrl = process.env.REACT_APP_API_OAUTH2_KAKAO_AUTH_URL;
+				const kakaoClientId = process.env.REACT_APP_API_OAUTH2_KAKAO_CLIENT_ID;
+				const kakaoRedirectUrl = process.env.REACT_APP_API_OAUTH2_KAKAO_REDIRECT_URL;
+				window.location.href = `${kakaoAuthUrl}?client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUrl}&response_type=code`;
 			},
+			/**
+			 * 네이버 로그인
+			 */
 			naver: () => {
-				console.log("네이버 로그인")
-			}
+				const naverAuthUrl = process.env.REACT_APP_API_OAUTH2_NAVER_AUTH_URL;
+				const naverClientId = process.env.REACT_APP_API_OAUTH2_NAVER_CLIENT_ID;
+				const naverRedirectUrl = process.env.REACT_APP_API_OAUTH2_NAVER_REDIRECT_URL;
+				window.location.href = `${naverAuthUrl}?client_id=${naverClientId}&redirect_uri=${naverRedirectUrl}&response_type=code&state=RANDOM_STATE`;
+
+			},
 		};
 	})();
 
