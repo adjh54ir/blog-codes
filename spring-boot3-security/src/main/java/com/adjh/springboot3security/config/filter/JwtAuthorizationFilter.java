@@ -3,6 +3,7 @@ package com.adjh.springboot3security.config.filter;
 import com.adjh.springboot3security.common.utils.TokenUtils;
 import com.adjh.springboot3security.model.dto.UserDto;
 import com.adjh.springboot3security.model.dto.ValidTokenDto;
+import com.adjh.springboot3security.service.TokenBlackListService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -34,6 +36,9 @@ import java.util.Map;
 @Slf4j
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
+
+    @Autowired
+    private TokenBlackListService tokenBlackListService;
 
     private static final String HTTP_METHOD_OPTIONS = "OPTIONS";
     private static final String ACCESS_TOKEN_HEADER_KEY = "Authorization";
@@ -60,35 +65,41 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             String accessTokenHeader = request.getHeader(ACCESS_TOKEN_HEADER_KEY);
             String refreshTokenHeader = request.getHeader(REFRESH_TOKEN_HEADER_KEY);
 
+
             // [STEP2-1] 토큰이 존재하면 다음 프로세스를 진행합니다.
             if (StringUtils.isNotBlank(accessTokenHeader) || StringUtils.isNotBlank(refreshTokenHeader)) {
 
                 String paramAccessToken = TokenUtils.getHeaderToToken(accessTokenHeader);
                 String paramRefreshToken = TokenUtils.getHeaderToToken(refreshTokenHeader);
 
-                // [STEP3] 접근 토큰(Access Token)의 유효성을 체크합니다.
+                // [STEP3] 블랙리스트에 포함된 토큰으로 접근하는 경우, 이를 막아줍니다.
+                if (tokenBlackListService.isContainToken(paramAccessToken)) {
+                    throw new Exception("<< 경고 >>만료된 토큰으로 접근하려합니다!!!");
+                }
+
+                // [STEP4] 접근 토큰(Access Token)의 유효성을 체크합니다.
                 ValidTokenDto accTokenValidDto = TokenUtils.isValidToken(paramAccessToken);
 
-                // [STEP3-1] 접근 토큰이 유효하다면 다음 프로세스를 진행합니다.
+                // [STEP5-1] 접근 토큰이 유효하다면 다음 프로세스를 진행합니다.
                 if (accTokenValidDto.isValid()) {
-                    // [STEP4] 접근 토큰(Access Token)내에 전달하려는 사용자 정보를 확인합니다.
-                    // [STEP4-1] 사용자 정보가 존재한다면 다음 필터로 이동을 합니다.
+                    // [STEP6] 접근 토큰(Access Token)내에 전달하려는 사용자 정보를 확인합니다.
+                    // [STEP6-1] 사용자 정보가 존재한다면 다음 필터로 이동을 합니다.
                     if (StringUtils.isNotBlank(TokenUtils.getClaimsToUserId(paramAccessToken))) {
                         chain.doFilter(request, response);
                     }
-                    // [STEP4-2] 사용자 정보가 존재하지 않는 다면 에러 메시지를 클라이언트에게 전달합니다.
+                    // [STEP6-2] 사용자 정보가 존재하지 않는 다면 에러 메시지를 클라이언트에게 전달합니다.
                     else {
                         throw new Exception("토큰 내에 사용자 아이디가 존재하지 않습니다");
                     }
                 }
-                // [STEP3-2] 접근 토큰이 존재하지 않으면 접근 토큰의 에러 정보를 확인합니다.
+                // [STEP5-2] 접근 토큰이 존재하지 않으면 접근 토큰의 에러 정보를 확인합니다.
                 else {
-                    // [STEP5] 접근 토큰(Access Token)에서 발생한 오류가 만료된 (TOKEN_EXPIRED)오류 인지를 체크합니다.
-                    // [STEP5-1] 오류가 토큰이 만료된 오류 인 경우 다음 프로세스를 진행합니다.
+                    // [STEP6] 접근 토큰(Access Token)에서 발생한 오류가 만료된 (TOKEN_EXPIRED)오류 인지를 체크합니다.
+                    // [STEP6-1] 오류가 토큰이 만료된 오류 인 경우 다음 프로세스를 진행합니다.
                     if (accTokenValidDto.getErrorName().equals("TOKEN_EXPIRED")) {
 
-                        // [STEP6] 리프레시 토큰(Refresh Token)이 유효한지 체크를 합니다.
-                        // [STEP6-1] 리프레시 토큰이 유효하다면 접근 토큰을 갱신합니다. 갱신하여 재 생성된 접근 토큰을 반환합니다.
+                        // [STEP7] 리프레시 토큰(Refresh Token)이 유효한지 체크를 합니다.
+                        // [STEP7-1] 리프레시 토큰이 유효하다면 접근 토큰을 갱신합니다. 갱신하여 재 생성된 접근 토큰을 반환합니다.
                         if (TokenUtils.isValidToken(paramRefreshToken).isValid()) {
                             // Token 내에 사용자 정보를 추출하고 이를 기반으로 토큰을 생성합니다.
                             UserDto claimsToUserDto = TokenUtils.getClaimsToUserDto(paramRefreshToken, false);
@@ -97,12 +108,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                             sendToClientAccessToken(token, response);                       // 발급한 접근 토큰을 클라이언트에게 전달합니다.
                             chain.doFilter(request, response);                              // 리소스로 접근을 허용합니다.
                         }
-                        // [STEP6-2] 리프레시 토큰이 유효하지 않다면 에러 메시지를 클라이언트에게 전달합니다.
+                        // [STEP7-2] 리프레시 토큰이 유효하지 않다면 에러 메시지를 클라이언트에게 전달합니다.
                         else {
                             throw new Exception("재 로그인이 필요합니다.");
                         }
                     }
-                    // [STEP5-2] 오류가 토큰이 만료된 경우가 아닌 경우 에러 메시지를 클라이언트에게 전달합니다.
+                    // [STEP7-2] 오류가 토큰이 만료된 경우가 아닌 경우 에러 메시지를 클라이언트에게 전달합니다.
                     throw new Exception("토큰이 유효하지 않습니다.");                      // 토큰이 유효하지 않은 경우
                 }
             }
