@@ -9,6 +9,11 @@ spring:
       password: qwer1234
       pool-name: Hikari Connection Pool  # Alias
       maximum-pool-size: 5
+  # 2. Spring Boot Redis 설정
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 # Spring Boot Log4j2 Configuration
 logging:

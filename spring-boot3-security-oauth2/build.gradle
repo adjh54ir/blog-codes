@@ -35,6 +35,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-log4j2:${bootVer}"             // Spring Boot Log4j2
     implementation "org.springframework.boot:spring-boot-starter-security:${bootVer}"           // Spring Boot Security
     implementation "org.springframework.boot:spring-boot-starter-oauth2-client:${bootVer}"       // Spring Boot OAuth 2.0 Client
+    implementation "org.springframework.boot:spring-boot-starter-data-redis:${bootVer}"         // Spring Boot Data Redis
 
     // [OpenSource]
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'                  // MyBatis

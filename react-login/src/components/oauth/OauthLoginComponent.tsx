@@ -14,8 +14,6 @@ const OauthLoginComponent = () => {
 		userPw: '',
 	});
 
-
-	
 	const oAuthLoginHandler = (() => {
 		return {
 			/**
@@ -35,7 +33,6 @@ const OauthLoginComponent = () => {
 				const naverClientId = process.env.REACT_APP_API_OAUTH2_NAVER_CLIENT_ID;
 				const naverRedirectUrl = process.env.REACT_APP_API_OAUTH2_NAVER_REDIRECT_URL;
 				window.location.href = `${naverAuthUrl}?client_id=${naverClientId}&redirect_uri=${naverRedirectUrl}&response_type=code&state=RANDOM_STATE`;
-
 			},
 		};
 	})();
@@ -54,14 +51,13 @@ const OauthLoginComponent = () => {
 				}}>
 				<div style={{}}>
 					<img
-						style={{ width: 150, height: 50 }}
+						style={{ width: 150, height: 40, marginRight: 40 }}
 						src={'assets/icons/kakao_login_medium_narrow.png'}
 						onClick={oAuthLoginHandler.kakao}
-						alt='카카오' />
-				</div>
-				<div style={{}}>
+						alt='카카오'
+					/>
 					<img
-						style={{ width: 150, height: 50 }}
+						style={{ width: 150, height: 40 }}
 						src={'assets/icons/btnG_complete_type.png'}
 						onClick={oAuthLoginHandler.naver}
 						alt='네이버'

@@ -7,6 +7,7 @@ import com.adjh.springboot3security.config.handler.CustomAuthSuccessHandler;
 import com.adjh.springboot3security.config.handler.CustomAuthenticationProvider;
 import com.adjh.springboot3security.config.handler.CustomLogoutHandler;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -180,7 +181,7 @@ public class WebSecurityConfig {
      *
      * @param logout
      */
-    private void configureLogout(LogoutConfigurer<HttpSecurity> logout) {
+    private void configureLogout(@NonNull LogoutConfigurer<HttpSecurity> logout) {
         logout
                 // 1. 로그아웃 엔드포인트를 지정합니다.
                 .logoutUrl("/api/v1/user/logout")
