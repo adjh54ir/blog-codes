@@ -1,12 +1,9 @@
 package com.adjh.springbootoauth2.dto.oauth2;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
- * OAUth 2.0 카카오 로그인 요청 겍체 DTO 구성
+ * OAUth 2.0 네이버 로그인 응답 겍체 DTO 구성
  *
  * @author : jonghoon
  * @fileName : LoginKakaoReqDto
@@ -14,29 +11,19 @@ import lombok.NoArgsConstructor;
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class LoginKakaoReqDto {
 
-    private String clientId;        // 필수: 앱 REST API 키, [내 애플리케이션] > [앱 키]에서 확인 가능
-    private String redirectUri;     // 필수: 인가 코드를 전달받을 서비스 서버의 URI
-    private String responseType;    // 필수: "code"로 고정
-    private String scope;           // 선택: 동의 요청할 동의항목 ID 목록, 쉼표(,)로 구분
-    private String prompt;          // 선택: 추가 상호작용 요청 (예: "login", "none", "create", "select_account")
-    private String loginHint;       // 선택: 카카오계정 로그인 페이지의 ID란에 자동 입력할 값
-    private String serviceTerms;    // 선택: 동의받을 서비스 약관 태그 목록, 쉼표(,)로 구분
-    private String state;           // 선택: CSRF 공격 방지를 위한 임의의 문자열
-    private String nonce;           // 선택: ID 토큰 재생 공격 방지를 위한 임의의 문자열
-
+    private String code;              // 토큰 받기 요청에 필요한 인가 코드
+    private String error;             // 인증 실패 시 반환되는 에러 코드
+    private String errorDescription;  // 인증 실패 시 반환되는 에러 메시지
+    private String state;             // 요청 시 전달한 state 값과 동일한 값
 
     @Builder
-    public LoginKakaoReqDto(String clientId, String redirectUri, String responseType, String scope, String prompt, String loginHint, String serviceTerms, String state, String nonce) {
-        this.clientId = clientId;
-        this.redirectUri = redirectUri;
-        this.responseType = responseType;
-        this.scope = scope;
-        this.prompt = prompt;
-        this.loginHint = loginHint;
-        this.serviceTerms = serviceTerms;
+    public LoginKakaoReqDto(String code, String error, String errorDescription, String state) {
+        this.code = code;
+        this.error = error;
+        this.errorDescription = errorDescription;
         this.state = state;
-        this.nonce = nonce;
     }
 }

@@ -1,17 +1,13 @@
 package com.adjh.springbootoauth2.controller;
 
-import com.adjh.springbootoauth2.config.RestTemplateConfig;
-import com.adjh.springbootoauth2.dto.UserDto;
-import com.adjh.springbootoauth2.dto.oauth2.LoginKakaoResDto;
+import com.adjh.springbootoauth2.dto.oauth2.LoginKakaoReqDto;
 import com.adjh.springbootoauth2.dto.oauth2.LoginNaverResDto;
-import com.adjh.springbootoauth2.utils.TokenUtils;
+import com.adjh.springbootoauth2.service.OAuth2Service;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * Please explain the class!!
@@ -25,26 +21,8 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("api/v1/oauth2")
 public class OAuth2Controller {
 
-    @Value("${spring.security.oauth2.client.provider.kakao.authorization-uri}")
-    private String kakaoAuthorizationUri;
-
-    @Value("${spring.security.oauth2.client.provider.kakao.token-uri}")
-    private String kakaoTokenUri;
-
-    @Value("${spring.security.oauth2.client.provider.kakao.user-info-uri}")
-    private String kakaoUserInfoUri;
-
-    @Value("${spring.security.oauth2.client.provider.kakao.user-name-attribute}")
-    private String kakaoUserNameAttribute;
-
-    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
-    private String kakaoClientId;
-
-    @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
-    private String kakaoClientSecret;
-
-    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
-    private String kakaoRedirectUri;
+    @Autowired
+    private OAuth2Service oAuth2Service;
 
 
     /**
@@ -54,49 +32,28 @@ public class OAuth2Controller {
      * @return ApiResponseWrapper<ApiResponse> : 응답 결과 및 응답 코드 반환
      */
     @GetMapping("/kakao")
-    public ResponseEntity<LoginKakaoResDto> kakaoLogin(
+    public ResponseEntity<Object> kakaoLogin(
             @RequestParam(required = false) String code,
             @RequestParam(required = false) String error,
             @RequestParam(required = false) String error_description,
             @RequestParam(required = false) String state
     ) {
+        LoginKakaoReqDto kakaoReqDto = LoginKakaoReqDto.builder()
+                .code(code)
+                .error(error)
+                .errorDescription(error_description)
+                .state(state)
+                .build();
 
+        Object resultObj = oAuth2Service.kakaoLogin(kakaoReqDto);
 
-        if (code != null && error != null) {
-            RestTemplateConfig restTemplateConfig = new RestTemplateConfig();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-
-            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-            params.add("grant_type", "authorization_code");
-            params.add("client_id", kakaoClientId);
-            params.add("redirect_uri", kakaoRedirectUri);
-            params.add("code", code);
-            params.add("client_secret", kakaoClientSecret);
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-
-            ResponseEntity<String> response = restTemplateConfig.restTemplate().exchange(
-                    kakaoTokenUri,
-                    HttpMethod.POST,
-                    request,
-                    String.class
-            );
-
-
-            System.out.println("응답 값을 확인합니다 :: " + response);
-
-        }
-
-
-        return ResponseEntity.ok(null);
+        return new ResponseEntity<>(resultObj, HttpStatus.OK);
     }
 
 
     /**
      * [API] 네이버 로그인
      *
-     * @param userDto UserDto
      * @return ApiResponseWrapper<ApiResponse> : 응답 결과 및 응답 코드 반환
      */
     @PostMapping("/naver")

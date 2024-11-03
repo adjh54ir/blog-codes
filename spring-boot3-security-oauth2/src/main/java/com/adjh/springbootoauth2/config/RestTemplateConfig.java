@@ -1,6 +1,7 @@
 package com.adjh.springbootoauth2.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,6 +17,7 @@ import java.nio.charset.StandardCharsets;
  * @fileName : RestTemplateConfig
  * @since : 11/1/24
  */
+@Configuration
 public class RestTemplateConfig {
 
     /**

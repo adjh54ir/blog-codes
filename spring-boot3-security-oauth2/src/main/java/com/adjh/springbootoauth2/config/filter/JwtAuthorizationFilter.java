@@ -64,8 +64,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             String accessTokenHeader = request.getHeader(ACCESS_TOKEN_HEADER_KEY);
             String refreshTokenHeader = request.getHeader(REFRESH_TOKEN_HEADER_KEY);
 
-            log.debug("접근 로그 : ", accessTokenHeader);
-            log.debug("갱신 로그 : ", refreshTokenHeader);
+            log.debug("접근 토큰 : ", accessTokenHeader);
+            log.debug("갱신 토큰 : ", refreshTokenHeader);
 
             // [STEP2-1] 토큰이 존재하면 다음 프로세스를 진행합니다.
             if (StringUtils.isNotBlank(accessTokenHeader) || StringUtils.isNotBlank(refreshTokenHeader)) {

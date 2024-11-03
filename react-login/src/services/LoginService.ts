@@ -15,8 +15,7 @@ class LoginService {
 	};
 
 	/**
-	 * 로그인을 수행합니다.
-	 * @param loginInfo
+	 * 로그아웃을 수행합니다.
 	 */
 	logout = async (): Promise<AxiosResponse<Boolean & LoginType.loginApiResponseType, any>> => {
 		const token = localStorage.getItem('accessToken');
