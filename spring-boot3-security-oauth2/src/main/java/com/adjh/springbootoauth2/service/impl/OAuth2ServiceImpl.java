@@ -5,6 +5,7 @@ import com.adjh.springbootoauth2.dto.oauth2.LoginKakaoReqDto;
 import com.adjh.springbootoauth2.dto.oauth2.LoginKakaoReqDto222;
 import com.adjh.springbootoauth2.dto.oauth2.LoginNaverReqDto;
 import com.adjh.springbootoauth2.dto.oauth2.LoginNaverResDto;
+import com.adjh.springbootoauth2.dto.properties.OAuth2ClientRecordProperties;
 import com.adjh.springbootoauth2.service.OAuth2Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +32,10 @@ import java.util.*;
 public class OAuth2ServiceImpl implements OAuth2Service {
 
     private final RestTemplateConfig restTemplateConfig;
+    private final OAuth2ClientRecordProperties properties;
 
     @Value("${spring.security.oauth2.client.provider.kakao.token-uri}")
-    private String KAKAO_TOKEN_URL = "";
+    private String KAKAO_TOKEN_URL = properties.provider().kakao().tokenUri();
 
     @Value("${spring.security.oauth2.client.provider.kakao.user-info-uri}")
     private String KAKAO_USER_INFO_URL = "";
