@@ -15,16 +15,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LoginNaverReqDto {
-    private String responseType;  // 인증 과정에 대한 내부 구분값으로 'code'로 전송해야 함
-    private String clientId;      // 애플리케이션 등록 시 발급받은 Client ID 값
-    private String redirectUri;   // 애플리케이션을 등록 시 입력한 Callback URL 값으로 URL 인코딩을 적용한 값
-    private String state;         // 사이트 간 요청 위조(cross-site request forgery) 공격을 방지하기 위해 애플리케이션에서 생성한 상태 토큰값으로 URL 인코딩을 적용한 값을 사용
+    private String code;              // 토큰 받기 요청에 필요한 인가 코드
+    private String error;             // 인증 실패 시 반환되는 에러 코드
+    private String errorDescription;  // 인증 실패 시 반환되는 에러 메시지
+    private String state;             // 요청 시 전달한 state 값과 동일한 값
 
     @Builder
-    public LoginNaverReqDto(String responseType, String clientId, String redirectUri, String state) {
-        this.responseType = responseType;
-        this.clientId = clientId;
-        this.redirectUri = redirectUri;
+    public LoginNaverReqDto(String code, String error, String errorDescription, String state) {
+        this.code = code;
+        this.error = error;
+        this.errorDescription = errorDescription;
         this.state = state;
     }
 }
