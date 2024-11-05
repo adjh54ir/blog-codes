@@ -62,8 +62,7 @@ public class RedisListDataServiceImpl implements RedisListDataService {
     @Override
     public boolean isContainsValue(String key, Object value) {
         List<Object> allItems = redisHandler.getListOperations().range(key, 0, -1);
-        return Objects.requireNonNull(allItems).stream()
-                .anyMatch(item -> item.equals(value));
+        return allItems.stream().anyMatch(item -> item.equals(value));
     }
 
     /**

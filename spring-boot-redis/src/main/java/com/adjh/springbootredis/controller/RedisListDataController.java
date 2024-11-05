@@ -23,10 +23,10 @@ public class RedisListDataController {
     /**
      * Redis 키를 기반으로 리스트 데이터의 값을 조회합니다.
      *
-     * @param key
+     * @param redisDto
      * @return
      */
-    @GetMapping("/getList")
+    @PostMapping("/getList")
     public ResponseEntity<Object> getListData(@RequestBody RedisDto redisDto) {
         List<Object> result = redisListDataService.getListData(redisDto.getKey());
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -52,38 +52,36 @@ public class RedisListDataController {
     /**
      * Redis 리스트 데이터 내에 값이 존재하는지 여부를 확인합니다.
      *
-     * @param key
-     * @param value
+     * @param redisDto
      * @return
      */
     @GetMapping("/contains")
-    public ResponseEntity<Object> isContainsValue(@RequestParam String key, @RequestParam Object value) {
-        boolean result = redisListDataService.isContainsValue(key, value);
+    public ResponseEntity<Object> isContainsValue(@RequestBody RedisDto redisDto) {
+        boolean result = redisListDataService.isContainsValue(redisDto.getKey(), redisDto.getValue());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     /**
      * Redis 키를 기반으로 리스트 내의 특정 데이터를 삭제합니다.
      *
-     * @param key
-     * @param value
+     * @param redisDto
      * @return
      */
     @DeleteMapping("/deleteItem")
-    public ResponseEntity<Object> deleteListItem(@RequestParam String key, @RequestParam Object value) {
-        int result = redisListDataService.deleteListItem(key, value);
+    public ResponseEntity<Object> deleteListItem(@RequestBody RedisDto redisDto) {
+        int result = redisListDataService.deleteListItem(redisDto.getKey(), redisDto.getValue());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     /**
      * Redis 키를 기반으로 리스트 데이터를 삭제합니다.
      *
-     * @param key
+     * @param redisDto
      * @return
      */
     @DeleteMapping("/deleteList")
-    public ResponseEntity<Object> deleteList(@RequestParam String key) {
-        int result = redisListDataService.deleteList(key);
+    public ResponseEntity<Object> deleteList(@RequestBody RedisDto redisDto) {
+        int result = redisListDataService.deleteList(redisDto.getKey());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
