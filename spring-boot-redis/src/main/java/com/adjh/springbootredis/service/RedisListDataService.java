@@ -11,16 +11,16 @@ import java.util.List;
 @Service
 public interface RedisListDataService {
 
-    public int setListData(String key, Object value);                       // Redis 리스트 데이터 값을 등록/수정합니다.
+    int setListData(String key, Object value);                       // Redis 리스트 데이터 값을 등록/수정합니다.
 
-    public int setListData(String key, Object value, Duration duration);    // Redis 리스트 데이터 값을 등록/수정합니다.(duration 값이 존재하면 메모리 상 유효시간을 지정합니다.)
+    int setListData(String key, Object value, Duration duration);    // Redis 리스트 데이터 값을 등록/수정합니다.(duration 값이 존재하면 메모리 상 유효시간을 지정합니다.)
 
-    public boolean isContainsValue(String key, Object value);               // Redis 리스트 데이터 내에 값이 존재하는지 여부를 확인합니다.
+    boolean isContainsValue(String key, Object value);               // Redis 리스트 데이터 내에 값이 존재하는지 여부를 확인합니다.
 
-    public List<Object> getListData(String key);                            // Redis 키를 기반으로 리스트 데이터의 값을 조회합니다.
+    List<Object> getListData(String key);                            // Redis 키를 기반으로 리스트 데이터의 값을 조회합니다.
 
-    public int deleteListItem(String key, Object value);                    // Redis 키를 기반으로 리스트 내의 특정 데이터를 삭제합니다.
+    int deleteListItem(String key, Object value);                    // Redis 키를 기반으로 리스트 내의 특정 데이터를 삭제합니다.
 
-    public int deleteList(String key);                                      // Redis 키를 기반으로 리스트 데이터를 삭제합니다.
+    int deleteList(String key);                                      // Redis 키를 기반으로 리스트 데이터를 삭제합니다.
 
 }
