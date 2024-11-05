@@ -1,8 +1,8 @@
 package com.adjh.springbootoauth2.service.impl;
 
 import com.adjh.springbootoauth2.config.RestTemplateConfig;
+import com.adjh.springbootoauth2.config.properties.OAuth2ClientProperties;
 import com.adjh.springbootoauth2.dto.oauth2.LoginKakaoReqDto;
-import com.adjh.springbootoauth2.dto.oauth2.LoginKakaoReqDto222;
 import com.adjh.springbootoauth2.dto.oauth2.LoginNaverReqDto;
 import com.adjh.springbootoauth2.dto.oauth2.LoginNaverResDto;
 import com.adjh.springbootoauth2.service.OAuth2Service;
@@ -32,46 +32,26 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
     private final RestTemplateConfig restTemplateConfig;
 
-    @Value("${spring.security.oauth2.client.provider.kakao.token-uri}")
-    private String KAKAO_TOKEN_URL = "";
 
-    @Value("${spring.security.oauth2.client.provider.kakao.user-info-uri}")
-    private String KAKAO_USER_INFO_URL = "";
+    @Autowired
+    private OAuth2ClientProperties oAuth2ClientProperties;
 
-    @Value("${spring.security.oauth2.client.provider.kakao.user-name-attribute}")
-    private String KAKAO_USER_NAME_ATTRIBUTE = "";
+    private final String KAKAO_TOKEN_URL = oAuth2ClientProperties.getProvider().kakao().tokenUri();
+    private final String KAKAO_USER_INFO_URL = oAuth2ClientProperties.getProvider().kakao().userInfoUri();
+    private final String KAKAO_USER_NAME_ATTRIBUTE = oAuth2ClientProperties.getProvider().kakao().userNameAttribute();
+    private final String KAKAO_CLIENT_ID = oAuth2ClientProperties.getRegistration().kakao().clientId();
+    private final String KAKAO_CLIENT_SECRET = oAuth2ClientProperties.getRegistration().kakao().clientSecret();
+    private final String KAKAO_REDIRECT_URL = oAuth2ClientProperties.getRegistration().kakao().redirectUri();
+    private final List<String> KAKAO_USER_INFO_SCOPE = oAuth2ClientProperties.getRegistration().kakao().scope();
 
-    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
-    private String KAKAO_CLIENT_ID = "";
+    private final String NAVER_TOKEN_URL = oAuth2ClientProperties.getProvider().naver().tokenUri();
+    private final String NAVER_USER_INFO_URL = oAuth2ClientProperties.getProvider().naver().userInfoUri();
+    private final String NAVER_USER_NAME_ATTRIBUTE = oAuth2ClientProperties.getProvider().naver().userNameAttribute();
+    private final String NAVER_CLIENT_ID = oAuth2ClientProperties.getRegistration().naver().clientId();
+    private final String NAVER_CLIENT_SECRET = oAuth2ClientProperties.getRegistration().naver().clientSecret();
+    private final String NAVER_REDIRECT_URL = oAuth2ClientProperties.getRegistration().naver().redirectUri();
+    private final List<String> NAVER_USER_INFO_SCOPE = oAuth2ClientProperties.getRegistration().naver().scope();
 
-    @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
-    private String KAKAO_CLIENT_SECRET = "";
-
-    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
-    private String KAKAO_REDIRECT_URL = "";
-
-
-    @Value("${spring.security.oauth2.client.provider.naver.token-uri}")
-    private String NAVER_TOKEN_URL = "";
-
-    @Value("${spring.security.oauth2.client.provider.naver.user-info-uri}")
-    private String NAVER_USER_INFO_URL = "";
-
-    @Value("${spring.security.oauth2.client.provider.naver.user-name-attribute}")
-    private String NAVER_USER_NAME_ATTRIBUTE = "";
-
-    @Value("${spring.security.oauth2.client.registration.naver.client-id}")
-    private String NAVER_CLIENT_ID = "";
-
-    @Value("${spring.security.oauth2.client.registration.naver.client-secret}")
-    private String NAVER_CLIENT_SECRET = "";
-
-    @Value("${spring.security.oauth2.client.registration.naver.redirect-uri}")
-    private String NAVER_REDIRECT_URL = "";
-
-
-    @Value("${spring.security.oauth2.client.registration.kakao.scope")
-    private List<String> KAKAO_USER_INFO_SCOPE = new ArrayList<>();
 
     /**
      * 기본적으로 사용하는 Header를 구성하여 반환합니다.
