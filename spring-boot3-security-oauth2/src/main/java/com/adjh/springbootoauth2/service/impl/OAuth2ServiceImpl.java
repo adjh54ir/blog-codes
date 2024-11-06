@@ -1,15 +1,14 @@
 package com.adjh.springbootoauth2.service.impl;
 
 import com.adjh.springbootoauth2.config.RestTemplateConfig;
-import com.adjh.springbootoauth2.config.properties.OAuth2ClientProperties;
 import com.adjh.springbootoauth2.dto.oauth2.LoginKakaoReqDto;
 import com.adjh.springbootoauth2.dto.oauth2.LoginNaverReqDto;
 import com.adjh.springbootoauth2.dto.oauth2.LoginNaverResDto;
+import com.adjh.springbootoauth2.config.properties.OAuth2ClientProperties;
 import com.adjh.springbootoauth2.service.OAuth2Service;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -27,31 +26,44 @@ import java.util.*;
  */
 @Slf4j
 @Service("OAuth2ServiceImpl")
-@RequiredArgsConstructor
 public class OAuth2ServiceImpl implements OAuth2Service {
 
     private final RestTemplateConfig restTemplateConfig;
-
-
-    @Autowired
     private OAuth2ClientProperties oAuth2ClientProperties;
 
-    private final String KAKAO_TOKEN_URL = oAuth2ClientProperties.getProvider().kakao().tokenUri();
-    private final String KAKAO_USER_INFO_URL = oAuth2ClientProperties.getProvider().kakao().userInfoUri();
-    private final String KAKAO_USER_NAME_ATTRIBUTE = oAuth2ClientProperties.getProvider().kakao().userNameAttribute();
-    private final String KAKAO_CLIENT_ID = oAuth2ClientProperties.getRegistration().kakao().clientId();
-    private final String KAKAO_CLIENT_SECRET = oAuth2ClientProperties.getRegistration().kakao().clientSecret();
-    private final String KAKAO_REDIRECT_URL = oAuth2ClientProperties.getRegistration().kakao().redirectUri();
-    private final List<String> KAKAO_USER_INFO_SCOPE = oAuth2ClientProperties.getRegistration().kakao().scope();
+    public OAuth2ServiceImpl(RestTemplateConfig restTemplateConfig, OAuth2ClientProperties oAuth2ClientProperties) {
+        this.restTemplateConfig = restTemplateConfig;
+        this.oAuth2ClientProperties = oAuth2ClientProperties;
+    }
 
-    private final String NAVER_TOKEN_URL = oAuth2ClientProperties.getProvider().naver().tokenUri();
-    private final String NAVER_USER_INFO_URL = oAuth2ClientProperties.getProvider().naver().userInfoUri();
-    private final String NAVER_USER_NAME_ATTRIBUTE = oAuth2ClientProperties.getProvider().naver().userNameAttribute();
-    private final String NAVER_CLIENT_ID = oAuth2ClientProperties.getRegistration().naver().clientId();
-    private final String NAVER_CLIENT_SECRET = oAuth2ClientProperties.getRegistration().naver().clientSecret();
-    private final String NAVER_REDIRECT_URL = oAuth2ClientProperties.getRegistration().naver().redirectUri();
-    private final List<String> NAVER_USER_INFO_SCOPE = oAuth2ClientProperties.getRegistration().naver().scope();
+    private String KAKAO_TOKEN_URL;
+    private String KAKAO_USER_INFO_URL;
+    private String KAKAO_USER_NAME_ATTRIBUTE;
+    private String KAKAO_CLIENT_ID;
+    private String KAKAO_CLIENT_SECRET;
+    private String KAKAO_REDIRECT_URL;
+    private String NAVER_TOKEN_URL;
+    private String NAVER_USER_INFO_URL;
+    private String NAVER_USER_NAME_ATTRIBUTE;
+    private String NAVER_CLIENT_ID;
+    private String NAVER_CLIENT_SECRET;
+    private String NAVER_REDIRECT_URL;
 
+    @PostConstruct
+    public void init() {
+        KAKAO_TOKEN_URL = oAuth2ClientProperties.provider().kakao().tokenUri();
+        KAKAO_USER_INFO_URL = oAuth2ClientProperties.provider().kakao().userInfoUri();
+        KAKAO_USER_NAME_ATTRIBUTE = oAuth2ClientProperties.provider().kakao().userNameAttribute();
+        KAKAO_CLIENT_ID = oAuth2ClientProperties.registration().kakao().clientId();
+        KAKAO_CLIENT_SECRET = oAuth2ClientProperties.registration().kakao().clientSecret();
+        KAKAO_REDIRECT_URL = oAuth2ClientProperties.registration().kakao().redirectUri();
+        NAVER_TOKEN_URL = oAuth2ClientProperties.provider().naver().tokenUri();
+        NAVER_USER_INFO_URL = oAuth2ClientProperties.provider().naver().userInfoUri();
+        NAVER_USER_NAME_ATTRIBUTE = oAuth2ClientProperties.provider().naver().userNameAttribute();
+        NAVER_CLIENT_ID = oAuth2ClientProperties.registration().naver().clientId();
+        NAVER_CLIENT_SECRET = oAuth2ClientProperties.registration().naver().clientSecret();
+        NAVER_REDIRECT_URL = oAuth2ClientProperties.registration().naver().redirectUri();
+    }
 
     /**
      * 기본적으로 사용하는 Header를 구성하여 반환합니다.
@@ -124,6 +136,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
      */
     private Map<String, Object> getKakaoTokenInfo(String authCode) {
         log.debug("[+] getKakaoTokenInfo 함수가 실행 됩니다. :: {}", authCode);
+
         Map<String, Object> resultMap = new HashMap<>();
 
         MultiValueMap<String, String> tokenReqParamsMap = new LinkedMultiValueMap<>();
@@ -225,8 +238,6 @@ public class OAuth2ServiceImpl implements OAuth2Service {
                     String nickname = response.get("nickname").toString();
                     String email = response.get("email").toString();
                     String name = response.get("name").toString();
-
-
                 }
             } else {
                 log.error("Naver 로그인 접근 토큰(Access Token)을 받지 못하였습니다. :: {}", loginNaverReqDto.getError());
@@ -285,6 +296,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
     private Map<String, Object> getNaverUserInfo(String accessToken) {
         log.debug("[+] getNaverUserInfo 함수를 수행합니다 :: {}", accessToken);
+
         MultiValueMap<String, Object> userInfoParam = new LinkedMultiValueMap<>();
         ResponseEntity<Map<String, Object>> response = null;
         try {
