@@ -1,13 +1,13 @@
 package com.adjh.springbootoauth2.service.impl;
 
 import com.adjh.springbootoauth2.config.RestTemplateConfig;
+import com.adjh.springbootoauth2.config.properties.OAuth2ClientPropertiesSource;
 import com.adjh.springbootoauth2.dto.oauth2.LoginKakaoReqDto;
 import com.adjh.springbootoauth2.dto.oauth2.LoginNaverReqDto;
 import com.adjh.springbootoauth2.dto.oauth2.LoginNaverResDto;
 import com.adjh.springbootoauth2.config.properties.OAuth2ClientProperties;
 import com.adjh.springbootoauth2.service.OAuth2Service;
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -25,15 +25,16 @@ import java.util.*;
  * @since : 11/1/24
  */
 @Slf4j
+
 @Service("OAuth2ServiceImpl")
 public class OAuth2ServiceImpl implements OAuth2Service {
 
     private final RestTemplateConfig restTemplateConfig;
-    private OAuth2ClientProperties oAuth2ClientProperties;
+    private final OAuth2ClientProperties oAuth2ClientProperties;
 
-    public OAuth2ServiceImpl(RestTemplateConfig restTemplateConfig, OAuth2ClientProperties oAuth2ClientProperties) {
+    public OAuth2ServiceImpl(RestTemplateConfig restTemplateConfig, OAuth2ClientProperties properties) {
         this.restTemplateConfig = restTemplateConfig;
-        this.oAuth2ClientProperties = oAuth2ClientProperties;
+        this.oAuth2ClientProperties = properties;
     }
 
     private String KAKAO_TOKEN_URL;
@@ -51,18 +52,18 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
     @PostConstruct
     public void init() {
-        KAKAO_TOKEN_URL = oAuth2ClientProperties.provider().kakao().tokenUri();
-        KAKAO_USER_INFO_URL = oAuth2ClientProperties.provider().kakao().userInfoUri();
-        KAKAO_USER_NAME_ATTRIBUTE = oAuth2ClientProperties.provider().kakao().userNameAttribute();
-        KAKAO_CLIENT_ID = oAuth2ClientProperties.registration().kakao().clientId();
-        KAKAO_CLIENT_SECRET = oAuth2ClientProperties.registration().kakao().clientSecret();
-        KAKAO_REDIRECT_URL = oAuth2ClientProperties.registration().kakao().redirectUri();
-        NAVER_TOKEN_URL = oAuth2ClientProperties.provider().naver().tokenUri();
-        NAVER_USER_INFO_URL = oAuth2ClientProperties.provider().naver().userInfoUri();
-        NAVER_USER_NAME_ATTRIBUTE = oAuth2ClientProperties.provider().naver().userNameAttribute();
-        NAVER_CLIENT_ID = oAuth2ClientProperties.registration().naver().clientId();
-        NAVER_CLIENT_SECRET = oAuth2ClientProperties.registration().naver().clientSecret();
-        NAVER_REDIRECT_URL = oAuth2ClientProperties.registration().naver().redirectUri();
+        KAKAO_TOKEN_URL = oAuth2ClientProperties.getProvider().get("kakao").getTokenUri();
+        KAKAO_USER_INFO_URL = oAuth2ClientProperties.getProvider().get("kakao").getUserInfoUri();
+        KAKAO_USER_NAME_ATTRIBUTE = oAuth2ClientProperties.getProvider().get("kakao").getUserNameAttribute();
+        KAKAO_CLIENT_ID = oAuth2ClientProperties.getRegistration().get("kakao").getClientId();
+        KAKAO_CLIENT_SECRET = oAuth2ClientProperties.getRegistration().get("kakao").getClientSecret();
+        KAKAO_REDIRECT_URL = oAuth2ClientProperties.getRegistration().get("kakao").getRedirectUri();
+        NAVER_TOKEN_URL = oAuth2ClientProperties.getProvider().get("naver").getTokenUri();
+        NAVER_USER_INFO_URL = oAuth2ClientProperties.getProvider().get("naver").getUserInfoUri();
+        NAVER_USER_NAME_ATTRIBUTE = oAuth2ClientProperties.getProvider().get("naver").getUserNameAttribute();
+        NAVER_CLIENT_ID = oAuth2ClientProperties.getRegistration().get("naver").getClientId();
+        NAVER_CLIENT_SECRET = oAuth2ClientProperties.getRegistration().get("naver").getClientSecret();
+        NAVER_REDIRECT_URL = oAuth2ClientProperties.getRegistration().get("naver").getRedirectUri();
     }
 
     /**
@@ -85,11 +86,25 @@ public class OAuth2ServiceImpl implements OAuth2Service {
      */
     @Override
     public LoginKakaoReqDto kakaoLogin(LoginKakaoReqDto loginKakaoReqDto) {
-        log.debug("[+] 카카오 로그인이 성공하여 리다이렉트 되었습니다.");
-        log.debug("코드 값 확인 : {}", loginKakaoReqDto.getCode());
-        log.debug("에러 값 확인 : {}", loginKakaoReqDto.getError());
-        log.debug("에러 설명 값 확인 : {}", loginKakaoReqDto.getErrorDescription());
-        log.debug("상태 값 확인 : {}", loginKakaoReqDto.getState());
+//        log.debug("[+] 카카오 로그인이 성공하여 리다이렉트 되었습니다.");
+//        log.debug("코드 값 확인 : {}", loginKakaoReqDto.getCode());
+//        log.debug("에러 값 확인 : {}", loginKakaoReqDto.getError());
+//        log.debug("에러 설명 값 확인 : {}", loginKakaoReqDto.getErrorDescription());
+//        log.debug("상태 값 확인 : {}", loginKakaoReqDto.getState());
+
+        log.debug("KAKAO_TOKEN_URL: {}", KAKAO_TOKEN_URL);
+        log.debug("KAKAO_USER_INFO_URL: {}", KAKAO_USER_INFO_URL);
+        log.debug("KAKAO_USER_NAME_ATTRIBUTE: {}", KAKAO_USER_NAME_ATTRIBUTE);
+        log.debug("KAKAO_CLIENT_ID: {}", KAKAO_CLIENT_ID);
+        log.debug("KAKAO_CLIENT_SECRET: {}", KAKAO_CLIENT_SECRET);
+        log.debug("KAKAO_REDIRECT_URL: {}", KAKAO_REDIRECT_URL);
+        log.debug("NAVER_TOKEN_URL: {}", NAVER_TOKEN_URL);
+        log.debug("NAVER_USER_INFO_URL: {}", NAVER_USER_INFO_URL);
+        log.debug("NAVER_USER_NAME_ATTRIBUTE: {}", NAVER_USER_NAME_ATTRIBUTE);
+        log.debug("NAVER_CLIENT_ID: {}", NAVER_CLIENT_ID);
+        log.debug("NAVER_CLIENT_SECRET: {}", NAVER_CLIENT_SECRET);
+        log.debug("NAVER_REDIRECT_URL: {}", NAVER_REDIRECT_URL);
+
 
         if (loginKakaoReqDto.getCode() == null || loginKakaoReqDto.getCode().isEmpty()) {
             log.error("[-] 카카오 로그인 리다이렉션에서 문제가 발생하였습니다.");
