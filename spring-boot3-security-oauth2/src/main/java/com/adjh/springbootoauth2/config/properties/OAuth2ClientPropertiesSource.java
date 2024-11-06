@@ -17,8 +17,8 @@ import java.util.Map;
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "spring.security.oauth2.client")
-public class OAuth2ClientProperties {
+//@ConfigurationProperties(prefix = "spring.security.oauth2.client")
+public class OAuth2ClientPropertiesSource {
 
     private Map<String, Provider> provider = new HashMap<>();
     private Map<String, Registration> registration = new HashMap<>();
