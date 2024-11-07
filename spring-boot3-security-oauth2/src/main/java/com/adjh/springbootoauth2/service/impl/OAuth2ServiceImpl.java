@@ -1,11 +1,8 @@
 package com.adjh.springbootoauth2.service.impl;
 
 import com.adjh.springbootoauth2.config.RestTemplateConfig;
-import com.adjh.springbootoauth2.config.properties.OAuth2ClientPropertiesSource;
-import com.adjh.springbootoauth2.config.properties.kakao.KakaoProviderProperties;
-import com.adjh.springbootoauth2.config.properties.kakao.KakaoRegistrationProperties;
-import com.adjh.springbootoauth2.config.properties.naver.NaverProviderProperties;
-import com.adjh.springbootoauth2.config.properties.naver.NaverRegistrationProperties;
+import com.adjh.springbootoauth2.config.properties.OAuth2ProviderProperties;
+import com.adjh.springbootoauth2.config.properties.OAuth2RegistrationProperties;
 import com.adjh.springbootoauth2.dto.oauth2.LoginKakaoReqDto;
 import com.adjh.springbootoauth2.dto.oauth2.LoginNaverReqDto;
 import com.adjh.springbootoauth2.dto.oauth2.LoginNaverResDto;
@@ -29,24 +26,19 @@ import java.util.*;
  * @since : 11/1/24
  */
 @Slf4j
-
 @Service("OAuth2ServiceImpl")
 public class OAuth2ServiceImpl implements OAuth2Service {
 
     private final RestTemplateConfig restTemplateConfig;
     private final OAuth2ClientProperties oAuth2ClientProperties;
-    private final KakaoProviderProperties kakaoProviderProperties;
-    private final KakaoRegistrationProperties kakaoRegistrationProperties;
-    private final NaverProviderProperties naverProviderProperties;
-    private final NaverRegistrationProperties naverRegistrationProperties;
+    private final OAuth2ProviderProperties oAuthProvider;
+    private final OAuth2RegistrationProperties oAuthRegistration;
 
-    public OAuth2ServiceImpl(RestTemplateConfig restTemplateConfig, OAuth2ClientProperties properties, KakaoProviderProperties kakaoProviderProperties, KakaoRegistrationProperties kakaoRegistrationProperties, NaverProviderProperties naverProviderProperties, NaverRegistrationProperties naverRegistrationProperties) {
+    public OAuth2ServiceImpl(RestTemplateConfig restTemplateConfig, OAuth2ClientProperties properties, OAuth2ProviderProperties oAuthProvider, OAuth2RegistrationProperties oAuthRegistration) {
         this.restTemplateConfig = restTemplateConfig;
         this.oAuth2ClientProperties = properties;
-        this.kakaoProviderProperties = kakaoProviderProperties;
-        this.kakaoRegistrationProperties = kakaoRegistrationProperties;
-        this.naverProviderProperties = naverProviderProperties;
-        this.naverRegistrationProperties = naverRegistrationProperties;
+        this.oAuthProvider = oAuthProvider;
+        this.oAuthRegistration = oAuthRegistration;
     }
 
     private String KAKAO_TOKEN_URL;
@@ -105,18 +97,18 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 //        log.debug("상태 값 확인 : {}", loginKakaoReqDto.getState());
 
 
-        log.debug("KAKAO_TOKEN_URL: {}", kakaoProviderProperties.getTokenUri());
-        log.debug("KAKAO_USER_INFO_URL: {}", kakaoProviderProperties.getUserInfoUri());
-        log.debug("KAKAO_USER_NAME_ATTRIBUTE: {}", kakaoProviderProperties.getUserNameAttribute());
-        log.debug("KAKAO_CLIENT_ID: {}", kakaoRegistrationProperties.getClientId());
-        log.debug("KAKAO_CLIENT_SECRET: {}", kakaoRegistrationProperties.getClientSecret());
-        log.debug("KAKAO_REDIRECT_URL: {}", kakaoRegistrationProperties.getRedirectUri());
-        log.debug("NAVER_TOKEN_URL: {}", naverProviderProperties.getTokenUri());
-        log.debug("NAVER_USER_INFO_URL: {}", naverProviderProperties.getUserInfoUri());
-        log.debug("NAVER_USER_NAME_ATTRIBUTE: {}", naverProviderProperties.getUserNameAttribute());
-        log.debug("NAVER_CLIENT_ID: {}", naverRegistrationProperties.getClientId());
-        log.debug("NAVER_CLIENT_SECRET: {}", naverRegistrationProperties.getClientSecret());
-        log.debug("NAVER_REDIRECT_URL: {}", naverRegistrationProperties.getRedirectUri());
+        log.debug("KAKAO_TOKEN_URL: {}", oAuthProvider.kakao().tokenUri());
+        log.debug("KAKAO_USER_INFO_URL: {}", oAuthProvider.kakao().userInfoUri());
+        log.debug("KAKAO_USER_NAME_ATTRIBUTE: {}", oAuthProvider.kakao().userNameAttribute());
+        log.debug("KAKAO_CLIENT_ID: {}", oAuthRegistration.kakao().clientId());
+        log.debug("KAKAO_CLIENT_SECRET: {}", oAuthRegistration.kakao().clientSecret());
+        log.debug("KAKAO_REDIRECT_URL: {}", oAuthRegistration.kakao().redirectUri());
+        log.debug("NAVER_TOKEN_URL: {}", oAuthProvider.naver().tokenUri());
+        log.debug("NAVER_USER_INFO_URL: {}", oAuthProvider.naver().userInfoUri());
+        log.debug("NAVER_USER_NAME_ATTRIBUTE: {}", oAuthProvider.naver().userNameAttribute());
+        log.debug("NAVER_CLIENT_ID: {}", oAuthRegistration.naver().clientId());
+        log.debug("NAVER_CLIENT_SECRET: {}", oAuthRegistration.naver().clientSecret());
+        log.debug("NAVER_REDIRECT_URL: {}", oAuthRegistration.naver().redirectUri());
 
 
         if (loginKakaoReqDto.getCode() == null || loginKakaoReqDto.getCode().isEmpty()) {
