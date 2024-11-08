@@ -30,44 +30,13 @@ import java.util.*;
 public class OAuth2ServiceImpl implements OAuth2Service {
 
     private final RestTemplateConfig restTemplateConfig;
-    private final OAuth2ClientProperties oAuth2ClientProperties;
     private final OAuth2ProviderProperties oAuthProvider;
     private final OAuth2RegistrationProperties oAuthRegistration;
 
-    public OAuth2ServiceImpl(RestTemplateConfig restTemplateConfig, OAuth2ClientProperties properties, OAuth2ProviderProperties oAuthProvider, OAuth2RegistrationProperties oAuthRegistration) {
+    public OAuth2ServiceImpl(RestTemplateConfig restTemplateConfig, OAuth2ProviderProperties oAuthProvider, OAuth2RegistrationProperties oAuthRegistration) {
         this.restTemplateConfig = restTemplateConfig;
-        this.oAuth2ClientProperties = properties;
         this.oAuthProvider = oAuthProvider;
         this.oAuthRegistration = oAuthRegistration;
-    }
-
-    private String KAKAO_TOKEN_URL;
-    private String KAKAO_USER_INFO_URL;
-    private String KAKAO_USER_NAME_ATTRIBUTE;
-    private String KAKAO_CLIENT_ID;
-    private String KAKAO_CLIENT_SECRET;
-    private String KAKAO_REDIRECT_URL;
-    private String NAVER_TOKEN_URL;
-    private String NAVER_USER_INFO_URL;
-    private String NAVER_USER_NAME_ATTRIBUTE;
-    private String NAVER_CLIENT_ID;
-    private String NAVER_CLIENT_SECRET;
-    private String NAVER_REDIRECT_URL;
-
-    @PostConstruct
-    public void init() {
-        KAKAO_TOKEN_URL = oAuth2ClientProperties.getProvider().get("kakao").getTokenUri();
-        KAKAO_USER_INFO_URL = oAuth2ClientProperties.getProvider().get("kakao").getUserInfoUri();
-        KAKAO_USER_NAME_ATTRIBUTE = oAuth2ClientProperties.getProvider().get("kakao").getUserNameAttribute();
-        KAKAO_CLIENT_ID = oAuth2ClientProperties.getRegistration().get("kakao").getClientId();
-        KAKAO_CLIENT_SECRET = oAuth2ClientProperties.getRegistration().get("kakao").getClientSecret();
-        KAKAO_REDIRECT_URL = oAuth2ClientProperties.getRegistration().get("kakao").getRedirectUri();
-        NAVER_TOKEN_URL = oAuth2ClientProperties.getProvider().get("naver").getTokenUri();
-        NAVER_USER_INFO_URL = oAuth2ClientProperties.getProvider().get("naver").getUserInfoUri();
-        NAVER_USER_NAME_ATTRIBUTE = oAuth2ClientProperties.getProvider().get("naver").getUserNameAttribute();
-        NAVER_CLIENT_ID = oAuth2ClientProperties.getRegistration().get("naver").getClientId();
-        NAVER_CLIENT_SECRET = oAuth2ClientProperties.getRegistration().get("naver").getClientSecret();
-        NAVER_REDIRECT_URL = oAuth2ClientProperties.getRegistration().get("naver").getRedirectUri();
     }
 
     /**
@@ -90,26 +59,11 @@ public class OAuth2ServiceImpl implements OAuth2Service {
      */
     @Override
     public LoginKakaoReqDto kakaoLogin(LoginKakaoReqDto loginKakaoReqDto) {
-//        log.debug("[+] 카카오 로그인이 성공하여 리다이렉트 되었습니다.");
-//        log.debug("코드 값 확인 : {}", loginKakaoReqDto.getCode());
-//        log.debug("에러 값 확인 : {}", loginKakaoReqDto.getError());
-//        log.debug("에러 설명 값 확인 : {}", loginKakaoReqDto.getErrorDescription());
-//        log.debug("상태 값 확인 : {}", loginKakaoReqDto.getState());
-
-
-        log.debug("KAKAO_TOKEN_URL: {}", oAuthProvider.kakao().tokenUri());
-        log.debug("KAKAO_USER_INFO_URL: {}", oAuthProvider.kakao().userInfoUri());
-        log.debug("KAKAO_USER_NAME_ATTRIBUTE: {}", oAuthProvider.kakao().userNameAttribute());
-        log.debug("KAKAO_CLIENT_ID: {}", oAuthRegistration.kakao().clientId());
-        log.debug("KAKAO_CLIENT_SECRET: {}", oAuthRegistration.kakao().clientSecret());
-        log.debug("KAKAO_REDIRECT_URL: {}", oAuthRegistration.kakao().redirectUri());
-        log.debug("NAVER_TOKEN_URL: {}", oAuthProvider.naver().tokenUri());
-        log.debug("NAVER_USER_INFO_URL: {}", oAuthProvider.naver().userInfoUri());
-        log.debug("NAVER_USER_NAME_ATTRIBUTE: {}", oAuthProvider.naver().userNameAttribute());
-        log.debug("NAVER_CLIENT_ID: {}", oAuthRegistration.naver().clientId());
-        log.debug("NAVER_CLIENT_SECRET: {}", oAuthRegistration.naver().clientSecret());
-        log.debug("NAVER_REDIRECT_URL: {}", oAuthRegistration.naver().redirectUri());
-
+        log.debug("[+] 카카오 로그인이 성공하여 리다이렉트 되었습니다.");
+        log.debug("코드 값 확인 : {}", loginKakaoReqDto.getCode());
+        log.debug("에러 값 확인 : {}", loginKakaoReqDto.getError());
+        log.debug("에러 설명 값 확인 : {}", loginKakaoReqDto.getErrorDescription());
+        log.debug("상태 값 확인 : {}", loginKakaoReqDto.getState());
 
         if (loginKakaoReqDto.getCode() == null || loginKakaoReqDto.getCode().isEmpty()) {
             log.error("[-] 카카오 로그인 리다이렉션에서 문제가 발생하였습니다.");
@@ -161,15 +115,15 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
         MultiValueMap<String, String> tokenReqParamsMap = new LinkedMultiValueMap<>();
         tokenReqParamsMap.add("grant_type", "authorization_code");
-        tokenReqParamsMap.add("client_id", KAKAO_CLIENT_ID);
-        tokenReqParamsMap.add("redirect_uri", KAKAO_REDIRECT_URL);
+        tokenReqParamsMap.add("client_id", oAuthRegistration.kakao().clientId());
+        tokenReqParamsMap.add("redirect_uri", oAuthRegistration.kakao().redirectUri());
         tokenReqParamsMap.add("code", authCode);
-        tokenReqParamsMap.add("client_secret", KAKAO_CLIENT_SECRET);
+        tokenReqParamsMap.add("client_secret", oAuthRegistration.kakao().clientSecret());
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(tokenReqParamsMap, this.defaultHeader());
 
         ResponseEntity<Map<String, Object>> tokenResponse = restTemplateConfig
                 .restTemplate()
-                .exchange(KAKAO_TOKEN_URL, HttpMethod.POST, request, new ParameterizedTypeReference<>() {
+                .exchange(oAuthProvider.kakao().tokenUri(), HttpMethod.POST, request, new ParameterizedTypeReference<>() {
                 });
 
         // 응답에 성공을 하는 경우
@@ -199,7 +153,6 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         MultiValueMap<String, Object> userInfoParam = new LinkedMultiValueMap<>();
         ResponseEntity<Map<String, Object>> response = null;
         try {
-
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -208,7 +161,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
             log.debug("요청 값 :: {}", userInfoReq);
             response = restTemplateConfig
                     .restTemplate()
-                    .exchange(KAKAO_USER_INFO_URL, HttpMethod.POST, userInfoReq, new ParameterizedTypeReference<>() {
+                    .exchange(oAuthProvider.kakao().userInfoUri(), HttpMethod.POST, userInfoReq, new ParameterizedTypeReference<>() {
                     });
             log.debug("사용자 조회 :: {}", response);
         } catch (Exception e) {
@@ -280,19 +233,21 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     private Map<String, Object> getNaverTokenInfo(String authCode, String state) {
         log.debug("[+] getNaverTokenInfo 함수가 실행 됩니다. :: {}", authCode);
         Map<String, Object> resultMap = new HashMap<>();
+        oAuthRegistration.naver();
+
 
         MultiValueMap<String, String> tokenReqParamsMap = new LinkedMultiValueMap<>();
         tokenReqParamsMap.add("grant_type", "authorization_code");          // 인증 과정에 대한 구분값: 1. 발급:'authorization_code', 2. 갱신:'refresh_token', 3. 삭제: 'delete'
-        tokenReqParamsMap.add("client_id", NAVER_CLIENT_ID);                // 애플리케이션 등록 시 발급받은 Client ID 값
-        tokenReqParamsMap.add("client_secret", NAVER_CLIENT_SECRET);        // 애플리케이션 등록 시 발급받은 Client secret 값
+        tokenReqParamsMap.add("client_id", oAuthRegistration.naver().clientId());                // 애플리케이션 등록 시 발급받은 Client ID 값
+        tokenReqParamsMap.add("client_secret", oAuthRegistration.naver().clientSecret());        // 애플리케이션 등록 시 발급받은 Client secret 값
         tokenReqParamsMap.add("code", authCode);                            // 로그인 인증 요청 API 호출에 성공하고 리턴받은 인증코드값 (authorization code)
         tokenReqParamsMap.add("state", state);                              // 사이트 간 요청 위조(cross-site request forgery) 공격을 방지하기 위해 애플리케이션에서 생성한 상태 토큰값으로 URL 인코딩을 적용한 값을 사용
-        tokenReqParamsMap.add("redirect_uri", NAVER_REDIRECT_URL);          // 애플리케이션 등록 시 발급받은 Client secret 값
+        tokenReqParamsMap.add("redirect_uri", oAuthRegistration.naver().redirectUri());          // 애플리케이션 등록 시 발급받은 Client secret 값
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(tokenReqParamsMap, this.defaultHeader());
 
         ResponseEntity<Map<String, Object>> tokenResponse = restTemplateConfig
                 .restTemplate()
-                .exchange(NAVER_TOKEN_URL, HttpMethod.POST, request, new ParameterizedTypeReference<>() {
+                .exchange(oAuthProvider.naver().tokenUri(), HttpMethod.POST, request, new ParameterizedTypeReference<>() {
                 });
 
         // 응답에 성공을 하는 경우
@@ -327,7 +282,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
             log.debug("요청 값 :: {}", userInfoReq);
             response = restTemplateConfig
                     .restTemplate()
-                    .exchange(NAVER_USER_INFO_URL, HttpMethod.POST, userInfoReq, new ParameterizedTypeReference<>() {
+                    .exchange(oAuthProvider.naver().userInfoUri(), HttpMethod.POST, userInfoReq, new ParameterizedTypeReference<>() {
                     });
             log.debug("사용자 조회 :: {}", response);
         } catch (Exception e) {
