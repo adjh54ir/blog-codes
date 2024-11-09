@@ -1,9 +1,8 @@
 package com.adjh.springbootoauth2.service;
 
-import com.adjh.springbootoauth2.dto.oauth2.LoginKakaoReqDto;
-import com.adjh.springbootoauth2.dto.oauth2.LoginKakaoReqDto222;
-import com.adjh.springbootoauth2.dto.oauth2.LoginNaverReqDto;
-import com.adjh.springbootoauth2.dto.oauth2.LoginNaverResDto;
+import com.adjh.springbootoauth2.dto.oauth2.OAuth2KakaoUserInfoDto;
+import com.adjh.springbootoauth2.dto.oauth2.OAuth2NaverUserInfoDto;
+import com.adjh.springbootoauth2.dto.oauth2.OAuth2AuthInfoDto;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service("OAuth2Service")
 public interface OAuth2Service {
 
-    Object kakaoLogin(LoginKakaoReqDto loginKakaoReqDto);
+    OAuth2KakaoUserInfoDto kakaoLogin(OAuth2AuthInfoDto oAuth2AuthInfoDto);
 
-    LoginNaverResDto naverLogin(LoginNaverReqDto loginNaverReqDto);
+    OAuth2NaverUserInfoDto naverLogin(OAuth2AuthInfoDto oAuth2AuthInfoDto);
 }

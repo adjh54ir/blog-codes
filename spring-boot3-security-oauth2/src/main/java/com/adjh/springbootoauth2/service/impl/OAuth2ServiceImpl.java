@@ -3,12 +3,11 @@ package com.adjh.springbootoauth2.service.impl;
 import com.adjh.springbootoauth2.config.RestTemplateConfig;
 import com.adjh.springbootoauth2.config.properties.OAuth2ProviderProperties;
 import com.adjh.springbootoauth2.config.properties.OAuth2RegistrationProperties;
-import com.adjh.springbootoauth2.dto.oauth2.LoginKakaoReqDto;
-import com.adjh.springbootoauth2.dto.oauth2.LoginNaverReqDto;
-import com.adjh.springbootoauth2.dto.oauth2.LoginNaverResDto;
-import com.adjh.springbootoauth2.config.properties.OAuth2ClientProperties;
+import com.adjh.springbootoauth2.dto.oauth2.*;
 import com.adjh.springbootoauth2.service.OAuth2Service;
-import jakarta.annotation.PostConstruct;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -54,90 +53,93 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     /**
      * 제공자(Kakao) 로그인을 수행하고 정보를 반환 받는 서비스입니다.
      *
-     * @param loginKakaoReqDto
+     * @param authInfo
      * @return
      */
     @Override
-    public LoginKakaoReqDto kakaoLogin(LoginKakaoReqDto loginKakaoReqDto) {
-        log.debug("[+] 카카오 로그인이 성공하여 리다이렉트 되었습니다.");
-        log.debug("코드 값 확인 : {}", loginKakaoReqDto.getCode());
-        log.debug("에러 값 확인 : {}", loginKakaoReqDto.getError());
-        log.debug("에러 설명 값 확인 : {}", loginKakaoReqDto.getErrorDescription());
-        log.debug("상태 값 확인 : {}", loginKakaoReqDto.getState());
+    public OAuth2KakaoUserInfoDto kakaoLogin(OAuth2AuthInfoDto authInfo) {
 
-        if (loginKakaoReqDto.getCode() == null || loginKakaoReqDto.getCode().isEmpty()) {
+
+        log.debug("[+] 카카오 로그인이 성공하여 리다이렉트 되었습니다.", authInfo);
+        log.debug("코드 값 확인 : {}", authInfo.getCode());
+        log.debug("에러 값 확인 : {}", authInfo.getError());
+        log.debug("에러 설명 값 확인 : {}", authInfo.getErrorDescription());
+        log.debug("상태 값 확인 : {}", authInfo.getState());
+
+        // [STEP1] 리다이렉트로 반환 받은 인증 코드의 존재여부를 체크합니다.
+        if (authInfo.getCode() == null || authInfo.getCode().isEmpty()) {
             log.error("[-] 카카오 로그인 리다이렉션에서 문제가 발생하였습니다.");
             return null;
         }
 
-        // [STEP2] 카카오의 토큰 정보들을 반환받습니다.
-        Map<String, Object> kakaoTokenInfo = this.getKakaoTokenInfo(loginKakaoReqDto.getCode());
-        String accessToken = kakaoTokenInfo.get("accessToken").toString();
+        // [STEP2] 카카오로 토큰을 요청합니다.(접근 토큰, 갱신 토큰)
+        OAuth2TokenInfoDto kakaoTokenInfo = this.getKakaoTokenInfo(authInfo.getCode());
+        log.debug("토큰 정보 전체를 확인합니다 :: {}", kakaoTokenInfo);
 
-        if (!accessToken.isEmpty()) {
-            log.error("[-] 카카오 로그인 토큰 정보를 조회하는 중에 문제가 발생하였습니다.");
-            return null;
-        }
-
-        // [STEP3] 카카오로부터 받은 토큰이 존재하는 경우만 수행
-        Map<String, Object> userInfo = this.getKakaoUserInfo(accessToken);
+        // [STEP3] 접근 토큰을 기반으로 사용자 정보를 요청합니다.
+        OAuth2KakaoUserInfoDto userInfo = this.getKakaoUserInfo(kakaoTokenInfo.getAccessToken());
         log.debug("userInfo :: {}", userInfo);
+        return userInfo;
+    }
 
-
-        if (userInfo == null) {
-            log.error("[-] 카카오 사용자 조회하는 중에 문제가 발생하였습니다.");
-            return null;
-        }
-
-        Map<String, Object> properties = (Map<String, Object>) userInfo.get("properties");
-        log.debug("properties :: {}", properties);
-
-        Map<String, Object> kakaoAccount = (Map<String, Object>) userInfo.get("kakao_account");
-        log.debug("kakaoAccount :: {}", kakaoAccount);
-
-        Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
-        log.debug("profile :: {}", profile);
-        return null;
+    /**
+     * Convert Object To Map
+     *
+     * @param obj
+     * @return
+     */
+    private Map<String, Object> cvtObjectToMap(Object obj) {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.convertValue(obj, new TypeReference<>() {
+        });
     }
 
 
     /**
      * KAKAO TOKEN 토큰(접근토큰, 갱신토큰)을 발급 받습니다.
      *
-     * @param authCode
-     * @return
+     * @param authCode 인증 코드
+     * @return OAuth2TokenInfoDto
      * @refrence https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#get-token-info
      */
-    private Map<String, Object> getKakaoTokenInfo(String authCode) {
+    private OAuth2TokenInfoDto getKakaoTokenInfo(String authCode) {
         log.debug("[+] getKakaoTokenInfo 함수가 실행 됩니다. :: {}", authCode);
 
-        Map<String, Object> resultMap = new HashMap<>();
+        OAuth2TokenInfoDto resultDto = null;
+        ResponseEntity<Map<String, Object>> responseTokenInfo = null;
 
-        MultiValueMap<String, String> tokenReqParamsMap = new LinkedMultiValueMap<>();
-        tokenReqParamsMap.add("grant_type", "authorization_code");
-        tokenReqParamsMap.add("client_id", oAuthRegistration.kakao().clientId());
-        tokenReqParamsMap.add("redirect_uri", oAuthRegistration.kakao().redirectUri());
-        tokenReqParamsMap.add("code", authCode);
-        tokenReqParamsMap.add("client_secret", oAuthRegistration.kakao().clientSecret());
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(tokenReqParamsMap, this.defaultHeader());
+        // [STEP1] 카카오 토큰 URL로 전송할 데이터 구성
+        MultiValueMap<String, Object> requestParamMap = new LinkedMultiValueMap<>();
+        requestParamMap.add("grant_type", "authorization_code");
+        requestParamMap.add("client_id", oAuthRegistration.kakao().clientId());
+        requestParamMap.add("redirect_uri", oAuthRegistration.kakao().redirectUri());
+        requestParamMap.add("code", authCode);
+        requestParamMap.add("client_secret", oAuthRegistration.kakao().clientSecret());
+        HttpEntity<MultiValueMap<String, Object>> requestMap = new HttpEntity<>(requestParamMap, this.defaultHeader());
 
-        ResponseEntity<Map<String, Object>> tokenResponse = restTemplateConfig
-                .restTemplate()
-                .exchange(oAuthProvider.kakao().tokenUri(), HttpMethod.POST, request, new ParameterizedTypeReference<>() {
-                });
-
-        // 응답에 성공을 하는 경우
-        if (tokenResponse.getStatusCode().value() == 200 && tokenResponse.getBody() != null) {
-            Map<String, Object> resultBody = tokenResponse.getBody();
-            try {
-                resultMap.put("accessToken", resultBody.getOrDefault("access_token", "").toString());
-                resultMap.put("refreshToken", resultBody.getOrDefault("refresh_token", "").toString());
-                resultMap.put("tokenType", resultBody.getOrDefault("token_type", "").toString());
-            } catch (NullPointerException e) {
-                log.error("exception :: {}", e.getMessage());
-            }
+        try {
+            // [STEP2] 카카오 토큰 URL로 RestTemplate 이용하여 데이터 전송
+            responseTokenInfo = restTemplateConfig
+                    .restTemplate()
+                    .exchange(oAuthProvider.kakao().tokenUri(), HttpMethod.POST, requestMap, new ParameterizedTypeReference<>() {
+                    });
+        } catch (Exception e) {
+            log.error("[-] 토큰 요청 중에 오류가 발생하였습니다. {}", e.getMessage());
         }
-        return resultMap;
+        // [STEP3] 토큰 반환 값 결과값으로 구성
+        if (responseTokenInfo != null && responseTokenInfo.getBody() != null && responseTokenInfo.getStatusCode().is2xxSuccessful()) {
+            Map<String, Object> body = responseTokenInfo.getBody();
+            if (body != null) {
+                resultDto = OAuth2TokenInfoDto.builder()
+                        .accessToken(body.get("access_token").toString())
+                        .refreshToken(body.get("refresh_token").toString())
+                        .tokenType(body.get("token_type").toString())
+                        .build();
+            }
+        } else {
+            log.error("[-] 토큰 정보가 존재하지 않습니다.");
+        }
+        return resultDto;
     }
 
 
@@ -148,146 +150,216 @@ public class OAuth2ServiceImpl implements OAuth2Service {
      * @return
      * @refrence https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#req-user-info
      */
-    private Map<String, Object> getKakaoUserInfo(String accessToken) {
+    private OAuth2KakaoUserInfoDto getKakaoUserInfo(String accessToken) {
         log.debug("[+] getKakaoUserInfo을 수행합니다 :: {}", accessToken);
+
+        ResponseEntity<Map<String, Object>> responseUserInfo = null;
+        OAuth2KakaoUserInfoDto resultDto = null;
+
+
+        // [STEP1] 필수 요청 Header 값 구성 : ContentType, Authorization
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers.add("Authorization", "Bearer " + accessToken);        // accessToken 추가
+
+
+        // [STEP2] 요청 파라미터 구성 : 원하는 사용자 정보
         MultiValueMap<String, Object> userInfoParam = new LinkedMultiValueMap<>();
-        ResponseEntity<Map<String, Object>> response = null;
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-            headers.add("Authorization", "Bearer " + accessToken);        // accessToekn 추가
-            HttpEntity<MultiValueMap<String, Object>> userInfoReq = new HttpEntity<>(userInfoParam, headers);
-            log.debug("요청 값 :: {}", userInfoReq);
-            response = restTemplateConfig
+            userInfoParam.add("property_keys", objectMapper.writeValueAsString(oAuthRegistration.kakao().scope()));   // 불러올 데이터 조회 (리스트 to 문자열 변환)
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        HttpEntity<MultiValueMap<String, Object>> userInfoReq = new HttpEntity<>(userInfoParam, headers);
+
+        // [STEP3] 요청 Header, 파라미터를 포함하여 사용자 정보 조회 URL로 요청을 수행합니다.
+        try {
+            responseUserInfo = restTemplateConfig
                     .restTemplate()
                     .exchange(oAuthProvider.kakao().userInfoUri(), HttpMethod.POST, userInfoReq, new ParameterizedTypeReference<>() {
                     });
-            log.debug("사용자 조회 :: {}", response);
+            log.debug("결과 값 :: {}", responseUserInfo);
+
         } catch (Exception e) {
-            log.error("Error :: {}", e.getMessage());
+            log.error("[-] 사용자 정보 요청 중에 오류가 발생하였습니다.{}", e.getMessage());
         }
-        return response != null ? response.getBody() : null;
+
+
+        // [STEP4] 사용자 정보가 존재한다면 값을 불러와서 OAuth2KakaoUserInfoDto 객체로 구성하여 반환합니다.
+        if (responseUserInfo != null && responseUserInfo.getBody() != null && responseUserInfo.getStatusCode().is2xxSuccessful()) {
+            Map<String, Object> body = responseUserInfo.getBody();
+
+            if (body != null) {
+                Map<String, Object> kakaoAccount = this.cvtObjectToMap(body.get("kakao_account"));
+                Map<String, Object> profile = this.cvtObjectToMap(this.cvtObjectToMap(body.get("kakao_account")).get("profile"));
+                resultDto = OAuth2KakaoUserInfoDto.builder()
+                        .id(body.get("id").toString())                                      // 사용자 아이디 번호
+                        .statusCode(responseUserInfo.getStatusCode().value())               // 상태 코드
+                        .email(kakaoAccount.get("email").toString())                        // 이메일
+                        .profileImageUrl(profile.get("profile_image_url").toString())
+                        .thumbnailImageUrl(profile.get("thumbnail_image_url").toString())
+                        .nickname(profile.get("nickname").toString())
+                        .build();
+
+                log.debug("최종 구성 결과 :: {}", resultDto);
+
+            }
+        }
+        return resultDto;
     }
 
 
     /**
      * 제공자(Kakao) 로그인을 수행하고 정보를 반환 받는 서비스입니다.
      *
-     * @param loginNaverReqDto
+     * @param authInfo
      * @return
      */
     @Override
-    public LoginNaverResDto naverLogin(LoginNaverReqDto loginNaverReqDto) {
+    public OAuth2NaverUserInfoDto naverLogin(OAuth2AuthInfoDto authInfo) {
+
+        OAuth2NaverUserInfoDto resultUserInfo = null;
+
         log.debug("[+] 네이버 로그인이 성공하여 리다이렉트 되었습니다.");
+        log.debug("코드 값 확인2 : {}", authInfo.getCode());
+        log.debug("에러 값 확인2 : {}", authInfo.getError());
+        log.debug("에러 설명 값 확인2 : {}", authInfo.getErrorDescription());
+        log.debug("상태 값 확인2 : {}", authInfo.getState());
 
-        log.debug("코드 값 확인2 : {}", loginNaverReqDto.getCode());
-        log.debug("에러 값 확인2 : {}", loginNaverReqDto.getError());
-        log.debug("에러 설명 값 확인2 : {}", loginNaverReqDto.getErrorDescription());
-        log.debug("상태 값 확인2 : {}", loginNaverReqDto.getState());
-
-        // [STEP1] Naver 로그인 코드를 받은 경우 수행이 됩니다.
-        if (loginNaverReqDto.getCode() != null) {
-
-            // [STEP2] 전달받은 인증코드를 기반으로 토큰정보를 조회합니다.
-            Map<String, Object> naverTokenInfo = this.getNaverTokenInfo(loginNaverReqDto.getCode(), loginNaverReqDto.getState());
-
-            // [STEP3] 접근 토큰을 조회합니다.
-            String accessToken = naverTokenInfo.get("accessToken").toString();
-            log.debug("naverTokenInfo :: {}", accessToken);
-
-            // [STEP4] 접근 토큰이 존재하는 경우 이후 '사용자 정보'를 조회합니다.
-            if (accessToken != null) {
-
-                Map<String, Object> userInfo = this.getNaverUserInfo(accessToken);
-                log.debug("사용자 정보를 출력합니다 :: {}", userInfo);
-
-                String resultCode = userInfo.get("resultcode").toString();
-                String message = userInfo.get("message").toString();
-
-                if (resultCode.equals("00") && message.equals("success")) {
-                    Map<String, Object> response = (Map<String, Object>) userInfo.get("response");
-                    String id = response.get("id").toString();
-                    String nickname = response.get("nickname").toString();
-                    String email = response.get("email").toString();
-                    String name = response.get("name").toString();
-                }
-            } else {
-                log.error("Naver 로그인 접근 토큰(Access Token)을 받지 못하였습니다. :: {}", loginNaverReqDto.getError());
-            }
-
-        } else {
-            log.error("Naver 로그인 인증 코드(Auth Code)를 받지 못하였습니다. :: {}", loginNaverReqDto.getError());
+        // [STEP1] 리다이렉트로 반환 받은 인증 코드의 존재여부를 체크합니다.
+        if (authInfo.getCode() == null || authInfo.getCode().isEmpty()) {
+            log.error("[-] 카카오 로그인 리다이렉션에서 문제가 발생하였습니다.");
+            return null;
         }
-        return null;
+
+        // [STEP2] 전달받은 인증코드를 기반으로 토큰정보를 조회합니다.
+        OAuth2TokenInfoDto naverTokenInfo = this.getNaverTokenInfo(authInfo.getCode(), authInfo.getState());
+
+        // [STEP3] 토큰 정보가 존재하는 경우 사용자 정보를 조회합니다.
+        // [STEP3] 접근 토큰을 조회합니다.
+        String accessToken = naverTokenInfo.getAccessToken();
+        String refreshToken = naverTokenInfo.getRefreshToken();
+        log.debug("naverTokenInfo :: {} ,  {}", accessToken, refreshToken);
+
+        resultUserInfo = this.getNaverUserInfo(accessToken);
+
+        return resultUserInfo;
     }
 
     /**
      * NAVER TOKEN 토큰(접근토큰, 갱신토큰)을 발급 받습니다.
      *
-     * @param authCode
-     * @param state
-     * @return
+     * @param authCode 인증 코드
+     * @return OAuth2TokenInfoDto 토큰 결과값
      * @refrence : https://developers.naver.com/docs/login/api/api.md#1--%EC%A4%80%EB%B9%84%EC%82%AC%ED%95%AD
      */
-    private Map<String, Object> getNaverTokenInfo(String authCode, String state) {
+    private OAuth2TokenInfoDto getNaverTokenInfo(String authCode, String state) {
         log.debug("[+] getNaverTokenInfo 함수가 실행 됩니다. :: {}", authCode);
-        Map<String, Object> resultMap = new HashMap<>();
-        oAuthRegistration.naver();
+        OAuth2TokenInfoDto resultDto = null;
+        ResponseEntity<Map<String, Object>> responseTokenInfo = null;
 
+        // [STEP1] 네이버 토큰 URL로 전송할 데이터 구성
+        MultiValueMap<String, String> requestParamMap = new LinkedMultiValueMap<>();
+        requestParamMap.add("grant_type", "authorization_code");                          // 인증 과정에 대한 구분값: 1. 발급:'authorization_code', 2. 갱신:'refresh_token', 3. 삭제: 'delete'
+        requestParamMap.add("client_id", oAuthRegistration.naver().clientId());           // 애플리케이션 등록 시 발급받은 Client ID 값
+        requestParamMap.add("client_secret", oAuthRegistration.naver().clientSecret());   // 애플리케이션 등록 시 발급받은 Client secret 값
+        requestParamMap.add("code", authCode);                                            // 로그인 인증 요청 API 호출에 성공하고 리턴받은 인증코드값 (authorization code)
+        requestParamMap.add("state", state);                                              // 사이트 간 요청 위조(cross-site request forgery) 공격을 방지하기 위해 애플리케이션에서 생성한 상태 토큰값으로 URL 인코딩을 적용한 값을 사용
+        requestParamMap.add("redirect_uri", oAuthRegistration.naver().redirectUri());     // 애플리케이션 등록 시 발급받은 Client secret 값
+        HttpEntity<MultiValueMap<String, String>> requestMap = new HttpEntity<>(requestParamMap, this.defaultHeader());
 
-        MultiValueMap<String, String> tokenReqParamsMap = new LinkedMultiValueMap<>();
-        tokenReqParamsMap.add("grant_type", "authorization_code");          // 인증 과정에 대한 구분값: 1. 발급:'authorization_code', 2. 갱신:'refresh_token', 3. 삭제: 'delete'
-        tokenReqParamsMap.add("client_id", oAuthRegistration.naver().clientId());                // 애플리케이션 등록 시 발급받은 Client ID 값
-        tokenReqParamsMap.add("client_secret", oAuthRegistration.naver().clientSecret());        // 애플리케이션 등록 시 발급받은 Client secret 값
-        tokenReqParamsMap.add("code", authCode);                            // 로그인 인증 요청 API 호출에 성공하고 리턴받은 인증코드값 (authorization code)
-        tokenReqParamsMap.add("state", state);                              // 사이트 간 요청 위조(cross-site request forgery) 공격을 방지하기 위해 애플리케이션에서 생성한 상태 토큰값으로 URL 인코딩을 적용한 값을 사용
-        tokenReqParamsMap.add("redirect_uri", oAuthRegistration.naver().redirectUri());          // 애플리케이션 등록 시 발급받은 Client secret 값
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(tokenReqParamsMap, this.defaultHeader());
+        try {
+            // [STEP2] 네이버 토큰 URL로 RestTemplate 이용하여 데이터 전송
+            responseTokenInfo = restTemplateConfig
+                    .restTemplate()
+                    .exchange(oAuthProvider.naver().tokenUri(), HttpMethod.POST, requestMap, new ParameterizedTypeReference<>() {
+                    });
 
-        ResponseEntity<Map<String, Object>> tokenResponse = restTemplateConfig
-                .restTemplate()
-                .exchange(oAuthProvider.naver().tokenUri(), HttpMethod.POST, request, new ParameterizedTypeReference<>() {
-                });
-
-        // 응답에 성공을 하는 경우
-        if (tokenResponse.getStatusCode().value() == 200 && tokenResponse.getBody() != null) {
-            Map<String, Object> resultBody = tokenResponse.getBody();
-            try {
-                resultMap.put("accessToken", resultBody.getOrDefault("access_token", "").toString());
-                resultMap.put("refreshToken", resultBody.getOrDefault("refresh_token", "").toString());
-                resultMap.put("tokenType", resultBody.getOrDefault("token_type", "").toString());
-                resultMap.put("expiresIn", resultBody.getOrDefault("expires_in", "").toString());
-                resultMap.put("error", resultBody.getOrDefault("error", "").toString());
-                resultMap.put("errorDescription", resultBody.getOrDefault("error_description", "").toString());
-            } catch (NullPointerException e) {
-                log.error("exception :: {}", e.getMessage());
-            }
+            log.debug("네이버 로그인 결과 :: {}", responseTokenInfo);
+        } catch (Exception e) {
+            log.error("[-] 토큰 요청 중에 오류가 발생하였습니다.{}", e.getMessage());
         }
-        log.debug("최종 결과 값을 확인합니다 : {}", resultMap.toString());
 
-        return resultMap;
+        // [STEP3] 토큰 반환 값 결과값으로 구성
+        if (responseTokenInfo != null && responseTokenInfo.getBody() != null && responseTokenInfo.getStatusCode().is2xxSuccessful()) {
+            Map<String, Object> body = responseTokenInfo.getBody();
+            if (body != null) {
+                resultDto = OAuth2TokenInfoDto.builder()
+                        .accessToken(body.get("access_token").toString())
+                        .refreshToken(body.get("refresh_token").toString())
+                        .tokenType(body.get("token_type").toString())
+                        .expiresIn(body.get("expires_in").toString())
+                        .build();
+            }
+
+        } else {
+            log.error("[-] 토큰 정보가 존재하지 않습니다.");
+        }
+        log.debug("최종 결과 값을 확인합니다 : {}", resultDto.toString());
+
+        return resultDto;
     }
 
-    private Map<String, Object> getNaverUserInfo(String accessToken) {
+
+    /**
+     * Naver의 사용자 정보를 조회합니다.
+     *
+     * @param accessToken
+     * @return
+     * @refrence https://developers.naver.com/docs/login/profile/profile.md
+     */
+    private OAuth2NaverUserInfoDto getNaverUserInfo(String accessToken) {
         log.debug("[+] getNaverUserInfo 함수를 수행합니다 :: {}", accessToken);
 
+        ResponseEntity<Map<String, Object>> responseUserInfo = null;
+        OAuth2NaverUserInfoDto resultDto = null;
+
+
+        // [STEP1] 필수 요청 Header 값 구성 : ContentType, Authorization
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.add("Authorization", "Bearer " + accessToken);        // accessToekn 추가
+
+        // [STEP2] 요청 파라미터 구성 : 별도의 요청정보는 없음.
         MultiValueMap<String, Object> userInfoParam = new LinkedMultiValueMap<>();
-        ResponseEntity<Map<String, Object>> response = null;
+        HttpEntity<MultiValueMap<String, Object>> userInfoReq = new HttpEntity<>(userInfoParam, headers);
+        log.debug("요청 값 :: {}", userInfoReq);
+
+        // [STEP3] 요청 Header, 파라미터를 포함하여 사용자 정보 조회 URL로 요청을 수행합니다.
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            headers.add("Authorization", "Bearer " + accessToken);        // accessToekn 추가
-            HttpEntity<MultiValueMap<String, Object>> userInfoReq = new HttpEntity<>(userInfoParam, headers);
-            log.debug("요청 값 :: {}", userInfoReq);
-            response = restTemplateConfig
+            responseUserInfo = restTemplateConfig
                     .restTemplate()
                     .exchange(oAuthProvider.naver().userInfoUri(), HttpMethod.POST, userInfoReq, new ParameterizedTypeReference<>() {
                     });
-            log.debug("사용자 조회 :: {}", response);
+
         } catch (Exception e) {
-            log.error("Error :: {}", e.getMessage());
+            log.error("[-] 사용자 정보 요청 중에 오류가 발생하였습니다.{}", e.getMessage());
         }
-        return response != null ? response.getBody() : null;
+
+        log.debug("사용자 조회 :: {}", responseUserInfo);
+
+        // [STEP4] 사용자 정보가 존재한다면 값을 불러와서 OAuth2NaverUserInfoDto 객체로 구성하여 반환합니다.
+        if (responseUserInfo != null && responseUserInfo.getBody() != null && responseUserInfo.getStatusCode().is2xxSuccessful()) {
+            Map<String, Object> body = responseUserInfo.getBody();
+            if (body != null && body.get("response") != null) {
+                Map<String, Object> resBody = this.cvtObjectToMap(body.get("response"));
+                resultDto = OAuth2NaverUserInfoDto.builder()
+                        .resultCode(body.get("resultcode").toString())
+                        .message(body.get("message").toString())
+                        .response(
+                                OAuth2NaverUserInfoDto.NaverUserResponse
+                                        .builder()
+                                        .id(resBody.get("id").toString())
+                                        .email(resBody.get("email").toString())
+                                        .name(resBody.get("name").toString())
+                                        .nickname(resBody.get("nickname").toString())
+                                        .build())
+                        .build();
+                log.debug("userInfo :: {}", resultDto);
+            }
+        }
+        return resultDto;
     }
 }
