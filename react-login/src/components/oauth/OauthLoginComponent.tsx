@@ -1,19 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
-import LoginService from '../../services/LoginService';
-import { LoginType } from '../../types/LoginType';
-
 const OauthLoginComponent = () => {
-	useEffect(() => {
-		console.log('[+] loading ...');
-	}, []);
-	const navigate = useNavigate();
-
-	const [userInfo, setUserInfo] = useState<LoginType.LoginType>({
-		userId: '',
-		userPw: '',
-	});
-
 	const oAuthLoginHandler = (() => {
 		return {
 			/**
