@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 /**
@@ -193,14 +194,31 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
             if (body != null) {
                 Map<String, Object> kakaoAccount = this.cvtObjectToMap(body.get("kakao_account"));
-                Map<String, Object> profile = this.cvtObjectToMap(this.cvtObjectToMap(body.get("kakao_account")).get("profile"));
+                Map<String, Object> profile = this.cvtObjectToMap(kakaoAccount.get("profile"));
+
+                System.out.println("Profile :: " + profile);
+                System.out.println("ID: " + body.get("id"));
+                System.out.println("Status Code: " + responseUserInfo.getStatusCode().value());
+                System.out.println("Profile Image URL: " + profile.get("profile_image_url"));
+                System.out.println("Thumbnail Image URL: " + profile.get("thumbnail_image_url"));
+                System.out.println("Email: " + kakaoAccount.get("email"));
+                System.out.println("Nickname: " + profile.get("nickname"));
+                System.out.println("Name: " + kakaoAccount.get("name"));
+                System.out.println("Age Range: " + kakaoAccount.get("age_range"));
+                System.out.println("Birthday: " + kakaoAccount.get("birthday"));
+                System.out.println("Gender: " + kakaoAccount.get("gender"));
+
                 resultDto = OAuth2KakaoUserInfoDto.builder()
-                        .id(body.get("id").toString())                                      // 사용자 아이디 번호
-                        .statusCode(responseUserInfo.getStatusCode().value())               // 상태 코드
-                        .email(kakaoAccount.get("email").toString())                        // 이메일
-                        .profileImageUrl(profile.get("profile_image_url").toString())
-                        .thumbnailImageUrl(profile.get("thumbnail_image_url").toString())
-                        .nickname(profile.get("nickname").toString())
+                        .id(Optional.ofNullable(body.get("id")).map(Object::toString).orElse(""))
+                        .statusCode(responseUserInfo.getStatusCode().value())
+                        .nickname(Optional.ofNullable(profile.get("nickname")).map(Object::toString).orElse(""))
+                        .profileImageUrl(Optional.ofNullable(profile.get("profile_image_url")).map(Object::toString).orElse(""))
+                        .thumbnailImageUrl(Optional.ofNullable(profile.get("thumbnail_image_url")).map(Object::toString).orElse(""))
+                        .email(Optional.ofNullable(kakaoAccount.get("email")).map(Object::toString).orElse(""))
+                        .name(Optional.ofNullable(kakaoAccount.get("name")).map(Object::toString).orElse(""))
+                        .ageRange(Optional.ofNullable(kakaoAccount.get("age_range")).map(Object::toString).orElse(""))
+                        .birthday(Optional.ofNullable(kakaoAccount.get("birthday")).map(Object::toString).orElse(""))
+                        .gender(Optional.ofNullable(kakaoAccount.get("gender")).map(Object::toString).orElse(""))
                         .build();
 
                 log.debug("최종 구성 결과 :: {}", resultDto);
