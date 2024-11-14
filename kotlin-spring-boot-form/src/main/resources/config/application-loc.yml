@@ -1,0 +1,11 @@
+# Spring Boot Configuration
+spring:
+  # 1. Spring Boot JDBC + HikariCP 설정
+  datasource:
+    hikari:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://localhost:5432/testdb
+      username: localmaster
+      password: qwer1234
+      pool-name: Hikari Connection Pool  # Alias
+      maximum-pool-size: 5
