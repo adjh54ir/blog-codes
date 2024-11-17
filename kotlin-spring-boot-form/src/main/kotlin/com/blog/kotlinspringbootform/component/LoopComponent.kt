@@ -93,5 +93,10 @@ class LoopComponent {
         }
     }
 
+    fun extensionFunCall () {
+        val str = "Hello"
+        println(str.addExclamation())  // 출력: Hello!
+    }
+
 
 }

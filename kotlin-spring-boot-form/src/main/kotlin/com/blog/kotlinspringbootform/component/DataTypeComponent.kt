@@ -3,7 +3,7 @@ package com.blog.kotlinspringbootform.component
 import org.springframework.stereotype.Component
 
 @Component
-class dataTypeComponent {
+class DataTypeComponent {
 
     /**
      * 숫자 관련 변수들
