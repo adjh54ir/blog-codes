@@ -92,11 +92,4 @@ class LoopComponent {
             println(i)
         }
     }
-
-    fun extensionFunCall () {
-        val str = "Hello"
-        println(str.addExclamation())  // 출력: Hello!
-    }
-
-
 }

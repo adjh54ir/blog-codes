@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component
  * @author        : jonghoon
  * @since         : 11/17/24
  */
+
 @Component
 class FunctionComponent {
 
@@ -39,5 +40,71 @@ class FunctionComponent {
         println(str.addExclamation())  // 출력: Hello!
     }
 
+    /**
+     * 고차함수 구조
+     */
+    fun higherOrderFun(x: Int, y: Int, op: (Int, Int) -> Int): Int = op(x, y)
+
+    /**
+     * 고차함수 호출 : 함수 파라미터
+     */
+    fun higherOrderFunCall() {
+        // 덧셈 연산
+        val sum = higherOrderFun(5, 3) { a, b -> a + b }
+        println(sum)  // 출력: 8
+
+        // 곱셈 연산
+        val product = higherOrderFun(5, 3) { a, b -> a * b }
+        println(product)  // 출력: 15
+    }
+
+
+    /**
+     * 인라인 고차함수 구조
+     */
+    private inline fun inlineHigherOrderFun(x: Int, y: Int, op: (Int, Int) -> Int): Int = op(x, y)
+
+    /**
+     * 인라인 고차함수 호출 : 함수 파라미터
+     */
+    fun inlineHigherOrderFunCall() {
+        // 덧셈 연산
+        val sum = higherOrderFun(5, 3) { a, b -> a + b }
+        println(sum)  // 출력: 8
+
+        // 곱셈 연산
+        val product = higherOrderFun(5, 3) { a, b -> a * b }
+        println(product)  // 출력: 15
+    }
+
+
+    /**
+     * 일반적인 타입을 지정한 파라미터
+     */
+    fun normalParam(name: String): String {
+        return "hello $name"
+    }
+
+    /**
+     * default 값을 가지는 파라미터
+     */
+    fun defaultParam(name: String = "lee"): String {
+        return "hello $name"
+    }
+
+    /**
+     * vararg 파라미터를 이용하여 가변 인자 함수
+     */
+    fun varargSumParam(vararg numbers: Int): Int = numbers.sum()
+
+    /**
+     * vararg 파라미터를 이용하여 가변 인자 함수 호출
+     */
+    fun varargParamCall() {
+        varargSumParam()                      // 인자 없이 호출 가능
+        varargSumParam(1)           // 단일 인자
+        varargSumParam(1, 2, 3)     // 여러 인자
+        varargSumParam(*intArrayOf(1, 2, 3))  // 배열을 전개 연산자(*)와 함께 사용
+    }
 
 }
