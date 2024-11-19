@@ -7,6 +7,7 @@ const MainComponenet = () => {
 		return {
 			login: () => navigation('/login'),
 			oAuthLogin: () => navigation('/oAuthLogin'),
+			parentComponent: () => navigation('/parent'),
 		};
 	})();
 
@@ -21,6 +22,11 @@ const MainComponenet = () => {
 				</button>
 				<button type='button' style={{ width: 200, height: 100, marginLeft: 100 }} onClick={moveToHandler.oAuthLogin}>
 					OAuth 로그인
+				</button>
+			</div>
+			<div style={{ flexDirection: 'row',marginTop: 100 }}>
+				<button type='button' style={{ width: 200, height: 100, marginLeft: 100 }} onClick={moveToHandler.parentComponent}>
+					기타
 				</button>
 			</div>
 		</div>
