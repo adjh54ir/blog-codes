@@ -58,4 +58,5 @@ class CastingComponent {
             println(obj.length) // obj는 자동으로 String으로 캐스트됨
         }
     }
+
 }
