@@ -4,6 +4,7 @@ import LoginComponent from '../components/security/LoginComponent';
 import MainComponenet from '../components/MainComponent';
 import OauthLoginComponent from '../components/oauth/OauthLoginComponent';
 import LoginSucessComponent from '../components/security/LoginSuccessComponent';
+import ParentComponent from '../components/etc/ParentComponent';
 
 const Routers = (props: any) => {
 	return (
@@ -13,6 +14,7 @@ const Routers = (props: any) => {
 			<Route path={'login'} element={<LoginComponent {...props} />} />
 			<Route path={'loginSuccess'} element={<LoginSucessComponent {...props} />} />
 			<Route path={'oAuthLogin'} element={<OauthLoginComponent {...props} />} />
+			<Route path={'parent'} element={<ParentComponent {...props} />} />
 		</Routes>
 	);
 };
