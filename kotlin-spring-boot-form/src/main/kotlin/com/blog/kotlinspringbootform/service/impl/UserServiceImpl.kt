@@ -1,10 +1,13 @@
 package com.blog.kotlinspringbootform.service.impl
 
 import com.blog.kotlinspringbootform.model.dto.UserDto
-import com.blog.kotlinspringbootform.service.BoardService
 import com.blog.kotlinspringbootform.service.UserService
+import org.springframework.stereotype.Service
 
-class UserServiceImpl : UserService, BoardService {
+@Service
+class UserServiceImpl : UserService {
+
+    // 추상 메서드 구현
     override fun selectUserList(userDto: UserDto): List<UserDto> {
         TODO("Not yet implemented")
     }
@@ -18,22 +21,6 @@ class UserServiceImpl : UserService, BoardService {
     }
 
     override fun deleteUserList(userDto: List<UserDto>) {
-        TODO("Not yet implemented")
-    }
-
-    override fun selectBoardList(any: Any): Any {
-        TODO("Not yet implemented")
-    }
-
-    override fun insertBoard(any: Any): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun updateBoard(any: Any): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun deleteBoard(any: Any): Int {
         TODO("Not yet implemented")
     }
 }
