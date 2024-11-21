@@ -16,7 +16,7 @@ class ConstructorComponent2(firstName: String, lastName: String, age: Int) {
 
 
 // 생성자 선언 방법-3 : 주 생성자와 보조 생성자가 존재하는 경우
-class Person(val name: String, var age: Int) {
+class Person2(val name: String, var age: Int) {
     // 주 생성자
 
     init {
@@ -30,6 +30,6 @@ class Person(val name: String, var age: Int) {
 }
 
 // 아래와 같은 구조를 통해 객체 생성 시 유연성을 제공합니다.
-val person1 = Person("Alice", 30)  // 주 생성자 사용
-val person2 = Person("Bob")        // 보조 생성자 사용, age는 0으로 초기화됨
+val person1 = Person2("Alice", 30)  // 주 생성자 사용
+val person2 = Person2("Bob")        // 보조 생성자 사용, age는 0으로 초기화됨
 
