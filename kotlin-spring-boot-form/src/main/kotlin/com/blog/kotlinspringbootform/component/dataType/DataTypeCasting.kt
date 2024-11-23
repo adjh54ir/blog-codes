@@ -1,9 +1,16 @@
-package com.blog.kotlinspringbootform.component
+package com.blog.kotlinspringbootform.component.dataType
 
 import org.springframework.stereotype.Component
 
+/**
+ * 데이터 타입 캐스팅 사용 예시
+ *
+ * @fileName      : DataTypeCasting
+ * @author        : jonghoon
+ * @since         : 11/23/24
+ */
 @Component
-class CastingComponent {
+class DataTypeCasting {
 
     /**
      * 기본 타입의 캐스팅 방법

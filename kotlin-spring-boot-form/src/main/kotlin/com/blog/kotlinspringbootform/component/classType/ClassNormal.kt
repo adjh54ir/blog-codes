@@ -1,6 +1,13 @@
-package com.blog.kotlinspringbootform.component.classComp
+package com.blog.kotlinspringbootform.component.classType
 
-class NormalClassComponent {
+/**
+ * 일반 클래스 사용 예시
+ *
+ * @fileName      : ClassNormal
+ * @author        : jonghoon
+ * @since         : 11/23/24
+ */
+class ClassNormal {
 }
 
 // 클래스 선언 방법-1: 클래스 헤더가 존재하지 않는 형태

@@ -1,6 +1,13 @@
-package com.blog.kotlinspringbootform.component.classComp
+package com.blog.kotlinspringbootform.component.classType
 
-class NestedClassComponent {
+/**
+ * 중첩 클래스 사용 예시
+ *
+ * @fileName      : ClassNested
+ * @author        : jonghoon
+ * @since         : 11/23/24
+ */
+class ClassNested {
     private val outerProperty = "Outer Property"
 
     class NestedClass {
@@ -18,9 +25,9 @@ class NestedClassComponent {
 }
 
 fun main() {
-    val nestedInstance = NestedClassComponent.NestedClass()
+    val nestedInstance = ClassNested.NestedClass()
     nestedInstance.nestedMethod()
 
-    val outerInstance = NestedClassComponent()
+    val outerInstance = ClassNested()
     outerInstance.outerMethod()
 }

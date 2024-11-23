@@ -1,9 +1,16 @@
-package com.blog.kotlinspringbootform.component.conditionExpComp
+package com.blog.kotlinspringbootform.component.expressionType
 
 import java.time.LocalDate
 import java.time.LocalTime
 
-class RangeComponent {
+/**
+ * Range 표현식 사용 예시
+ *
+ * @fileName      : ExpressionRange
+ * @author        : jonghoon
+ * @since         : 11/23/24
+ */
+class ExpressionRange {
 
     operator fun ClosedRange<LocalDate>.iterator() = object : Iterator<LocalDate> {
         var current = start

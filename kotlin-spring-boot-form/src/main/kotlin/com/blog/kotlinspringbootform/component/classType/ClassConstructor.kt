@@ -1,4 +1,4 @@
-package com.blog.kotlinspringbootform.component
+package com.blog.kotlinspringbootform.component.classType
 
 // 생성자 선언 방법-1: 클래스 이름과 매개변수 뒤에 constructor 선언하는 경우
 class ConstructorComponent constructor(firstName: String) {
