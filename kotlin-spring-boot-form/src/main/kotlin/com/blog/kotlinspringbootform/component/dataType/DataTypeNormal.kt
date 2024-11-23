@@ -1,9 +1,13 @@
-package com.blog.kotlinspringbootform.component
+package com.blog.kotlinspringbootform.component.dataType
 
-import org.springframework.stereotype.Component
-
-@Component
-class DataTypeComponent {
+/**
+ * 일반 데이터 타입 사용예시
+ *
+ * @fileName      : DataTypeNormal
+ * @author        : jonghoon
+ * @since         : 11/23/24
+ */
+class DataTypeNormal {
 
     /**
      * 숫자 관련 변수들
@@ -77,6 +81,4 @@ class DataTypeComponent {
             println("Hello")
         }
     }
-
-
 }

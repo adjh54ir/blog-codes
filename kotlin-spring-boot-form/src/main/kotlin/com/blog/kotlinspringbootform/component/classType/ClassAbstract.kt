@@ -1,6 +1,13 @@
-package com.blog.kotlinspringbootform.component.classComp
+package com.blog.kotlinspringbootform.component.classType
 
-abstract class AbstractClassComponent {
+/**
+ * 추상 클래스 사용 예시
+ *
+ * @fileName      : AbstractClassComponent
+ * @author        : jonghoon
+ * @since         : 11/23/24
+ */
+abstract class ClassAbstract {
     abstract fun draw() // 추상 메서드
 
     fun moveTo(x: Int, y: Int) { // 일반 메서드
@@ -8,7 +15,7 @@ abstract class AbstractClassComponent {
     }
 }
 
-class Circle : AbstractClassComponent() {
+class Circle : ClassAbstract() {
     override fun draw() {
         println("Drawing a circle")
     }

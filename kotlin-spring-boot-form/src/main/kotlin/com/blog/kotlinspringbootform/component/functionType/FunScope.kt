@@ -1,4 +1,4 @@
-package com.blog.kotlinspringbootform.component
+package com.blog.kotlinspringbootform.component.functionType
 
 import org.springframework.stereotype.Component
 
@@ -8,8 +8,7 @@ data class Person(var name: String, var age: Int)
 /**
  * 범위 함수의 사용예시를 관리하는 컴포넌트
  */
-@Component
-class ScopeFunctionComponent {
+class FunScope {
 
 
     /**

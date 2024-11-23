@@ -1,9 +1,16 @@
-package com.blog.kotlinspringbootform.component.conditionExpComp
+package com.blog.kotlinspringbootform.component.expressionType
 
 import org.springframework.stereotype.Component
 
+/**
+ * 조건식 사용예시
+ *
+ * @fileName      : ExpressionCondition
+ * @author        : jonghoon
+ * @since         : 11/23/24
+ */
 @Component
-class ConditionExpressionComponent {
+class ExpressionCondition {
 
     fun conditionIfExp(x: Int, y: Int, a: Int, b: Int) {
 

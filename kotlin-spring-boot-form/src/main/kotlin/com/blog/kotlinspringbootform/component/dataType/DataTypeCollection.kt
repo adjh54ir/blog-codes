@@ -1,9 +1,20 @@
-package com.blog.kotlinspringbootform.component
+package com.blog.kotlinspringbootform.component.dataType
 
 import org.springframework.stereotype.Component
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import kotlin.collections.HashSet
 
+/**
+ * Collection Data Type 데이터 예시
+ *
+ * @fileName      : DataTypeCollection
+ * @author        : jonghoon
+ * @since         : 11/23/24
+ */
 @Component
-class CollectionComponent {
+class DataTypeCollection {
 
     /**
      * 초기화, 읽기만 가능한 Collection
@@ -11,7 +22,6 @@ class CollectionComponent {
     fun readCollection(username: String, password: String) {
         // Set 초기화
         val readOnlySet = setOf(1, 2, 3)
-
         // List 초기화
         val readOnlyList = listOf("apple", "banana", "cherry")
 
@@ -69,5 +79,42 @@ class CollectionComponent {
             add("world")
         }
     }
+
+    /**
+     * Collection Type 구현체를 사용하는 예시
+     */
+    fun collectionImplements() {
+
+        val arrayList = ArrayList<String>()  // 동적 크기 조정이 가능한 리스트
+        arrayList.add("첫 번째")
+        arrayList.add("두 번째")
+
+        val linkedList = LinkedList<Int>()   // 이중 연결 리스트
+        linkedList.add(1)
+        linkedList.add(2)
+
+        // Set 예제
+        val hashSet = HashSet<String>()      // 해시 테이블 기반 Set
+        hashSet.add("사과")
+        hashSet.add("사과")  // 중복된 값은 추가되지 않음
+
+        val treeSet = TreeSet<Int>()         // 정렬된 Set
+        treeSet.add(3)
+        treeSet.add(1)
+        treeSet.add(2)
+        println(treeSet)  // [1, 2, 3] 순서로 출력
+
+        // Map 예제
+        val hashMap = HashMap<String, Int>()  // 해시 테이블 기반 Map
+        hashMap["one"] = 1
+        hashMap["two"] = 2
+
+        val treeMap = TreeMap<String, Int>()  // 정렬된 Map
+        treeMap["b"] = 2
+        treeMap["a"] = 1
+        treeMap["c"] = 3
+        println(treeMap)  // 키를 기준으로 정렬되어 출력
+    }
+
 
 }

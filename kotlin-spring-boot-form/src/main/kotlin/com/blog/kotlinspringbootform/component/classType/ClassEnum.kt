@@ -1,6 +1,13 @@
-package com.blog.kotlinspringbootform.component.classComp
+package com.blog.kotlinspringbootform.component.classType
 
-enum class EnumClassComponent {
+/**
+ * enum 클래스 사용 예시
+ *
+ * @fileName      : ClassEnum
+ * @author        : jonghoon
+ * @since         : 11/23/24
+ */
+enum class ClassEnum {
 }
 
 /**

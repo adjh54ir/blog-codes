@@ -1,10 +1,13 @@
-package com.blog.kotlinspringbootform.component
+package com.blog.kotlinspringbootform.component.expressionType
 
-import org.springframework.stereotype.Component
-
-@Component
-class LoopComponent {
-
+/**
+ * 루프 사용예시
+ *
+ * @fileName      : ExpressionLoop
+ * @author        : jonghoon
+ * @since         : 11/23/24
+ */
+class ExpressionLoop {
     /**
      * for문 반복문을 사용한 예시
      */

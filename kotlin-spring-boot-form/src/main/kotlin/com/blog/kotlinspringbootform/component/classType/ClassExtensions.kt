@@ -1,12 +1,16 @@
-package com.blog.kotlinspringbootform.component
+package com.blog.kotlinspringbootform.component.classType
 
 import org.springframework.stereotype.Component
 
 /**
- * 상속 관련한 컴포넌트
+ * 상속 관련 예시
+ *
+ * @fileName      : ClassExtensions
+ * @author        : jonghoon
+ * @since         : 11/23/24
  */
 @Component
-class ExtensionComponent {
+class ClassExtensions {
 
     /**
      * 상속 예정 클래스

@@ -32,8 +32,10 @@ dependencies {
 
     // [Spring Boot Starter]
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
 
+    //[OpenSource]
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
 
     // [compile & runtime & test]
     compileOnly("org.projectlombok:lombok")
