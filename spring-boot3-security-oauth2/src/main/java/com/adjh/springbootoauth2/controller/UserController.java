@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
  * @since : 10/1/24
  */
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("api/v1/user")
 public class UserController {
 
