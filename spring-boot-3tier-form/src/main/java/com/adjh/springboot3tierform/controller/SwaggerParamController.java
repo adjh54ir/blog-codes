@@ -1,12 +1,9 @@
 package com.adjh.springboot3tierform.controller;
 
 import com.adjh.springboot3tierform.model.dto.CodeDto;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -17,17 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 코드를 관리하는 Controller
- *
- * @author : jonghoon
- * @fileName : TestController
- * @since : 9/7/24
+ * Swagger 테스트를 위해 구성한 Controller
  */
-@Tag(name = "Code-Controller", description = "Code 관리 API 엔드포인트")
+@Tag(name = "Swagger-Controller", description = "Swagger Parameter 관리 API 엔드포인트")
 @RestController
-@RequestMapping("/api/v1/code")
-public class CodeController {
-
+@RequestMapping("/api/v1/swagger")
+public class SwaggerParamController {
     /**
      * 어노테이션 @RequestParam으로 전달된 파라미터에 대해 Swagger 정의: @Parameter 활용
      *
@@ -35,7 +27,7 @@ public class CodeController {
      * @param codeNm
      * @return
      */
-    @GetMapping("/code")
+    @GetMapping("/parameter")
     @Operation(summary = "@Parameter 활용예시", description = "@RequestParam + @Parameter 활용한 예시입니다.")  // Swagger API 메서드 정의
     @ApiResponse(responseCode = "200", description = "성공")                                              // Swagger 응답값 반환
     public ResponseEntity<List<CodeDto>> selectCode(
@@ -53,7 +45,7 @@ public class CodeController {
      * @param codeNm
      * @return
      */
-    @GetMapping("/code2")
+    @GetMapping("/parameters")
     @Operation(summary = "@Parameters 활용예시", description = "@RequestParam + @Parameters 활용예시입니다.")  // Swagger API 메서드 정의
     @ApiResponse(responseCode = "200", description = "성공")                                              // Swagger 응답값 반환
     // Swagger 파리미터들 일괄 정의
@@ -84,71 +76,4 @@ public class CodeController {
         List<CodeDto> temp = new ArrayList<>();
         return new ResponseEntity<>(temp, HttpStatus.OK);
     }
-
-
-    /**
-     * 코드 전체 수정
-     *
-     * @param codeDto
-     * @return
-     */
-    @PutMapping("/code")
-    @Operation(summary = "코드 전체 수정", description = "코드를 전체 수정 합니다.")
-    @ApiResponse(responseCode = "200", description = "성공")
-    public ResponseEntity<Integer> updateCode(
-            @RequestBody @Schema(implementation = CodeDto.class) CodeDto codeDto
-    ) {
-        int result = 0;
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    /**
-     * 코드 일부 수정
-     *
-     * @param codeDto
-     * @return
-     */
-    @PatchMapping("/code")
-    @Operation(summary = "코드 일부 수정", description = "코드를 일부 수정 합니다.")
-    @ApiResponse(responseCode = "200", description = "성공")
-    public ResponseEntity<Integer> patchCode(
-            @RequestBody @Schema(implementation = CodeDto.class) CodeDto codeDto
-    ) {
-        int result = 0;
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    /**
-     * 코드 삭제
-     *
-     * @param codeDto
-     * @return
-     */
-    @DeleteMapping("/code")
-    @Operation(summary = "코드 삭제", description = "코드를 삭제합니다.")
-    @ApiResponse(responseCode = "200", description = "성공")
-    public ResponseEntity<Integer> deleteCode(
-            @RequestBody @Schema(implementation = CodeDto.class) CodeDto codeDto
-    ) {
-        int result = 0;
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    /**
-     * 사용자 코드 조회 (API Document) 제외
-     *
-     * @param codeDto
-     * @return
-     */
-    @PostMapping("/codes")
-    @Hidden
-    @Operation(summary = "사용자 코드 조회", description = "사용자 코드를 조회합니다.")
-    @ApiResponse(responseCode = "200", description = "성공")
-    public ResponseEntity<Integer> selectUserCode(
-            @RequestBody @Schema(implementation = CodeDto.class) CodeDto codeDto
-    ) {
-        int result = 0;
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
 }
