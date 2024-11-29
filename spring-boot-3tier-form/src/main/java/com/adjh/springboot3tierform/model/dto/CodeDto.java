@@ -11,23 +11,24 @@ import lombok.NoArgsConstructor;
  *
  * @author : jonghoon
  * @fileName : CodeDto
- * @since : 9/7/24
+ * @since : 29/11/24
  */
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Schema(description = "코드 관리 DTO")
 public class CodeDto {
 
-    @Schema(description = "코드 시퀀스")
+    @Schema(description = "코드 시퀀스", example = "1")
     private int codeSq;
 
-    @Schema(description = "코드")
+    @Schema(description = "코드", example = "CODE001")
     private String code;
 
-    @Schema(description = "코드명")
+    @Schema(description = "코드명", example = "테스트 코드")
     private String codeNm;
 
-    @Schema(description = "코드 타입")
+    @Schema(description = "코드 타입", example = "TYPE_A")
     private String codeType;
 
     @Builder(toBuilder = true)
