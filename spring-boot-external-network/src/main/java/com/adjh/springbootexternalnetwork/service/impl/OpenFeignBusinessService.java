@@ -1,6 +1,7 @@
-package com.adjh.springbootexternalnetwork.service;
+package com.adjh.springbootexternalnetwork.service.impl;
 
 import com.adjh.springbootexternalnetwork.dto.PostResponseDto;
+import com.adjh.springbootexternalnetwork.service.OpenFeignService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

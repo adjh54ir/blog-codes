@@ -1,6 +1,6 @@
 package com.adjh.springbootexternalnetwork.controller;
 
-import com.adjh.springbootexternalnetwork.service.OpenFeignBusinessService;
+import com.adjh.springbootexternalnetwork.service.impl.OpenFeignBusinessService;
 import com.adjh.springbootexternalnetwork.service.OpenFeignService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
