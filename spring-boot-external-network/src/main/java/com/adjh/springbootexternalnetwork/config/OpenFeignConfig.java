@@ -19,16 +19,6 @@ public class OpenFeignConfig {
     }
 
     @Bean
-    public Decoder feignDecoder() {
-        return new JacksonDecoder();
-    }
-
-    @Bean
-    public Encoder feignEncoder() {
-        return new JacksonEncoder();
-    }
-
-    @Bean
     public Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
     }

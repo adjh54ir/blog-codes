@@ -1,8 +1,6 @@
 package com.adjh.springbootexternalnetwork.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,9 +12,14 @@ import java.util.List;
  * @since : 11/23/24
  */
 @Getter
-@Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ApiResponseDto {
     private HeaderDto headers;
     private List<PostResponseDto> body;
+
+    @Builder
+    public ApiResponseDto(HeaderDto headers, List<PostResponseDto> body) {
+        this.headers = headers;
+        this.body = body;
+    }
 }

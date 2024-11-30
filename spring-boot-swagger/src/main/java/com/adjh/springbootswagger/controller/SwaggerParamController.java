@@ -1,6 +1,6 @@
-package com.adjh.springboot3tierform.controller;
+package com.adjh.springbootswagger.controller;
 
-import com.adjh.springboot3tierform.model.dto.CodeDto;
+import com.adjh.springbootswagger.dto.CodeDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

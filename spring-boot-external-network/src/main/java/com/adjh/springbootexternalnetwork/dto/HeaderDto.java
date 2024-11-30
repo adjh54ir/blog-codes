@@ -1,8 +1,6 @@
 package com.adjh.springbootexternalnetwork.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,7 +12,7 @@ import java.util.List;
  * @since : 11/24/24
  */
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HeaderDto {
     private List<String> date;
     private List<String> contentType;
@@ -41,6 +39,7 @@ public class HeaderDto {
     private List<String> cfRay;
     private List<String> altSvc;
     private List<String> serverTiming;
+
     @Builder
     public HeaderDto(List<String> date, List<String> contentType, List<String> transferEncoding, List<String> connection, List<String> reportTo, List<String> reportingEndpoints, List<String> nel, List<String> xPoweredBy, List<String> xRatelimitLimit, List<String> xRatelimitRemaining, List<String> xRatelimitReset, List<String> vary, List<String> accessControlAllowCredentials, List<String> cacheControl, List<String> pragma, List<String> expires, List<String> xContentTypeOptions, List<String> etag, List<String> via, List<String> cfCacheStatus, List<String> age, List<String> server, List<String> cfRay, List<String> altSvc, List<String> serverTiming) {
         this.date = date;
