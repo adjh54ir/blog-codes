@@ -1,7 +1,7 @@
 package com.blog.kotlinspringbootform.component.functionType
 
 /**
- * Please explain the class!!
+ * 함수 파라미터 사용예시
  *
  * @fileName      : FunParamNormal
  * @author        : jonghoon
