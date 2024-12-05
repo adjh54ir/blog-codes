@@ -1,6 +1,6 @@
 package com.blog.springbootwebflux.service;
 
-import com.blog.springbootwebflux.dto.UserDto;
+import com.blog.springbootwebflux.model.dto.UserDto;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 

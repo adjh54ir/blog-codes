@@ -1,6 +1,6 @@
 package com.blog.springbootwebflux.handler;
 
-import com.blog.springbootwebflux.dto.UserDto;
+import com.blog.springbootwebflux.model.dto.UserDto;
 import com.blog.springbootwebflux.service.FluxService;
 import com.blog.springbootwebflux.service.MonoService;
 import org.springframework.http.MediaType;
@@ -49,6 +49,4 @@ public class UserHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fluxService.userList(), UserDto.class); // 서비스 메서드 호출
     }
-
-
 }

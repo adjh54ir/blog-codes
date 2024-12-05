@@ -1,4 +1,4 @@
-package com.blog.springbootwebflux.dto;
+package com.blog.springbootwebflux.model.dto;
 
 import lombok.*;
 

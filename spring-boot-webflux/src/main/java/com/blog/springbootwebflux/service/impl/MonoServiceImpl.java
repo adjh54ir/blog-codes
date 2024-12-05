@@ -1,7 +1,8 @@
 package com.blog.springbootwebflux.service.impl;
 
-import com.blog.springbootwebflux.dto.UserDto;
+import com.blog.springbootwebflux.model.dto.UserDto;
 import com.blog.springbootwebflux.service.MonoService;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 /**
@@ -11,6 +12,7 @@ import reactor.core.publisher.Mono;
  * @fileName : MonoServiceImpl.java
  * @since : 2024. 12. 4.
  */
+@Service
 public class MonoServiceImpl implements MonoService {
 
     @Override
