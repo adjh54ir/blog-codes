@@ -1,8 +1,10 @@
 package com.blog.springbootwebflux.service;
 
 import com.blog.springbootwebflux.model.dto.UserDto;
+import com.blog.springbootwebflux.model.entity.UserEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * Please explain the class!!
@@ -14,5 +16,5 @@ import reactor.core.publisher.Flux;
 @Service
 public interface FluxService {
 
-    Flux<UserDto> userList();
+    Flux<UserEntity> findTbUserByUserNm(String userNm);
 }

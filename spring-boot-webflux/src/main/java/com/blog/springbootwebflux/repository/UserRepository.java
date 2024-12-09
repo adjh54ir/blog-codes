@@ -1,7 +1,9 @@
 package com.blog.springbootwebflux.repository;
 
 import com.blog.springbootwebflux.model.dto.UserDto;
+import com.blog.springbootwebflux.model.entity.UserEntity;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -12,9 +14,10 @@ import reactor.core.publisher.Mono;
  * @fileName : UserRepository
  * @since : 2024. 12. 5.
  */
-public interface UserRepository extends ReactiveCrudRepository<UserDto, Long> {
+@Repository
+public interface UserRepository extends ReactiveCrudRepository<UserEntity, Long> {
 
-    Flux<UserDto> findTbUserByUserId(String userId);
+    Mono<UserEntity> findTbUserByUserId(String userId);
 
-    Mono<UserDto> findUserDtoByUserNm(String userName);
+    Flux<UserEntity> findTbUserByUserNm(String userName);
 }

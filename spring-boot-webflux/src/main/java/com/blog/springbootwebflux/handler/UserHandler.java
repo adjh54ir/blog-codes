@@ -1,13 +1,16 @@
 package com.blog.springbootwebflux.handler;
 
-import com.blog.springbootwebflux.model.dto.UserDto;
+import com.blog.springbootwebflux.model.entity.UserEntity;
 import com.blog.springbootwebflux.service.FluxService;
 import com.blog.springbootwebflux.service.MonoService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 /**
  * Please explain the class!!
@@ -32,10 +35,11 @@ public class UserHandler {
      * @param request
      * @return
      */
-    public Mono<ServerResponse> getUserList(ServerRequest request) {
+    public Mono<ServerResponse> findTbUserByUserId(ServerRequest request) {
+        String userId = request.pathVariable("userId");
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(fluxService.userList(), UserDto.class); // 서비스 메서드 호출
+                .body(monoService.findUserByUserId(userId), UserEntity.class);
     }
 
     /**
@@ -44,9 +48,12 @@ public class UserHandler {
      * @param request
      * @return
      */
-    public Mono<ServerResponse> getUserByUserId(ServerRequest request) {
+    public Mono<ServerResponse> findTbUserByUserNm(ServerRequest request) {
+        String userNm = request.queryParam("userNm")
+                .orElseThrow(() -> new RuntimeException("userNm is required"));
+
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(fluxService.userList(), UserDto.class); // 서비스 메서드 호출
+                .body(fluxService.findTbUserByUserNm(userNm).collectList(), List.class);
     }
 }

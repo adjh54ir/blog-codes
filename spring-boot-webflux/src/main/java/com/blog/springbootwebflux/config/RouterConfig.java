@@ -3,6 +3,7 @@ package com.blog.springbootwebflux.config;
 import com.blog.springbootwebflux.handler.UserHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -27,11 +28,13 @@ public class RouterConfig {
     public RouterFunction<ServerResponse> userRoutes(UserHandler userHandler) {
         return RouterFunctions
                 .route()
-                .path("/api/v1/mono", builder -> {
+                .path("/api/v1", builder -> {
                     builder
-                            .POST("/users", userHandler::getUserList)
-                            .GET("/user/{userId}", userHandler::getUserByUserId);
+                            .GET("/mono/user/{userId}", userHandler::findTbUserByUserId)
+                            .GET("/flux/user", userHandler::findTbUserByUserNm);
                 })
                 .build();
     }
 }
+
+
