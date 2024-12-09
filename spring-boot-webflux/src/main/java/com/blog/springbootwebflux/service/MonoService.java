@@ -1,6 +1,7 @@
 package com.blog.springbootwebflux.service;
 
 import com.blog.springbootwebflux.model.dto.UserDto;
+import com.blog.springbootwebflux.model.entity.UserEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -14,5 +15,5 @@ import reactor.core.publisher.Mono;
 @Service
 public interface MonoService {
 
-    Mono<UserDto> getUserByUserId(String userId);
+    Mono<UserEntity> findUserByUserId(String userId);
 }

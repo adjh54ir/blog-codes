@@ -1,8 +1,11 @@
 package com.blog.springbootwebflux.service.impl;
 
 import com.blog.springbootwebflux.model.dto.UserDto;
+import com.blog.springbootwebflux.model.entity.UserEntity;
+import com.blog.springbootwebflux.repository.UserRepository;
 import com.blog.springbootwebflux.service.MonoService;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -15,20 +18,24 @@ import reactor.core.publisher.Mono;
 @Service
 public class MonoServiceImpl implements MonoService {
 
+    private final UserRepository userRepository;
+
+    public MonoServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
-    public Mono<UserDto> getUserByUserId(String userId) {
+    public Mono<UserEntity> findUserByUserId(String userId) {
+        System.out.println("[+] findUserByUserId 실행 ....");
 
-        // 빈 Mono 생성
-        Mono<String> emptyMono = Mono.empty();
+        Mono<UserEntity> userInfo = userRepository.findTbUserByUserId(userId);
+        userInfo.subscribe(
+                data -> System.out.println("User data: " + data),
+                error -> System.err.println("Error: " + error),
+                () -> System.out.println("Completed")
+        );
+        System.out.println("findUserByUserId :: " + userInfo.toString());
 
-        // 값으로 Mono 생성
-        Mono<String> mono = Mono.just("Hello");
-
-        // 에러로 Mono 생성
-        Mono<String> errorMono = Mono.error(new RuntimeException("Error"));
-
-        // defer를 사용한 지연 생성
-        Mono<String> deferredMono = Mono.defer(() -> Mono.just("Deferred Value"));
-        return null;
+        return userInfo;
     }
 }

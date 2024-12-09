@@ -3,8 +3,10 @@ spring:
     url: r2dbc:postgresql://localhost:5432/testdb
     username: localmaster
     password: qwer1234
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/testdb
-    username: localmaster
-    password: qwer1234
+
+
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: DEBUG

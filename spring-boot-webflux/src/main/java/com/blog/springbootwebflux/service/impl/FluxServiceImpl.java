@@ -1,6 +1,7 @@
 package com.blog.springbootwebflux.service.impl;
 
 import com.blog.springbootwebflux.model.dto.UserDto;
+import com.blog.springbootwebflux.model.entity.UserEntity;
 import com.blog.springbootwebflux.repository.UserRepository;
 import com.blog.springbootwebflux.service.FluxService;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,9 @@ public class FluxServiceImpl implements FluxService {
     }
 
     @Override
-    public Flux<UserDto> userList() {
-
-        Flux<UserDto> userInfo = userRepository.findTbUserByUserId("ckask123");
+    public Flux<UserEntity> findTbUserByUserNm(String userNm) {
+        System.out.println("[+] findTbUserByUserNm 실행 ....");
+        Flux<UserEntity> userInfo = userRepository.findTbUserByUserNm(userNm);
 
         userInfo.subscribe(
                 data -> System.out.println("User data: " + data),
@@ -33,8 +34,8 @@ public class FluxServiceImpl implements FluxService {
                 () -> System.out.println("Completed")
         );
 
-        System.out.println("userInfo :: " + userInfo.toString());
+        System.out.println("findTbUserByUserNm :: " + userInfo.toString());
 
-        return Flux.empty();
+        return userInfo;
     }
 }
