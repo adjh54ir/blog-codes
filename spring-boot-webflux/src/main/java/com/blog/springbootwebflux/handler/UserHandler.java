@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -51,6 +52,7 @@ public class UserHandler {
     public Mono<ServerResponse> findTbUserByUserNm(ServerRequest request) {
         String userNm = request.queryParam("userNm")
                 .orElseThrow(() -> new RuntimeException("userNm is required"));
+
 
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
