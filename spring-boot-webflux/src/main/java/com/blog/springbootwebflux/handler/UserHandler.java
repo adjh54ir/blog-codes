@@ -1,9 +1,14 @@
 package com.blog.springbootwebflux.handler;
 
+import com.blog.springbootwebflux.model.dto.MailTxtSendDto;
 import com.blog.springbootwebflux.model.entity.UserEntity;
+import com.blog.springbootwebflux.repository.UserRepository;
+import com.blog.springbootwebflux.service.EmailService;
 import com.blog.springbootwebflux.service.FluxService;
 import com.blog.springbootwebflux.service.MonoService;
+import com.blog.springbootwebflux.service.UserService;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -24,10 +29,28 @@ import java.util.List;
 public class UserHandler {
     private final MonoService monoService; // 서비스 계층 사용
     private final FluxService fluxService;
+    private final UserService userService;
+    private final EmailService emailService;
 
-    public UserHandler(MonoService monoService, FluxService fluxService) {
+    public UserHandler(MonoService monoService, FluxService fluxService, UserService userService, EmailService emailService) {
         this.monoService = monoService;
         this.fluxService = fluxService;
+        this.userService = userService;
+        this.emailService = emailService;
+    }
+
+
+    /**
+     * 사용자를 등록하고 성공 메일을 보냅니다.
+     *
+     * @param request
+     * @return
+     */
+    public Mono<ServerResponse> registerUser(ServerRequest request) {
+        return request.bodyToMono(UserEntity.class)
+                .flatMap(userService::userRegister)
+                .flatMap(result -> ServerResponse.ok().bodyValue(result))
+                .onErrorResume(e -> ServerResponse.ok().bodyValue(0));
     }
 
     /**
