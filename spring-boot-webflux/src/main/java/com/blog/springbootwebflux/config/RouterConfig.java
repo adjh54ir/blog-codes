@@ -40,7 +40,9 @@ public class RouterConfig {
                 .path("/api/v1", builder -> {
                     builder
                             .GET("/mono/user/{userId}", userHandler::findTbUserByUserId)
-                            .GET("/flux/user", userHandler::findTbUserByUserNm);
+                            .GET("/flux/user", userHandler::findTbUserByUserNm)
+                            .POST("/user/user", userHandler::registerUser);
+
                 })
                 .build();
     }

@@ -2,6 +2,9 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,gradle,intellij,git
 
 /logs
+./src/main/resources/config/application-loc.yml
+application-loc.yml
+
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:

@@ -32,11 +32,15 @@ dependencies {
     // Spring Boot Starter
     implementation "org.springframework.boot:spring-boot-starter-webflux:${bootVer}"        // Webflux
     implementation "org.springframework.boot:spring-boot-starter-data-r2dbc:${bootVer}"     // R2DBC
+    implementation "org.springframework.boot:spring-boot-starter-mail"                      // Mail
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf"                 // Thymeleaf
 
     // OpenSource
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'              // MyBatis
     implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVer}"              // Jackson Databind
+
+    testImplementation 'io.projectreactor:reactor-test:3.7.1'
     runtimeOnly 'org.postgresql:postgresql'                                                 // Postgres
     compileOnly 'org.projectlombok:lombok'
 
