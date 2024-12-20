@@ -1,4 +1,4 @@
-package com.blog.springbootwebflux;
+package com.blog.springbootwebflux.service;
 
 import com.blog.springbootwebflux.model.entity.UserEntity;
 import org.junit.jupiter.api.Test;
@@ -17,21 +17,21 @@ import java.util.stream.IntStream;
  * Please explain the class!!
  *
  * @author : leejonghoon
- * @fileName : RouterConfig
- * @since : 2024. 12. 19.
+ * @fileName : UserServiceTest
+ * @since : 2024. 12. 20.
  */
 @SpringBootTest
 @AutoConfigureWebTestClient
-public class RouterConfig {
+public class UserServiceTest {
     @Test
     void testMultipleUserRegistrations() {
-
         WebClient client = WebClient.create("http://localhost:8080");
+
         // 10명의 서로 다른 사용자 데이터 생성
         List<UserEntity> users = IntStream.range(0, 10)
                 .mapToObj(i -> UserEntity.builder()
-                        .userId("testUser" + i)
-                        .userEmail("test" + i + "@example.com")
+                        .userId("testIdd" + i)
+                        .userEmail("adjh54@naver.com")
                         .build())
                 .collect(Collectors.toList());
 

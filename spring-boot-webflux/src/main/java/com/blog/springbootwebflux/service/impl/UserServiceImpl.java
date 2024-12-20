@@ -32,25 +32,36 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Mono<Integer> userRegister(UserEntity userEntity) {
+
+
+        // [Service] 사용자 아이디를 조회합니다.
         return this.findUserByUserId(userEntity.getUserId())
+
+                // [CASE1] 아이디가 존재하면, 0의 결과값을 반환합니다.
                 .flatMap(existingUser -> Mono.just(0))  // 이미 존재하는 사용자인 경우 0 반환
+
+                // [CASE2] 아이디가 존재하지 않는다면, 사용자를 등록합니다.
                 .switchIfEmpty(
+                        // [Service] 사용자를 등록합니다.
                         userRepository.save(userEntity)
                                 .flatMap(savedUser -> {
-                                    // 이메일 전송을 별도의 비동기 스트림으로 처리
                                     MailTxtSendDto mailDto = MailTxtSendDto.builder()
                                             .emailAddr(savedUser.getUserEmail())
-                                            .subject("회원가입을 축하합니다!")
+                                            .subject(savedUser.getUserId() + "님 회원가입을 축하합니다!")
                                             .content("환영합니다. 회원가입이 완료되었습니다.")
                                             .build();
-                                    return emailService.sendTxtEmail(mailDto)
-                                            .then(Mono.just(1))
-                                            .onErrorResume(error -> {
-                                                log.error("이메일 전송 실패: {}", error.getMessage());
-                                                return Mono.just(1);  // 이메일 실패해도 회원가입은 성공
-                                            });
+                                    // 이메일 전송을 별도로 실행하고 결과를 기다리지 않음
+                                    emailService.sendTxtEmail(mailDto)
+                                            .subscribe(
+                                                    null,
+                                                    error -> log.error("이메일 전송 실패: {}", error.getMessage())
+                                            );
+
+                                    // 즉시 성공 응답 반환
+                                    return Mono.just(1);
                                 })
                 )
+                // [CASE3] 회원가입 실패시, 오류메시지와 0의 값을 반환합니다.
                 .onErrorResume(e -> {
                     log.debug("회원가입 처리 중 오류 발생: {}", e.getMessage());
                     return Mono.just(0);  // 에러 발생 시 0 반환
