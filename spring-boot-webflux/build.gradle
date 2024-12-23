@@ -28,11 +28,10 @@ ext {
 }
 
 dependencies {
-
     // Spring Boot Starter
     implementation "org.springframework.boot:spring-boot-starter-webflux:${bootVer}"        // Webflux
     implementation "org.springframework.boot:spring-boot-starter-data-r2dbc:${bootVer}"     // R2DBC
-    implementation "org.springframework.boot:spring-boot-starter-mail"                      // Mail
+    implementation "org.springframework.boot:spring-boot-starter-mail:${bootVer}"                      // Mail
 
     // OpenSource
     implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'                          // R2DBC - PostgresSQL
