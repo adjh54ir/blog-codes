@@ -3,6 +3,7 @@ package com.blog.springbootwebflux.service;
 import com.blog.springbootwebflux.model.entity.UserEntity;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -18,4 +19,6 @@ public interface UserService {
     Mono<Integer> userRegister(UserEntity userEntity);
 
     Mono<UserEntity> findUserByUserId(String userId);
+
+    Flux<UserEntity> findTbUserByUserNm(String userNm);
 }

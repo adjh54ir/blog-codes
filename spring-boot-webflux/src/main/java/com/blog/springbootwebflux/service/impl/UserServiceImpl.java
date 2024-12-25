@@ -8,7 +8,10 @@ import com.blog.springbootwebflux.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.LocalDateTime;
 
 /**
  * Please explain the class!!
@@ -33,7 +36,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Mono<Integer> userRegister(UserEntity userEntity) {
 
-
         // [Service] 사용자 아이디를 조회합니다.
         return this.findUserByUserId(userEntity.getUserId())
 
@@ -42,6 +44,7 @@ public class UserServiceImpl implements UserService {
 
                 // [CASE2] 아이디가 존재하지 않는다면, 사용자를 등록합니다.
                 .switchIfEmpty(
+
                         // [Service] 사용자를 등록합니다.
                         userRepository.save(userEntity)
                                 .flatMap(savedUser -> {
@@ -69,6 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Mono<UserEntity> findUserByUserId(String userId) {
         System.out.println("[+] findUserByUserId 실행 ....");
 
@@ -79,6 +83,23 @@ public class UserServiceImpl implements UserService {
                 () -> System.out.println("Completed")
         );
         System.out.println("findUserByUserId :: " + userInfo.toString());
+
+        return userInfo;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Flux<UserEntity> findTbUserByUserNm(String userNm) {
+        System.out.println("[+] findTbUserByUserNm 실행 ....");
+        Flux<UserEntity> userInfo = userRepository.findTbUserByUserNm(userNm);
+
+        userInfo.subscribe(
+                data -> System.out.println("User data: " + data),
+                error -> System.err.println("Error: " + error),
+                () -> System.out.println("Completed")
+        );
+
+        System.out.println("findTbUserByUserNm :: " + userInfo.toString());
 
         return userInfo;
     }

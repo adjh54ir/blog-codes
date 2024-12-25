@@ -23,6 +23,8 @@ import java.util.stream.IntStream;
 @SpringBootTest
 @AutoConfigureWebTestClient
 public class UserServiceTest {
+
+
     @Test
     void testMultipleUserRegistrations() {
         WebClient client = WebClient.create("http://localhost:8080");

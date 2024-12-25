@@ -4,7 +4,8 @@
 /logs
 ./src/main/resources/config/application-loc.yml
 application-loc.yml
-
+application-webflux-loc.yml
+./src/main/resources/config/application-webflux-loc.yml
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
