@@ -1,6 +1,6 @@
 package com.blog.springbootwebflux.service;
 
-import com.blog.springbootwebflux.model.dto.UserDto;
+import com.blog.springbootwebflux.model.entity.CodeEntity;
 import com.blog.springbootwebflux.model.entity.UserEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -8,13 +8,11 @@ import reactor.core.publisher.Mono;
 /**
  * Please explain the class!!
  *
- * @author : leejonghoon
- * @fileName : MonoService.java
- * @since : 2024. 12. 4.
+ * @author : jonghoon
+ * @fileName : CodeService
+ * @since : 24. 12. 24.
  */
 @Service
-public interface MonoService {
-
-
-    Mono<UserEntity> findUserByUserId(String userId);
+public interface CodeService {
+    Mono<CodeEntity> findAllByCd(String cd);
 }
