@@ -41,7 +41,7 @@ dependencies {
 
     // [Open Source]
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'                  // MyBatis
-    implementation 'org.springdoc:springdoc-openapi-ui:1.8.0'                                   // Swagger springdoc-ui
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0"                    // Swagger UI
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'                      // MyBatis Query Formatter
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVer}"                  // Jackson Databind
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVer}"     // Jackson DatabindFormat Yaml
@@ -50,7 +50,8 @@ dependencies {
     // [Compile & runtime Level]
     compileOnly 'org.projectlombok:lombok'                                                      // Lombok
     compileOnly "org.springframework.boot:spring-boot-devtools:${bootVer}"                      // Spring Boot Devtool
-    implementation 'mysql:mysql-connector-java:8.0.33'                                          // MySQL Connector
+    runtimeOnly 'org.postgresql:postgresql'
+//    implementation 'mysql:mysql-connector-java:8.0.33'                                          // MySQL Connector
 
     // [Annotation Level]
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${bootVer}"  // Spring Boot Configuration Processor

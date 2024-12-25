@@ -1,0 +1,51 @@
+# 로컬(LOCAL) 환경 설정 파일 입니다.
+
+# Spring boot Server Configuration
+server:
+  port: 8080
+
+# Spring Boot Configuration
+spring:
+  # 1. Spring Boot JDBC + HikariCP 설정
+  datasource:
+    hikari:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://localhost:5432/testdb
+      username: localmaster
+      password: qwer1234
+      pool-name: Hikari Connection Pool  # Alias
+      maximum-pool-size: 5
+
+
+# Spring Boot Log4j2 Configuration
+logging:
+  # default Logging 프레임워크 설정 파일을 참조
+  config: classpath:log4j2/log4j2-local.yml
+
+  # Hikari Connection Pool Debug
+  level:
+    # Tomcat Internal Log
+    org:
+      apache:
+        tomcat: false
+        catalina: false
+
+
+# Swagger springdoc-ui Configuration
+springdoc:
+  packages-to-scan: com.adjh.springboot3tierform
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+
+  cache:
+    disabled: false              # 캐시 사용 여부
+  api-docs:
+    path: /v3/api-docs
+    groups:
+      enabled: true
+  swagger-ui:
+    enabled: true               # Swagger UI 사용여부 : 접근 경로 => http://localhost:8080/swagger-ui/index.html
+    path: /demo-ui.html         # Swagger UI 추가 접근 경로 => http://localhost:8080/demo-ui.html
+    tags-sorter: alpha          # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+    operations-sorter: alpha    # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+

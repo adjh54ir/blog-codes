@@ -1,0 +1,34 @@
+{
+	"name": "wss-server",
+	"version": "1.0.0",
+	"description": "Node.js 기반 Socket.io Web Socket 서버 ",
+	"main": "index.js",
+	"author": "adjh54",
+	"license": "ISC",
+	"scripts": {
+		"start:normal": "nodemon ./socket/app.js",
+		"start:room": "nodemon ./socket/roomApp.js",
+		"start:namespace": "nodemon ./socket/namespace.js",
+		"start:redis": "pm2 start ./socket/redis/app.js ./config/ecosystem.config.js --only app-dev-redis",
+		"start:loc": "nodemon app.js",
+		"start:dev": "pm2 start ./config/ecosystem.config.js --only app-dev",
+		"start:stg": "pm2 start ./config/ecosystem.config.js --only app-stg",
+		"start:prd": "pm2 start ./config/ecosystem.config.js --only app-prd",
+		"stop": "pm2 delete all",
+		"restart": "pm2 restart all",
+		"list": "pm2 list",
+		"monit": "pm2 monit",
+		"monit:web": "pm2 monitor"
+	},
+	"dependencies": {
+		"@socket.io/redis-adapter": "^8.3.0",
+		"cors": "^2.8.5",
+		"express": "^4.19.2",
+		"redis": "^4.7.0",
+		"socket.io": "^4.7.5",
+		"socket.io-redis": "^6.1.1"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.4"
+	}
+}

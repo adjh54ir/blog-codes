@@ -1,0 +1,63 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.adjh'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    configureEach {
+        // spring-boot-starter-web 라이브러리에 포함되어 있는 logging의 종속성을 제외합니다.
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+ext {
+    set('bootVer', "3.3.4")
+    set('jacksonVer', "2.16.1")
+}
+
+dependencies {
+
+    // [Spring Boot Starter]
+    implementation "org.springframework.boot:spring-boot-starter-web:${bootVer}"                // Spring Boot Web
+    implementation "org.springframework.boot:spring-boot-starter-log4j2:${bootVer}"             // Spring Boot Log4j2
+    implementation "org.springframework.boot:spring-boot-starter-security:${bootVer}"           // Spring Boot Security
+    implementation "org.springframework.boot:spring-boot-starter-data-redis:${bootVer}"         // Spring Boot Data Redis
+
+
+    // [OpenSource]
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'                  // MyBatis
+    implementation 'io.jsonwebtoken:jjwt:0.12.6'                                                // JSON-WEB-TOKEN
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'                                // DataType Converter
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVer}"                  // Jackson Data Binding
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVer}"     // Jackson DatabindFormat Yaml
+
+
+    // [compile & runtime & test]
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

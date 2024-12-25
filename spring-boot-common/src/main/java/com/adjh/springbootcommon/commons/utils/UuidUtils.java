@@ -14,7 +14,12 @@ import java.util.UUID;
  *
  * @author : jonghoon
  * @fileName : UuidUtils
- * @since : 6/4/24
+ * @Method @since : 6/4/24
+ * - generateType1UUID()    : UUID v1을 생성하여 반환합니다.(MAC Address, TimeStamp 조합)
+ * - generateType3UUID()    : UUID v3를 생성합니다.
+ * - generateType4UUID()    : UUID v4를 생성합니다.
+ * - generateType5UUID()    : UUID v5를 사용하여 UUID를 생성합니다.
+ * - makeUUID()             : UUID v4를 활용한 UUID 반환 함수
  */
 @RequiredArgsConstructor
 public class UuidUtils {
@@ -79,10 +84,6 @@ public class UuidUtils {
     }
 
 
-    String name = "example_name";
-    UUID namespace = UUID.fromString("00000000-0000-0000-0000-000000000000");
-    UUID uuid = createUUIDv5(name, namespace); // 함수를 호출합니다
-
     /**
      * [공통함수] UUID v5를 사용하여 UUID를 생성합니다.
      *
@@ -90,9 +91,9 @@ public class UuidUtils {
      * @param namespace
      * @return
      */
-    public static UUID createUUIDv5(String name, UUID namespace) {
+    public static UUID generateType5UUID(String name, UUID namespace) {
 
-        UUID uuid = createUUIDv5(name, namespace); // 함수를 호출합니다
+        UUID uuid = generateType5UUID(name, namespace); // 함수를 호출합니다
 
         byte[] nameBytes = name.getBytes(StandardCharsets.UTF_8);
         byte[] namespaceBytes = namespace.toString().getBytes(StandardCharsets.UTF_8);
