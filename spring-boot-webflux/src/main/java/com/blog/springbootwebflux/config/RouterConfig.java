@@ -20,6 +20,13 @@ import reactor.netty.resources.LoopResources;
 @Configuration
 public class RouterConfig {
 
+    /**
+     * Reactor Resource Control
+     * - 글로벌 리소스 비활성화
+     * - 이벤트 루프 스레드 설정
+     *
+     * @return ReactorResourceFactory
+     */
     @Bean
     public ReactorResourceFactory reactorResourceFactory() {
         ReactorResourceFactory factory = new ReactorResourceFactory();
@@ -29,14 +36,34 @@ public class RouterConfig {
     }
 
     /**
-     * 사용자 라우터를 구성합니다.
+     * Single Router 구성 예시
+     *
+     * @param userHandler UserHandler
+     * @return RouterFunction<ServerResponse>
+     */
+    @Bean
+    public RouterFunction<ServerResponse> singleRouterFunction(UserHandler userHandler) {
+        return RouterFunctions
+                .route()
+                .path("/api/v1", builder -> builder
+                        .path("/single", userBuilder -> userBuilder
+                                .GET("/user/{userId}", userHandler::findTbUserByUserId)
+                                .GET("/users", userHandler::findTbUserByUserNm)
+                        )
+                )
+                .build();
+    }
+
+
+    /**
+     * Nested Router 구성 예시
      *
      * @param userHandler UserHandler
      * @param codeHandler CodeHandler
      * @return RouterFunction<ServerResponse>
      */
     @Bean
-    public RouterFunction<ServerResponse> userRoutes(UserHandler userHandler, CodeHandler codeHandler) {
+    public RouterFunction<ServerResponse> nestedRouterFunction(UserHandler userHandler, CodeHandler codeHandler) {
         return RouterFunctions
                 .route()
                 .path("/api/v1", builder -> builder
