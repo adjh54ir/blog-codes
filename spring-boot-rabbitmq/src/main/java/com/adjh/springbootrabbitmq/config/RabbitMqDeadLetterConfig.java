@@ -1,5 +1,6 @@
 package com.adjh.springbootrabbitmq.config;
 
+import com.adjh.springbootrabbitmq.model.constant.ConstQueueAttr;
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,8 +36,8 @@ public class RabbitMqDeadLetterConfig {
     @Bean
     public Queue processingQueue() {
         return QueueBuilder.durable("processingQueue")
-                .withArgument("x-dead-letter-exchange", "exchange.direct.deadLetter")
-                .withArgument("x-dead-letter-routing-key", "deadLetter")
+                .withArgument(ConstQueueAttr.QUEUE_DEAD_LETTER_EXCHANGE, "exchange.direct.deadLetter")
+                .withArgument(ConstQueueAttr.QUEUE_DEAD_LETTER_ROUTE_KEY, "deadLetter")
 //                .withArgument("x-message-ttl", 1000)  // 큐의 TTL 지정
                 .build();
     }

@@ -34,6 +34,7 @@ public class ProducerDeadLetterServiceImpl implements ProducerDeadLetterService 
     @Transactional(readOnly = true)
     public void directToDeadLetterSendMessage(MessageDto messageDto) {
         ObjectMapper objectMapper = new ObjectMapper();
+
         try {
             // [STEP1] DTO -> String 직렬화 수행
             String objectToJSON = objectMapper.writeValueAsString(messageDto);

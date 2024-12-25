@@ -1,10 +1,10 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.3.0'
-    id 'io.spring.dependency-management' version '1.1.5'
+    id 'org.springframework.boot' version '3.3.6'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
-group = 'com.adjh'
+group = 'com.blog'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -22,19 +22,29 @@ configurations {
 repositories {
     mavenCentral()
 }
+ext {
+    set('bootVer', "3.3.6")
+    set('jacksonVer', "2.16.1")
+}
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    // Spring Boot Starter
+    implementation "org.springframework.boot:spring-boot-starter-webflux:${bootVer}"        // Webflux
+    implementation "org.springframework.boot:spring-boot-starter-data-r2dbc:${bootVer}"     // R2DBC
+    implementation "org.springframework.boot:spring-boot-starter-mail:${bootVer}"                      // Mail
 
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    implementation 'com.mysql:mysql-connector-j:8.3.0'
+    // OpenSource
+    implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'                          // R2DBC - PostgresSQL
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVer}"              // Jackson Databind
 
+    // Runtime & Compile & test
+    runtimeOnly 'org.postgresql:postgresql'                                                 // Postgres
+    compileOnly 'org.projectlombok:lombok'                                                  // Lombok
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.projectreactor:reactor-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    annotationProcessor 'org.projectlombok:lombok'                                          // Lombok
+    testImplementation 'io.projectreactor:reactor-test:3.7.1'                               // Reactor Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'                  // JUnit
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'                            // JUnit
 }
 
 tasks.named('test') {

@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" build-on-make="true" name="spring-boot3-security-oauth2.main:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/spring_boot3_security_oauth2_main_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="spring-boot3-security-oauth2.main/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="spring-boot3-security-oauth2.main" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

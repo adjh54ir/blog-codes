@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.adjh.springboot3security.mapper.UserMapper">
+
+    <!--로그인-->
+    <select id="login" resultType="userDto">
+        SELECT t1.*
+        FROM test_scma.tb_user t1
+        WHERE user_id = #{userId}
+    </select>
+
+    <!--사용자 리스트 조회 -->
+    <select id="selectUserList" resultType="userDto">
+        SELECT t1.*
+        FROM test_scma.tb_user t1
+        WHERE t1.user_st = 'S'
+    </select>
+
+
+</mapper>

@@ -13,7 +13,17 @@ import java.util.stream.IntStream;
  *
  * @author : lee
  * @fileName : StringUtils
- * @since : 2/16/24
+ * @Method @since : 2/16/24
+ * - makeUUID()                             : UUID 생성 함수
+ * - generateRandomNum()                    : 자릿수(digit) 만큼 랜덤한 숫자를 반환 받습니다.
+ * - generateRangeRandomNum()               : 자릿수(digit) 만큼 랜덤한 숫자를 반환 받습니다.
+ * - generateRandomStr()                    : 시작 범위(start)와 종료 범위(end) 값을 받아서 랜덤한 숫자를 반환 받습니다.
+ * - generateRandomMixStr()                 : 자릿수(length) 만큼 랜덤한 숫자 + 문자 조합을 대문자/소문자에 따라 반환 받습니다.
+ * - generateRandomMixCharNSpecialChar()    : 자릿수(length) 만큼 랜덤한 문자와 특수문자 조합의 랜덤한 문자열을 출력합니다.
+ * - generateRandomMixNumNSpecialChar()     : 자릿수(length) 만큼 랜덤한 숫자와 특수문자 조합의 랜덤한 문자열을 출력합니다.
+ * - generateRandomMixAll()                 : 자릿수(length) 만큼 랜덤한 숫자 + 문자 + 특수문자 조합의 랜덤한 문자열을 출력합니다.
+ * - generateRandomTempPasswordType1()      : 자릿수(length) 만큼 랜덤한 숫자 소문자 조합의 랜덤한 문자열을 출력합니다.
+ * - generateRandomTempPasswordType2()      : 자릿수(length) 만큼 랜덤한 숫자 소문자 조합의 랜덤한 문자열을 출력합니다.
  */
 @RequiredArgsConstructor
 public class StringUtils {

@@ -7,8 +7,10 @@ import com.adjh.springbootquerydsl.dto.UserOrderDto;
 import com.adjh.springbootquerydsl.dto.UserPassportDto;
 import com.adjh.springbootquerydsl.entity.*;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -200,8 +202,11 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional(readOnly = true)
     public List<UserEntity> selectUserList(UserEntity userEntity) {
-        List<UserEntity> userList = new ArrayList<>();
-        return userList;
+        return queryFactory
+                .select(qUser)
+                .from(qUser)
+                .where(qUser.userSt.eq("A"))
+                .fetch();
     }
 
     @Override
@@ -215,13 +220,6 @@ public class UserDaoImpl implements UserDao {
     @Transactional
     public int insertUser(UserEntity userEntity) {
         int result = 0;
-        return result;
-    }
-
-    @Override
-    @Transactional
-    public int updateUser(UserEntity userEntity) {
-        int result = 0;
         try {
             em.persist(userEntity);
             result = 1;
@@ -229,6 +227,25 @@ public class UserDaoImpl implements UserDao {
             System.out.println("error " + e.getMessage());
         }
         return result;
+    }
+
+    @Override
+    @Transactional
+    public int updateUser(UserEntity userEntity) {
+        JPAUpdateClause updateClause = queryFactory.update(qUser);
+
+        if (userEntity.getUserId() != null) {
+            updateClause.set(qUser.userId, userEntity.getUserId());
+        }
+        if (userEntity.getUserNm() != null) {
+            updateClause.set(qUser.userNm, userEntity.getUserNm());
+        }
+        if (userEntity.getUserSt() != null) {
+            updateClause.set(qUser.userSt, userEntity.getUserSt());
+        }
+        return (int) updateClause
+                .where(qUser.userSq.eq(userEntity.getUserSq()))
+                .execute();
     }
 
     @Override
