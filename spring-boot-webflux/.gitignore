@@ -3,8 +3,8 @@
 
 
 /logs
-./src/main/resources/config/application-loc.yml
-application-loc.yml
+./src/main/resources/config/application-webflux-loc.yml
+application-webflux-loc.yml
 
 
 ### Git ###

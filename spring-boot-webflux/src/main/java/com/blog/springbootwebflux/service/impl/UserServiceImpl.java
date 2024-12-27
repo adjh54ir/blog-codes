@@ -8,6 +8,7 @@ import com.blog.springbootwebflux.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.reactive.TransactionalOperator;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -25,10 +26,12 @@ import java.time.LocalDateTime;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final EmailService emailService;
+    private final TransactionalOperator transactionalOperator;
 
-    public UserServiceImpl(UserRepository userRepository, EmailService emailService) {
+    public UserServiceImpl(UserRepository userRepository, EmailService emailService, TransactionalOperator transactionalOperator) {
         this.userRepository = userRepository;
         this.emailService = emailService;
+        this.transactionalOperator = transactionalOperator;
     }
 
 
@@ -103,4 +106,25 @@ public class UserServiceImpl implements UserService {
 
         return userInfo;
     }
+
+    /**
+     * Native Query를 통해서 수행
+     * @param userId
+     * @return
+     */
+    @Override
+    public Mono<UserEntity> findById(String userId) {
+        System.out.println("[+] findUserByUserId 실행 ....");
+
+        Mono<UserEntity> userInfo = userRepository.findById(userId);
+        userInfo.subscribe(
+                data -> System.out.println("User data: " + data),
+                error -> System.err.println("Error: " + error),
+                () -> System.out.println("Completed")
+        );
+        System.out.println("findById :: " + userInfo.toString());
+
+        return userInfo;
+    }
+
 }

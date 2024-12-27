@@ -69,7 +69,8 @@ public class RouterConfig {
                 .path("/api/v1", builder -> builder
                         .path("/user", userBuilder -> userBuilder
                                 .GET("/user/{userId}", userHandler::findTbUserByUserId)
-                                .GET("/users", userHandler::findTbUserByUserNm)
+                                .GET("/users/{userId}", userHandler::getUserById)
+                                .POST("/users", userHandler::registerUser)
                         )
                         .path("/code", codeBuilder -> codeBuilder
                                 .GET("/{codeId}", codeHandler::findAllByCd)

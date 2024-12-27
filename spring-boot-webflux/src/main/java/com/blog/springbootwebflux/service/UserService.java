@@ -1,13 +1,14 @@
 package com.blog.springbootwebflux.service;
 
 import com.blog.springbootwebflux.model.entity.UserEntity;
+import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
- * Please explain the class!!
+ * 사용자의 비즈니스 로직을 처리하는 Service
  *
  * @author : leejonghoon
  * @fileName : UserService
@@ -21,4 +22,6 @@ public interface UserService {
     Mono<UserEntity> findUserByUserId(String userId);
 
     Flux<UserEntity> findTbUserByUserNm(String userNm);
+
+    Mono<UserEntity> findById(String userId);
 }

@@ -42,7 +42,7 @@ public class UserServiceTest {
                         Flux.fromIterable(users)
                                 .flatMap(user ->
                                         client.post()
-                                                .uri("/api/v1/user/user")
+                                                .uri("/api/v1/user/users")
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .bodyValue(user)
                                                 .exchange()
