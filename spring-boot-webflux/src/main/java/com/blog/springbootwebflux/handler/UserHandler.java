@@ -1,13 +1,24 @@
 package com.blog.springbootwebflux.handler;
 
+import com.blog.springbootwebflux.component.BackpressureExam;
+import com.blog.springbootwebflux.component.ErrorHandlerExam;
+import com.blog.springbootwebflux.component.SubscriberExam;
+import com.blog.springbootwebflux.component.flux.FluxInstanceExam;
+import com.blog.springbootwebflux.component.flux.FluxInstanceMethodExam;
+import com.blog.springbootwebflux.component.flux.FluxStaticMethodExam;
+import com.blog.springbootwebflux.component.mono.MonoInstanceExam;
+import com.blog.springbootwebflux.component.mono.MonoInstanceMethodExam;
+import com.blog.springbootwebflux.component.mono.MonoStaticMethodExam;
 import com.blog.springbootwebflux.model.entity.UserEntity;
 import com.blog.springbootwebflux.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.reactive.TransactionalOperator;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 /**
@@ -22,10 +33,29 @@ import reactor.core.publisher.Mono;
 public class UserHandler {
     private final UserService userService;
     private final TransactionalOperator transactionalOperator;
+    private final MonoInstanceExam monoInstanceExam;
+    private final MonoStaticMethodExam monoStaticMethodExam;
+    private final MonoInstanceMethodExam monoInstanceMethodExam;
+    private final FluxInstanceExam fluxInstanceExam;
+    private final FluxInstanceMethodExam fluxInstanceMethodExam;
+    private final FluxStaticMethodExam fluxStaticMethodExam;
+    private final SubscriberExam subscriberExam;
+    private final ErrorHandlerExam errorHandlerExam;
+    private final BackpressureExam backpressureExam;
 
-    public UserHandler(UserService userService, TransactionalOperator transactionalOperator) {
+
+    public UserHandler(UserService userService, TransactionalOperator transactionalOperator, MonoInstanceExam monoInstanceExam, MonoStaticMethodExam monoStaticMethodExam, MonoInstanceMethodExam monoInstanceMethodExam, FluxInstanceExam fluxInstanceExam, FluxInstanceMethodExam fluxInstanceMethodExam, FluxStaticMethodExam fluxStaticMethodExam, SubscriberExam subscriberExam, ErrorHandlerExam errorHandlerExam, BackpressureExam backpressureExam) {
         this.userService = userService;
         this.transactionalOperator = transactionalOperator;
+        this.monoInstanceExam = monoInstanceExam;
+        this.monoStaticMethodExam = monoStaticMethodExam;
+        this.monoInstanceMethodExam = monoInstanceMethodExam;
+        this.fluxInstanceExam = fluxInstanceExam;
+        this.fluxInstanceMethodExam = fluxInstanceMethodExam;
+        this.fluxStaticMethodExam = fluxStaticMethodExam;
+        this.subscriberExam = subscriberExam;
+        this.errorHandlerExam = errorHandlerExam;
+        this.backpressureExam = backpressureExam;
     }
 
 
@@ -52,7 +82,7 @@ public class UserHandler {
     }
 
     /**
-     * 트랜잭션을 관
+     * 트랜잭션을 관리합니다.
      *
      * @param request
      * @return
@@ -81,9 +111,9 @@ public class UserHandler {
      */
     public Mono<ServerResponse> registerUser(ServerRequest request) {
         return request.bodyToMono(UserEntity.class)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "요청 본문이 비어있습니다")))
                 .flatMap(userService::userRegister)
-                .flatMap(result -> ServerResponse.ok().bodyValue(result))
-                .onErrorResume(e -> ServerResponse.ok().bodyValue(0));
+                .flatMap(result -> ServerResponse.ok().bodyValue(result));
     }
 
     /**
