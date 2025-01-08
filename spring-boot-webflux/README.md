@@ -9,7 +9,12 @@
 
 - [Spring Boot Webflux 이해하기 -1 : 흐름 및 주요 특징 이해](https://adjh54.tistory.com/232)
 - [Spring Boot Webflux 이해하기 -2 : 활용하기](https://adjh54.tistory.com/233)
-- [반응형 프로그래밍(Reactive Programming), Spring WebFlux를 활용하여 구현하기-1 : 전반적인 흐름](https://adjh54.tistory.com/627)
+- [Spring Boot WebFlux 이해하고 구현하기 -1 : 반응형 프로그래밍에서 WebFlux까지 흐름](https://adjh54.tistory.com/627)
+- [Spring Boot WebFlux 활용하여 구현하기 -2: 계층구조 및 활용예시](https://adjh54.tistory.com/628)
+- [Spring Boot WebFlux 활용하여 구현하기 -3: Publisher/Subscriber 데이터 처리 타입, 에러 핸들러, 백프레셔](https://adjh54.tistory.com/629)
+- [Spring Boot Data R2DBC(Reactive Relational Database Connectivity) 이해하기 -1 : 처리 과정 및 환경구성 방법](https://adjh54.tistory.com/631)
+
+<br/>
 
 ## 1. 개발환경
 
@@ -33,30 +38,33 @@
 
 <br/>
 
-    ext {
-        set('bootVer', "3.3.6")
-        set('jacksonVer', "2.16.1")
-    }   
+```groovy
 
-    dependencies {
-        // Spring Boot Starter
-        implementation "org.springframework.boot:spring-boot-starter-webflux:${bootVer}"        // Webflux
-        implementation "org.springframework.boot:spring-boot-starter-data-r2dbc:${bootVer}"     // R2DBC
-        implementation "org.springframework.boot:spring-boot-starter-mail:${bootVer}"                      // Mail
-    
-        // OpenSource
-        implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'                          // R2DBC - PostgresSQL
-        implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVer}"              // Jackson Databind
-    
-        // Runtime & Compile & test
-        runtimeOnly 'org.postgresql:postgresql'                                                 // Postgres
-        compileOnly 'org.projectlombok:lombok'                                                  // Lombok
-    
-        annotationProcessor 'org.projectlombok:lombok'                                          // Lombok
-        testImplementation 'io.projectreactor:reactor-test:3.7.1'                               // Reactor Test
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'                  // JUnit
-        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'                            // JUnit
-    }
+ext {
+    set('bootVer', "3.3.6")
+    set('jacksonVer', "2.16.1")
+}   
+
+dependencies {
+    // Spring Boot Starter
+    implementation "org.springframework.boot:spring-boot-starter-webflux:${bootVer}"        // Webflux
+    implementation "org.springframework.boot:spring-boot-starter-data-r2dbc:${bootVer}"     // R2DBC
+    implementation "org.springframework.boot:spring-boot-starter-mail:${bootVer}"                      // Mail
+
+    // OpenSource
+    implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'                          // R2DBC - PostgresSQL
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVer}"              // Jackson Databind
+
+    // Runtime & Compile & test
+    runtimeOnly 'org.postgresql:postgresql'                                                 // Postgres
+    compileOnly 'org.projectlombok:lombok'                                                  // Lombok
+
+    annotationProcessor 'org.projectlombok:lombok'                                          // Lombok
+    testImplementation 'io.projectreactor:reactor-test:3.7.1'                               // Reactor Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'                  // JUnit
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'                            // JUnit
+}
+```
 
 <br/>
 <br/>
