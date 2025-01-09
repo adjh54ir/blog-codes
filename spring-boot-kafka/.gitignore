@@ -3,8 +3,8 @@
 
 
 /logs
-./src/main/resources/config/application-webflux-loc.yml
-application-webflux-loc.yml
+./src/main/resources/config/application-kafka-loc.yml
+application-kafka-loc.yml
 
 
 ### Git ###

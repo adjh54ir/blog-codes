@@ -18,11 +18,16 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.kafka:spring-kafka'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.kafka:spring-kafka-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Spring Boot Starter
+    implementation 'org.springframework.boot:spring-boot-starter'               // Spring Boot
+    implementation 'org.springframework.kafka:spring-kafka'                     // Spring Kafka
+
+
+    // Spring Boot Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'      // Spring Boot Test
+    testImplementation 'org.springframework.kafka:spring-kafka-test'            // Spring Kafka Test
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'                // Junit5
 }
 
 tasks.named('test') {
