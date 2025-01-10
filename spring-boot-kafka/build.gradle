@@ -4,6 +4,10 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
+ext {
+    springCloudVersion = "2023.0.4"
+}
+
 group = 'com.adjh'
 version = '0.0.1-SNAPSHOT'
 
@@ -22,7 +26,11 @@ dependencies {
     // Spring Boot Starter
     implementation 'org.springframework.boot:spring-boot-starter'               // Spring Boot
     implementation 'org.springframework.kafka:spring-kafka'                     // Spring Kafka
+    implementation 'org.projectlombok:lombok'                                   // lombok
 
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
     // Spring Boot Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'      // Spring Boot Test
