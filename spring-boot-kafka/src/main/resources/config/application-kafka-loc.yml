@@ -1,0 +1,18 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:29092    # Docker compose에서 설정된 PLAINTEXT_HOST 포트
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: my-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+logging:
+  level:
+    com.adjh.springbootkafka: DEBUG
+    org:
+      apache.kafka: INFO
+      springframework.kafka: INFO
