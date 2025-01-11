@@ -1,4 +1,4 @@
-package com.adjh.springbootkafka.config;
+package com.adjh.springbootkafkaconsumer.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

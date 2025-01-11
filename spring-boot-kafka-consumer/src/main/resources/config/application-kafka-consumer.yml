@@ -1,0 +1,21 @@
+# Server Config
+server:
+  port: 8001
+
+# Spring Config
+spring:
+  kafka:
+    bootstrap-servers: localhost:29092                                                # Kafka 접속 정보 지정
+    consumer:
+      group-id: my-new-group
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer      # 문자열 형태로 메시지 키 값 역직렬화
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer    # 문자열 형태로 메시지 값 역직렬화
+
+# Spring Kafka Logging
+logging:
+  level:
+    com.adjh.springbootkafka: DEBUG
+    org:
+      apache.kafka: INFO
+      springframework.kafka: INFO

@@ -1,0 +1,19 @@
+# Server Config
+server:
+  port: 8000
+
+# Spring Config
+spring:
+  kafka:
+    bootstrap-servers: localhost:29092                                          # Kafka 접속 정보 지정
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer    # 문자열 형태로 메시지 키 값 직렬화
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer  # 문자열 형태로 메시지 값 직렬화
+
+# Spring Kafka Logging
+logging:
+  level:
+    com.adjh.springbootkafka: DEBUG
+    org:
+      apache.kafka: INFO
+      springframework.kafka: INFO
