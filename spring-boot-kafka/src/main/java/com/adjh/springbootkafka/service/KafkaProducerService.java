@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class KafkaProducerService {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private final String TOPIC_NAME = "example-topic";
+    private final String topicName = "test-topic-1";
 
     public KafkaProducerService(KafkaTemplate<String, String> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
@@ -28,7 +28,7 @@ public class KafkaProducerService {
      * @param message 전송 메시지
      */
     public void sendMessage(String message) {
-        kafkaTemplate.send(TOPIC_NAME, message);
+        kafkaTemplate.send(topicName, message);
     }
 
     /**
@@ -38,7 +38,7 @@ public class KafkaProducerService {
      * @param message 전송 메시지
      */
     public void sendMessageWithKey(String key, String message) {
-        kafkaTemplate.send(TOPIC_NAME, key, message);
+        kafkaTemplate.send(topicName, key, message);
     }
 
     /**
@@ -48,7 +48,7 @@ public class KafkaProducerService {
      * @param partition 파티션 명
      */
     public void sendMessageToPartition(String message, int partition) {
-        kafkaTemplate.send(TOPIC_NAME, partition, null, message);
+        kafkaTemplate.send(topicName, partition, null, message);
     }
 
 
@@ -58,7 +58,7 @@ public class KafkaProducerService {
      * @param message 전송 메시지
      */
     public void sendMessageWithCallback(String message) {
-        kafkaTemplate.send(TOPIC_NAME, message)
+        kafkaTemplate.send(topicName, message)
                 .whenComplete((result, ex) -> {
                     if (ex == null) {
                         log.debug("Success: {} ", result.getRecordMetadata());

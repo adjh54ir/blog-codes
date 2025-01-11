@@ -1,10 +1,7 @@
 package com.adjh.springbootkafka.config;
 
-import org.apache.kafka.clients.admin.AdminClient;
-import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.common.config.TopicConfig;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
@@ -26,10 +23,10 @@ public class KafkaTopicConfig {
      */
     @Bean
     public NewTopic exampleTopic() {
-        return TopicBuilder.name("example-topic")
-                .partitions(3)                     // 파티션 수 설정
-                .replicas(2)                       // 복제 팩터 설정
-                .config(                           // 추가 설정
+        return TopicBuilder.name("test-topic-1")
+                .partitions(3)                          // 파티션 수 설정
+                .replicas(1)                             // 복제 팩터 설정 (1)
+                .config(                                            // 추가 설정
                         TopicConfig.RETENTION_MS_CONFIG,
                         String.valueOf(7 * 24 * 60 * 60 * 1000L)  // 7일
                 )
@@ -43,7 +40,7 @@ public class KafkaTopicConfig {
      */
     @Bean
     public NewTopic compactTopic() {
-        return TopicBuilder.name("compact-topic")
+        return TopicBuilder.name("test-topic-2")
                 .partitions(1)
                 .replicas(1)
                 .compact()                         // 압축 정책 설정
