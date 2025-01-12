@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 
 /**
- * Topic을 생성하는 설정 파일입니다.
+ * Kafka Topic을 생성하는 설정 파일입니다.
  *
  * @author : jonghoon
  * @fileName : KafkaTopicConfig

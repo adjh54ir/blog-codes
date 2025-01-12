@@ -7,7 +7,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 /**
- * Kafka 생산자(Producer)로 부터 생성된 Topic 내의 메시지를 수신합니다
+ * Kafka 생산자(Producer)로 부터 생성된 Topic 내의 메시지를 수신하는 컴포넌트입니다.
  *
  * @author : jonghoon
  * @fileName : KafkaConsumerComponent
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class KafkaConsumerComponent {
-
 
     private final KafkaConsumerService kafkaConsumerService;
 
