@@ -14,7 +14,7 @@
 
 ## 1. 요약
 
-| Repository                    | 설명                                                                                                                                 |
+| Repository 명                 | 설명                                                                                                                                 |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | gitignore                     | 자주 사용되는 gitignore 파일들을 관리하는 디렉토리입니다.                                                                            |
 | java-algorithm                | Java 기반의 알고리즘 별 문제들을 관리하는 프로젝트입니다.                                                                            |
@@ -35,9 +35,11 @@
 | spring-boot-cors              | spring-boot-web 라이브러리를 활용한 ‘CORS 관리’를 구성한 API 서버 프로젝트입니다.                                                    |
 | spring-boot2-security         | spring-boot-security 2.x + jjwt 라이브러리를 활용하여 ‘jwt 기반 로그인 수행 및 리소스 접근’을 구현한 API 서버 프로젝트입니다.        |
 | spring-boot3-security         | spring-boot-security 3.x + jjwt 라이브러리를 활용하여 ‘jwt 기반 로그인 수행 및 리소스 접근’을 구현한 API 서버 프로젝트입니다.        |
+| spring-boot-mail              | spring-boot-mail 라이브러리를 활용하여 SMPT를 활용하여 메일을 전송하는 API 서버 프로젝트입니다.                                      |
+| spring-boot-swagger           | spring-boot 환경에서 Swagger 라이브러리를 활용하여 RESTful 웹 서비스를 설계, 구축, 문서화를 관리하는 API 서버 프로젝트입니다.        |
 |                               |                                                                                                                                      |
-| node-wss-server               | Node 기반의 PM2 + Redis + [Socket.io](http://Socket.io) 라이브러리를 이용한 ‘소켓 서버’를 구성한 프로젝트입니다.                     |
-| react-chatting                | Node + React 기반의 [Socket.io](http://Socket.io)-client, Stomp 라이브러리를 이용한 ‘채팅 시스템’을 구성한 프로젝트입니다.           |
+| node-wss-server               | Node 기반의 PM2 + Redis + Socket.io 라이브러리를 이용한 ‘소켓 서버’를 구성한 프로젝트입니다.                                         |
+| react-chatting                | Node + React 기반의 Socket.io-client, Stomp 라이브러리를 이용한 ‘채팅 시스템’을 구성한 프로젝트입니다.                               |
 | react-login                   | Node + React 기반의 Spring Boot Security + JWT 기반의 ‘로그인’ 클라이언트를 구성한 프로젝트입니다.                                   |
 
 <br/>
@@ -443,8 +445,7 @@
 
 [1. node-wss-server](#1-node-wss-server)  
 [2. react-chatting](#2-react-chatting)  
-[3. react-login](#3-react-login)  
-
+[3. react-login](#3-react-login)
 
 <br/>
 <br/>
