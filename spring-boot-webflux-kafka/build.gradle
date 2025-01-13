@@ -35,6 +35,7 @@ dependencies {
 
     // OpenSource
     implementation 'org.springframework.kafka:spring-kafka'                     // Spring Kafka
+    implementation 'io.projectreactor.kafka:reactor-kafka'                      // Reactive Kafka
     implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'              // R2DBC - PostgresSQL
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVer}"  // Jackson Databind
 
