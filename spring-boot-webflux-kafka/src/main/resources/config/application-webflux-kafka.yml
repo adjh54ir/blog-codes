@@ -1,0 +1,31 @@
+server:
+  port: 8000
+spring:
+  # Spring Kafka
+  kafka:
+    bootstrap-servers: localhost:29092                                          # Kafka 접속 정보 지정
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer    # 문자열 형태로 메시지 키 값 직렬화
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer  # 문자열 형태로 메시지 값 직렬화
+    consumer:
+      group-id: my-new-group
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer      # 문자열 형태로 메시지 키 값 역직렬화
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer    # 문자열 형태로 메시지 값 역직렬화
+  # Spring R2DBC
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/testdb
+    username: localmaster
+    password: qwer1234
+
+# Spring Logging
+logging:
+  level:
+    com.blog.springbootwebfluxkafka: DEBUG
+    org:
+      apache.kafka: INFO
+      springframework:
+        kafka: INFO                   # Kafka 로깅
+        r2dbc: DEBUG                  # R2DBC 로깅
+    io.r2dbc.pool: DEBUG              # R2DBC Connection Pool 로깅
+    io.r2dbc.postgresql: DEBUG        # R2DBC - PostgreSQL 드라이버 로깅

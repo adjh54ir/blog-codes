@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.7'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.blog'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('bootVer', "3.3.6")
+    set('jacksonVer', "2.16.1")
+}
+
+dependencies {
+    // Spring Boot Starter
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // OpenSource
+    implementation 'org.springframework.kafka:spring-kafka'                     // Spring Kafka
+    implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'              // R2DBC - PostgresSQL
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVer}"  // Jackson Databind
+
+
+    // Runtime & Compile & test
+    runtimeOnly 'org.postgresql:postgresql'
+    compileOnly 'org.projectlombok:lombok'
+
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'      // JUnit
+    testImplementation 'io.projectreactor:reactor-test:3.7.1'                   // Reactor Test
+    testImplementation 'org.springframework.kafka:spring-kafka-test'            // Spring Kafka Test
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
