@@ -28,7 +28,7 @@ public class KafkaConfig {
 
     /**
      * Producer 설정을 위한 Factory Bean
-     * - 메시지 생산자의 직렬화 설정 및 서버 연결 설정을 담당합니다.
+     * - 메시지 생산자의 직렬화 설정 및 서버 연결 설정을 담당합니다. 
      *
      * @return ProducerFactory<String, String>
      */
