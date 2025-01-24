@@ -30,6 +30,24 @@ public class StringUtils {
 
 
     /**
+     * 문자열의 NULL, 빈값을 체크합니다.
+     * true: NULL 혹은 빈 값
+     * false: 값이 존재함
+     *
+     * @param param
+     * @return
+     */
+    public static boolean isStrEmpty(String param) {
+        if (param == null) {
+            return true;
+        }
+        if (param.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * [공통함수] UUID 생성 함수
      *
      * @param isHyphen {boolean} 하이픈 사용 여부
