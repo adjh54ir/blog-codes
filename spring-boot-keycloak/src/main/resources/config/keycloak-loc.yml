@@ -1,0 +1,23 @@
+keycloak:
+  auth-server-url: http://localhost:9001
+  realm: dev-realm
+  client-id: spring-boot-app
+  client-secret: z4q0ONegiuXAt4lMCUwFUqh27172DYnf
+  url:
+    get-token-url: /protocol/openid-connect/token
+
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
+
+  logging:
+    level:
+      root: DEBUG
+      com:
+        blog:
+          springbootkeycloak: DEBUG
