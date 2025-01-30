@@ -3,7 +3,11 @@ package com.blog.springbootkeycloak.controller;
 import com.blog.springbootkeycloak.dto.TokenRequestDto;
 import com.blog.springbootkeycloak.dto.StandardFlowDto;
 import com.blog.springbootkeycloak.service.AuthFlowService;
+import com.blog.springbootkeycloak.service.KeycloakService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +23,13 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/keycloak/authFlow")
 public class AuthFlowController {
 
     private final AuthFlowService authFlowService;
+    private final KeycloakService keycloakService;
 
-    public AuthFlowController(AuthFlowService authFlowService) {
-        this.authFlowService = authFlowService;
-    }
 
     /**
      * Direct Access Grants Flow : 토큰을 즉시 요청하는 방법
@@ -77,5 +80,23 @@ public class AuthFlowController {
             log.error("Standard flow failed", e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+
+    @GetMapping("/clientCredentials")
+    public ResponseEntity<String> callProtectedApi() {
+        String accessToken = keycloakService.getAccessToken();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        return restTemplate.exchange(
+                "http://protected-api-url",
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
     }
 }
