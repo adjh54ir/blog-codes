@@ -1,3 +1,19 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: spring-boot-app
+            client-secret: WQpTOpHkWwuTsvaiCwVVrs8vMvKLNom0
+            authorization-grant-type: client_credentials
+        provider:
+          keycloak:
+            token-uri: http://localhost:8080/realms/your-realm/protocol/openid-connect/token
+            authorization-uri: http://localhost:8080/realms/your-realm/protocol/openid-connect/auth
+            user-info-uri: http://localhost:8080/realms/your-realm/protocol/openid-connect/userinfo
+            jwk-set-uri: http://localhost:8080/realms/your-realm/protocol/openid-connect/certs
+
 keycloak:
   auth-server-url: http://localhost:9001
   realm: dev-realm
@@ -19,3 +35,4 @@ logging:
   level:
     com.blog.springbootkeycloak: BEBUG
     root: DEBUG
+
