@@ -44,4 +44,5 @@ public interface AuthFlowService {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
     )
     String getStandardFlowLoginView(@ModelAttribute StandardFlowDto standardFlowDto);
+
 }

@@ -53,7 +53,7 @@ public class KeycloakController {
         TokenRequestDto tokenRequestDto = TokenRequestDto.builder()
                 .grant_type("authorization_code")
                 .client_id("spring-boot-app")
-                .client_secret("oDq9fBBGRbpkCsZP3dhsS84TBfyjJk1h")
+                .client_secret("WQpTOpHkWwuTsvaiCwVVrs8vMvKLNom0")
                 .code(code)
                 .redirect_uri("http://localhost:8080/api/v1/keycloak/callback")
                 .build();
@@ -63,7 +63,6 @@ public class KeycloakController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
 
     /**
      * Keycloak 로그아웃 이후 정보 수신 리다이렉트 URL
