@@ -2,6 +2,7 @@ package com.blog.springbootkeycloak.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
@@ -12,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
  * @fileName : ClientCredentialService
  * @since : 25. 1. 30.
  */
-@FeignClient(name = "protected-api", url = "http://localhost:8081")
-interface ClientCredentialService {
+@Service
+@FeignClient(name = "keycloak-sub-call", url = "http://localhost:8081")
+public interface ClientCredentialService {
 
     @GetMapping
-    ResponseEntity<String> getProtectedResource(@RequestHeader("Authorization") String bearerToken);
+    String getProtectedResource(@RequestHeader("Authorization") String bearerToken);
 }

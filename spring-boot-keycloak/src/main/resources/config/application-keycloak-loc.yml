@@ -9,10 +9,10 @@ spring:
             authorization-grant-type: client_credentials
         provider:
           keycloak:
-            token-uri: http://localhost:8080/realms/your-realm/protocol/openid-connect/token
-            authorization-uri: http://localhost:8080/realms/your-realm/protocol/openid-connect/auth
-            user-info-uri: http://localhost:8080/realms/your-realm/protocol/openid-connect/userinfo
-            jwk-set-uri: http://localhost:8080/realms/your-realm/protocol/openid-connect/certs
+            token-uri: http://localhost:9001/realms/spring-boot-app/protocol/openid-connect/token
+            authorization-uri: http://localhost:9001/realms/spring-boot-app/protocol/openid-connect/auth
+            user-info-uri: http://localhost:9001/realms/spring-boot-app/protocol/openid-connect/userinfo
+            jwk-set-uri: http://localhost:9001/realms/spring-boot-app/protocol/openid-connect/certs
 
 keycloak:
   auth-server-url: http://localhost:9001
@@ -31,8 +31,8 @@ feign:
         readTimeout: 5000
         loggerLevel: full
 
-logging:
-  level:
-    com.blog.springbootkeycloak: BEBUG
-    root: DEBUG
+#logging:
+#  level:
+#    com.blog.springbootkeycloak: BEBUG
+#    root: DEBUG
 
