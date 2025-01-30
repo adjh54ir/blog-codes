@@ -3,7 +3,9 @@ package com.blog.springbootkeycloak.controller;
 import com.blog.springbootkeycloak.dto.TokenRequestDto;
 import com.blog.springbootkeycloak.dto.StandardFlowDto;
 import com.blog.springbootkeycloak.service.AuthFlowService;
+import com.blog.springbootkeycloak.service.ClientCredentialService;
 import com.blog.springbootkeycloak.service.KeycloakService;
+import com.blog.springbootkeycloak.service.OAuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -29,6 +31,8 @@ public class AuthFlowController {
 
     private final AuthFlowService authFlowService;
     private final KeycloakService keycloakService;
+    private final OAuthService oAuthService;
+    private final ClientCredentialService clientCredentialService;
 
 
     /**
@@ -83,20 +87,15 @@ public class AuthFlowController {
     }
 
 
+    /**
+     * Client Credentials : 토큰 발급
+     *
+     * @return
+     */
     @GetMapping("/clientCredentials")
     public ResponseEntity<String> callProtectedApi() {
-        String accessToken = keycloakService.getAccessToken();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(accessToken);
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        return restTemplate.exchange(
-                "http://protected-api-url",
-                HttpMethod.GET,
-                entity,
-                String.class
-        );
+        String accessToken = oAuthService.getAccessToken();
+        String result = clientCredentialService.getProtectedResource("Bearer " + accessToken);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
