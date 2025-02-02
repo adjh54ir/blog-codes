@@ -1,7 +1,9 @@
 package com.blog.springbootkeycloak.controller;
 
-import com.blog.springbootkeycloak.dto.TokenRequestDto;
-import com.blog.springbootkeycloak.service.AuthFlowService;
+import com.blog.springbootkeycloak.dto.AccessTokenReqDto;
+import com.blog.springbootkeycloak.dto.AccessTokenResDto;
+import com.blog.springbootkeycloak.service.KeycloakService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +18,12 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/keycloak")
 public class KeycloakController {
 
-    private final AuthFlowService authFlowService;
+    private final KeycloakService keycloakService;
 
-    public KeycloakController(AuthFlowService authFlowService) {
-        this.authFlowService = authFlowService;
-    }
 
     /**
      * Keycloak 로그인 성공 이후 정보 수신 리다이렉트 URL
@@ -50,7 +50,7 @@ public class KeycloakController {
         log.debug("error :: {}", error);
         log.debug("error_description :: {}", error_description);
 
-        TokenRequestDto tokenRequestDto = TokenRequestDto.builder()
+        AccessTokenReqDto accessTokenReqDto = AccessTokenReqDto.builder()
                 .grant_type("authorization_code")
                 .client_id("spring-boot-app")
                 .client_secret("WQpTOpHkWwuTsvaiCwVVrs8vMvKLNom0")
@@ -58,7 +58,7 @@ public class KeycloakController {
                 .redirect_uri("http://localhost:8080/api/v1/keycloak/callback")
                 .build();
 
-        Object result = authFlowService.getAccessToken(tokenRequestDto);
+        AccessTokenResDto result = keycloakService.getAccessToken(accessTokenReqDto);
 
 
         return new ResponseEntity<>(result, HttpStatus.OK);

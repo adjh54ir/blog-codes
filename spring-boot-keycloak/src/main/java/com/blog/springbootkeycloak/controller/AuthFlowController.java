@@ -1,20 +1,15 @@
 package com.blog.springbootkeycloak.controller;
 
-import com.blog.springbootkeycloak.dto.TokenRequestDto;
-import com.blog.springbootkeycloak.dto.StandardFlowDto;
-import com.blog.springbootkeycloak.service.AuthFlowService;
-import com.blog.springbootkeycloak.service.ClientCredentialService;
+import com.blog.springbootkeycloak.dto.AccessTokenReqDto;
+import com.blog.springbootkeycloak.dto.AccessTokenResDto;
+import com.blog.springbootkeycloak.dto.AuthCodeDto;
 import com.blog.springbootkeycloak.service.KeycloakService;
-import com.blog.springbootkeycloak.service.OAuthService;
+import com.blog.springbootkeycloak.service.SubApiCallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 /**
  * OIDC 인증 플로우 구성
@@ -29,22 +24,19 @@ import java.util.UUID;
 @RequestMapping("/api/v1/keycloak/authFlow")
 public class AuthFlowController {
 
-    private final AuthFlowService authFlowService;
     private final KeycloakService keycloakService;
-    private final OAuthService oAuthService;
-    private final ClientCredentialService clientCredentialService;
-
+    private final SubApiCallService subApiCallService;
 
     /**
      * Direct Access Grants Flow : 토큰을 즉시 요청하는 방법
      *
-     * @param tokenRequestDto 전송 객체
+     * @param accessTokenReqDto 전송 객체
      * @return 토큰 값 반환
      */
     @PostMapping("/directAccess")
-    public ResponseEntity<Object> getDirectAccessToken(@RequestBody TokenRequestDto tokenRequestDto) {
+    public ResponseEntity<Object> getDirectAccessToken(@RequestBody AccessTokenReqDto accessTokenReqDto) {
         try {
-            Object resultToken = authFlowService.getAccessToken(tokenRequestDto);
+            AccessTokenResDto resultToken = keycloakService.getAccessToken(accessTokenReqDto);
             return new ResponseEntity<>(resultToken, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Token request failed", e);
@@ -70,7 +62,7 @@ public class AuthFlowController {
             @RequestParam(required = false) String scope,
             @RequestParam(required = false) String state
     ) {
-        StandardFlowDto standardFlowDto = StandardFlowDto.builder()
+        AuthCodeDto authCodeDto = AuthCodeDto.builder()
                 .response_type(response_type)
                 .client_id(client_id)
                 .redirect_uri(redirect_uri)
@@ -78,7 +70,7 @@ public class AuthFlowController {
                 .state(state)
                 .build();
         try {
-            String authorizationUrl = authFlowService.getStandardFlowLoginView(standardFlowDto);
+            String authorizationUrl = keycloakService.getAuthCode(authCodeDto);
             return new ResponseEntity<>(authorizationUrl, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Standard flow failed", e);
@@ -92,10 +84,26 @@ public class AuthFlowController {
      *
      * @return
      */
-    @GetMapping("/clientCredentials")
-    public ResponseEntity<String> callProtectedApi() {
-        String accessToken = oAuthService.getAccessToken();
-        String result = clientCredentialService.getProtectedResource("Bearer " + accessToken);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    @PostMapping("/clientCredentials")
+    public ResponseEntity<Object> callProtectedApi(@RequestBody AccessTokenReqDto accessTokenReqDto) {
+        try {
+
+            AccessTokenResDto resultToken = keycloakService.getAccessToken(accessTokenReqDto);      // Keycloak 통신 : 접근 토큰 발급
+            String accessToken = resultToken.getAccess_token();
+
+            // 토큰 생성 실패 시
+            if (accessToken.isEmpty()) {
+                log.error("Token is empty");
+                return new ResponseEntity<>("", HttpStatus.OK);
+            }
+
+            // 토큰 생성 성공 => 전달
+            boolean isReceive = subApiCallService.sendAccessTokenToSubApi(accessToken);             // 외부 서비스 통신 : 접근 토큰 전달
+            log.debug("성공적으로 전달되었는가 ? : {}", isReceive);
+            return new ResponseEntity<>(resultToken, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Token request failed", e);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
