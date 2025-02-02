@@ -6,15 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Access Token을 발급받기 위해 필요한 데이터
+ * Access Token 발급 요청 객체
  *
  * @author : jonghoon
- * @fileName : TokenRequestDto
+ * @fileName : AccessTokenReqDto
  * @since : 25. 1. 25.
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TokenRequestDto {
+public class AccessTokenReqDto {
 
     private String code;
     private String grant_type;
@@ -25,7 +25,7 @@ public class TokenRequestDto {
     private String redirect_uri;
 
     @Builder
-    public TokenRequestDto(String code, String grant_type, String client_id, String client_secret, String username, String password, String redirect_uri) {
+    public AccessTokenReqDto(String code, String grant_type, String client_id, String client_secret, String username, String password, String redirect_uri) {
         this.code = code;
         this.grant_type = grant_type;
         this.client_id = client_id;

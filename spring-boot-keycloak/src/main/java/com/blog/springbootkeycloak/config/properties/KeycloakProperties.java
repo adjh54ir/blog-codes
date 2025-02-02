@@ -1,6 +1,7 @@
 package com.blog.springbootkeycloak.config.properties;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -22,6 +23,17 @@ public class KeycloakProperties {
     @Getter
     public static class url {
         private String getTokenUrl;
+
+        public url(String getTokenUrl) {
+            this.getTokenUrl = getTokenUrl;
+        }
     }
 
+
+    public KeycloakProperties(String authServerUrl, String realm, String clientId, String clientSecret) {
+        this.authServerUrl = authServerUrl;
+        this.realm = realm;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+    }
 }
