@@ -1,30 +1,28 @@
 package com.blog.springbootkeycloak.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+
 /**
- * Please explain the class!!
+ * spring-boot-app-sub로 데이터를 전달합니다.
  *
- * @author : leejonghoon
+ * @author : jonghoon
  * @fileName : SubApiCallService
- * @since : 2025. 1. 31.
+ * @since : 25. 1. 30.
  */
-@FeignClient(
-        name = "sub-api-call",
-        url = "http://localhost:8081/api/v1"
-)
+@Service
+@FeignClient(name = "keycloak-sub-call", url = "http://localhost:8081/api/v1/keycloak/receive")
 public interface SubApiCallService {
 
     /**
-     * @param accessToken
+     * spring-boot-app에서 발급된 토큰을 spring-boot-sub로 전달합니다.
+     *
+     * @param bearerToken
      * @return
      */
-    @PostMapping(
-            value = "/receive/accessToken"
-    )
-    String sendAccessToken(@RequestHeader("Authorization") String accessToken);
-
+    @GetMapping("/token")
+    boolean sendAccessTokenToSubApi(@RequestHeader("Authorization") String bearerToken);
 }
