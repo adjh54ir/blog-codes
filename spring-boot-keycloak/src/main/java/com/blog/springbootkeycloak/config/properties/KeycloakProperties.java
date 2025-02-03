@@ -25,4 +25,11 @@ public class KeycloakProperties {
     public static class Credentials {
         private String secret;
     }
+
+    public KeycloakProperties(String authServerUrl, String realm, String resource, Credentials credentials) {
+        this.authServerUrl = authServerUrl;
+        this.realm = realm;
+        this.resource = resource;
+        this.credentials = credentials;
+    }
 }

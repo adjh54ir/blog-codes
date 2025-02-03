@@ -6,15 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Auth Flow 중 Standard Flow 방식 데이터 구성
+ * 인가 코드 DTO
  *
  * @author : jonghoon
- * @fileName : StandardFlowDto
+ * @fileName : AuthCodeDto
  * @since : 25. 1. 28.
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class StandardFlowDto {
+public class AuthCodeDto {
     private String response_type;
     private String client_id;
     private String redirect_uri;
@@ -22,7 +22,7 @@ public class StandardFlowDto {
     private String state;
 
     @Builder
-    public StandardFlowDto(String response_type, String client_id, String redirect_uri, String scope, String state) {
+    public AuthCodeDto(String response_type, String client_id, String redirect_uri, String scope, String state) {
         this.response_type = response_type;
         this.client_id = client_id;
         this.redirect_uri = redirect_uri;

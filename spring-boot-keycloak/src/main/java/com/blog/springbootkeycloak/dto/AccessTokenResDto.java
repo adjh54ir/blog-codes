@@ -3,7 +3,7 @@ package com.blog.springbootkeycloak.dto;
 import lombok.*;
 
 /**
- * Please explain the class!!
+ * Access Token 발급 응답 객체
  *
  * @author : jonghoon
  * @fileName : TokenResponseDto
@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TokenResponseDto {
+public class AccessTokenResDto {
     private String access_token;
     private int expires_in;
     private int refresh_expires_in;
@@ -23,7 +23,7 @@ public class TokenResponseDto {
     private String scope;
 
     @Builder
-    public TokenResponseDto(String access_token, int expires_in, int refresh_expires_in, String refresh_token, String token_type, int not_before_policy, String session_state, String scope) {
+    public AccessTokenResDto(String access_token, int expires_in, int refresh_expires_in, String refresh_token, String token_type, int not_before_policy, String session_state, String scope) {
         this.access_token = access_token;
         this.expires_in = expires_in;
         this.refresh_expires_in = refresh_expires_in;

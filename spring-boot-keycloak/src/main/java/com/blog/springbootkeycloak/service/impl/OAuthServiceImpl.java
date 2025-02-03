@@ -1,9 +1,6 @@
 package com.blog.springbootkeycloak.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,20 +14,20 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OAuthServiceImpl {
 
-    private final OAuth2AuthorizedClientManager authorizedClientManager;
-
-    public String getAccessToken() {
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest
-                .withClientRegistrationId("keycloak")
-                .principal("service-account")
-                .build();
-
-        OAuth2AuthorizedClient authorizedClient = authorizedClientManager.authorize(authorizeRequest);
-
-        if (authorizedClient != null) {
-            return authorizedClient.getAccessToken().getTokenValue();
-        }
-
-        throw new RuntimeException("Failed to obtain access token");
-    }
+//    private final OAuth2AuthorizedClientManager authorizedClientManager;
+//
+//    public String getAccessToken() {
+//        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest
+//                .withClientRegistrationId("keycloak")
+//                .principal("service-account")
+//                .build();
+//
+//        OAuth2AuthorizedClient authorizedClient = authorizedClientManager.authorize(authorizeRequest);
+//
+//        if (authorizedClient != null) {
+//            return authorizedClient.getAccessToken().getTokenValue();
+//        }
+//
+//        throw new RuntimeException("Failed to obtain access token");
+//    }
 }
