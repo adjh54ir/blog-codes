@@ -71,7 +71,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)                                                          // CSRF 보호 비활성화
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))                              // CORS 커스텀 설정 적용
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))             \                 // CORS 커스텀 설정 적용
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())                                   // 우선 모든 요청에 대한 허용
                 .addFilterBefore(jwtAuthorizationFilter(), BasicAuthenticationFilter.class)                     // JWT 인증 (커스텀 필터)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))   // 세션 미사용 (JWT 사용)

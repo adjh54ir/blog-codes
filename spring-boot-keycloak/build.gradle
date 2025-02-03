@@ -33,14 +33,15 @@ dependencyManagement {
 
 dependencies {
 
-    implementation "org.springframework.boot:spring-boot-configuration-processor"
+    // Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation "org.springframework.cloud:spring-cloud-starter-openfeign:4.1.3"
-
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-
     implementation "org.springframework.boot:spring-boot-configuration-processor"
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign:4.1.3"
+
+
+    // [OpenSource]
     implementation 'org.keycloak:keycloak-admin-client:26.0.4'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

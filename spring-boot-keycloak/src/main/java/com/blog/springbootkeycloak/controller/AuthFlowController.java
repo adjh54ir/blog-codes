@@ -5,16 +5,12 @@ import com.blog.springbootkeycloak.dto.StandardFlowDto;
 import com.blog.springbootkeycloak.service.AuthFlowService;
 import com.blog.springbootkeycloak.service.ClientCredentialService;
 import com.blog.springbootkeycloak.service.KeycloakService;
-import com.blog.springbootkeycloak.service.OAuthService;
+import com.blog.springbootkeycloak.service.impl.OAuthServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 /**
  * OIDC 인증 플로우 구성
@@ -31,7 +27,7 @@ public class AuthFlowController {
 
     private final AuthFlowService authFlowService;
     private final KeycloakService keycloakService;
-    private final OAuthService oAuthService;
+    private final OAuthServiceImpl oAuthService;
     private final ClientCredentialService clientCredentialService;
 
 
