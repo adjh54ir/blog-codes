@@ -5,7 +5,7 @@ spring:
         registration:
           keycloak:
             client-id: spring-boot-app
-            client-secret: WQpTOpHkWwuTsvaiCwVVrs8vMvKLNom0
+            client-secret: WnmQEGAOzEJ7Kyr2UCJha5AXKCjwnGpB
             authorization-grant-type: client_credentials
         provider:
           keycloak:
@@ -17,10 +17,9 @@ spring:
 keycloak:
   auth-server-url: http://localhost:9001
   realm: dev-realm
-  client-id: spring-boot-app
-  client-secret: z4q0ONegiuXAt4lMCUwFUqh27172DYnf
-  url:
-    get-token-url: /protocol/openid-connect/token
+  resource: spring-boot-app
+  credentials:
+    secret: WnmQEGAOzEJ7Kyr2UCJha5AXKCjwnGpB
 
 
 feign:

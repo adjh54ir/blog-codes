@@ -2,6 +2,9 @@ package com.blog.springbootkeycloak.controller;
 
 import com.blog.springbootkeycloak.dto.TokenRequestDto;
 import com.blog.springbootkeycloak.service.AuthFlowService;
+import com.blog.springbootkeycloak.service.KeycloakClientService;
+import com.blog.springbootkeycloak.service.impl.KeycloakClientServiceImpl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +19,13 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/keycloak")
 public class KeycloakController {
 
     private final AuthFlowService authFlowService;
+    private final KeycloakClientService keycloakClientService;
 
-    public KeycloakController(AuthFlowService authFlowService) {
-        this.authFlowService = authFlowService;
-    }
 
     /**
      * Keycloak 로그인 성공 이후 정보 수신 리다이렉트 URL
@@ -82,6 +84,18 @@ public class KeycloakController {
         log.debug("error :: {}", error);
         log.debug("error_description :: {}", error_description);
         return new ResponseEntity<>(state, HttpStatus.OK);
+    }
+
+    /**
+     * 토큰을 발급받습니다.
+     *
+     * @return
+     */
+    @PostMapping("/token")
+    public ResponseEntity<Object> getToken() {
+        String token = keycloakClientService.callProtectedApi();
+        // token을 사용하여 필요한 작업 수행
+        return ResponseEntity.ok("Access Token: " + token);
     }
 
 }

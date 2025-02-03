@@ -1,4 +1,4 @@
-package com.blog.springbootkeycloak.service;
+package com.blog.springbootkeycloak.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class OAuthService {
+public class OAuthServiceImpl {
 
     private final OAuth2AuthorizedClientManager authorizedClientManager;
 
