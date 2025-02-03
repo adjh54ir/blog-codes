@@ -33,12 +33,4 @@ public class KeycloakConfig {
                 .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
                 .build();
     }
-
-
-//    @Bean
-//    public KeycloakRestTemplate keycloakRestTemplate() {
-//        return new KeycloakRestTemplate(keycloak());
-//    }
-
-
 }

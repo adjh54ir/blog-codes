@@ -4,7 +4,6 @@ import com.blog.springbootkeycloak.dto.AccessTokenReqDto;
 import com.blog.springbootkeycloak.dto.AccessTokenResDto;
 import com.blog.springbootkeycloak.dto.AuthCodeDto;
 import com.blog.springbootkeycloak.service.KeycloakService;
-import com.blog.springbootkeycloak.service.impl.OAuthServiceImpl;
 import com.blog.springbootkeycloak.service.SubApiCallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -100,7 +99,7 @@ public class AuthFlowController {
             }
 
             // 토큰 생성 성공 => 전달
-            boolean isReceive = subApiCallService.sendAccessToken(accessToken);             // 외부 서비스 통신 : 접근 토큰 전달
+            boolean isReceive = subApiCallService.sendAccessTokenToSubApi(accessToken);             // 외부 서비스 통신 : 접근 토큰 전달
             log.debug("성공적으로 전달되었는가 ? : {}", isReceive);
             return new ResponseEntity<>(resultToken, HttpStatus.OK);
         } catch (Exception e) {
