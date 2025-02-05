@@ -1,5 +1,6 @@
 package com.adjh.springbootcommon.commons.utils;
 
+import com.adjh.springbootcommon.commons.modules.ASE256Modules;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -38,4 +39,28 @@ public class EncryptUtils {
         byte[] decodedBytes = Base64.getDecoder().decode(base64Str);
         return new String(decodedBytes);
     }
+
+    /**
+     * [공통함수] ASE256 암호화
+     *
+     * @param encodeValue
+     * @param saltKey
+     * @return
+     */
+    public static String encodeASE256(String encodeValue, String saltKey) {
+        return ASE256Modules.encrypt_AES(encodeValue, saltKey);
+    }
+
+    /**
+     * [공통함수] ASE256 복호화
+     *
+     * @param encodeValue
+     * @param saltKey
+     * @return
+     */
+    public static String decodeASE256(String encodeValue, String saltKey) {
+        return ASE256Modules.decrypt_AES(encodeValue, saltKey);
+    }
+
+
 }

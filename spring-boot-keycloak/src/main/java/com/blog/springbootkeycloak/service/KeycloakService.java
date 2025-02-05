@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @FeignClient(
         name = "keycloak-auth-service",
-        url = "http://localhost:9001/realms/dev-realm//protocol/openid-connect"
+        url = "http://localhost:9001/realms/dev-realm/protocol/openid-connect"
 )
 @Service
 public interface KeycloakService {

@@ -14,6 +14,7 @@ import java.util.stream.IntStream;
  * @author : lee
  * @fileName : StringUtils
  * @Method @since : 2/16/24
+ * - isStrEmpty()                           : 문자열의 빈값 및 NULL 체크하여 진위형으로 반환 받습니다.
  * - makeUUID()                             : UUID 생성 함수
  * - generateRandomNum()                    : 자릿수(digit) 만큼 랜덤한 숫자를 반환 받습니다.
  * - generateRangeRandomNum()               : 자릿수(digit) 만큼 랜덤한 숫자를 반환 받습니다.
@@ -27,7 +28,6 @@ import java.util.stream.IntStream;
  */
 @RequiredArgsConstructor
 public class StringUtils {
-
 
     /**
      * 문자열의 NULL, 빈값을 체크합니다.

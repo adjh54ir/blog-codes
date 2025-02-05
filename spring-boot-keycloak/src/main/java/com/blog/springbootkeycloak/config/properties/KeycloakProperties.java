@@ -1,5 +1,6 @@
 package com.blog.springbootkeycloak.config.properties;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -18,6 +19,7 @@ public class KeycloakProperties {
     private String authServerUrl;
     private String realm;
     private String resource;
+    private String redirectUri;
     private Credentials credentials;
 
     @Getter
@@ -26,10 +28,12 @@ public class KeycloakProperties {
         private String secret;
     }
 
-    public KeycloakProperties(String authServerUrl, String realm, String resource, Credentials credentials) {
+    @Builder
+    public KeycloakProperties(String authServerUrl, String realm, String resource, String redirectUri, Credentials credentials) {
         this.authServerUrl = authServerUrl;
         this.realm = realm;
         this.resource = resource;
+        this.redirectUri = redirectUri;
         this.credentials = credentials;
     }
 }
