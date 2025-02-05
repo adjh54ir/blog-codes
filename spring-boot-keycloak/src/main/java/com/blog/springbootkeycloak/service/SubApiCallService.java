@@ -1,9 +1,12 @@
 package com.blog.springbootkeycloak.service;
 
+import com.blog.springbootkeycloak.dto.KeycloakUserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+
+import java.util.List;
 
 
 /**
@@ -24,5 +27,5 @@ public interface SubApiCallService {
      * @return
      */
     @GetMapping("/token")
-    boolean sendAccessTokenToSubApi(@RequestHeader("Authorization") String bearerToken);
+    List<KeycloakUserDto> sendAccessTokenToSubApi(@RequestHeader("Authorization") String bearerToken);
 }

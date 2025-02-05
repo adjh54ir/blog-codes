@@ -1,5 +1,6 @@
 package com.blog.springbootkeycloak.controller;
 
+import com.blog.springbootkeycloak.config.properties.KeycloakProperties;
 import com.blog.springbootkeycloak.dto.AccessTokenReqDto;
 import com.blog.springbootkeycloak.dto.AccessTokenResDto;
 import com.blog.springbootkeycloak.service.KeycloakService;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class KeycloakController {
 
     private final KeycloakService keycloakService;
+    private final KeycloakProperties keycloakProperties;
 
     /**
      * Keycloak 로그인 성공 이후 정보 수신 리다이렉트 URL
@@ -52,10 +54,10 @@ public class KeycloakController {
 
         AccessTokenReqDto accessTokenReqDto = AccessTokenReqDto.builder()
                 .grant_type("authorization_code")
-                .client_id("spring-boot-app")
-                .client_secret("WQpTOpHkWwuTsvaiCwVVrs8vMvKLNom0")
+                .client_id(keycloakProperties.getResource())
+                .client_secret(keycloakProperties.getCredentials().getSecret())
                 .code(code)
-                .redirect_uri("http://localhost:8080/api/v1/keycloak/callback")
+                .redirect_uri(keycloakProperties.getRedirectUri())
                 .build();
 
         AccessTokenResDto result = keycloakService.getAccessToken(accessTokenReqDto);

@@ -1,2 +1,31 @@
 server:
   port: 8081
+
+
+keycloak:
+  auth-server-url: http://localhost:9001
+  realm: dev-realm
+  spring-boot-app:
+    resource: spring-boot-app
+    redirect-url: "http://localhost:8080/api/v1/keycloak/callback"
+    credentials:
+      secret: WnmQEGAOzEJ7Kyr2UCJha5AXKCjwnGpB
+  spring-boot-app-sub:
+    resource: spring-boot-app-sub
+    redirect-url: "http://localhost:8080/api/v1/keycloak/callback"
+    credentials:
+      secret: uHhmlP41GcnjorNDWJWyUNkEDPrqcbJm
+
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
+
+logging:
+  level:
+    root: INFO
+    com.adjh.springbootkeycloaksub: DEBUG
