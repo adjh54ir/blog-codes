@@ -37,7 +37,6 @@ public class KeycloakController {
      * @return
      */
     @GetMapping("/callback")
-
     public ResponseEntity<Object> loginCallback(
             @RequestParam(required = false) String code,
             @RequestParam(required = false) String state,
