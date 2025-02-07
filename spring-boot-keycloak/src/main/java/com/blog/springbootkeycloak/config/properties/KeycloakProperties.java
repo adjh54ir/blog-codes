@@ -19,7 +19,7 @@ public class KeycloakProperties {
     private String authServerUrl;
     private String realm;
     private String resource;
-    private String redirectUri;
+    private String redirectUrl;
     private Credentials credentials;
 
     @Getter
@@ -28,12 +28,11 @@ public class KeycloakProperties {
         private String secret;
     }
 
-    @Builder
-    public KeycloakProperties(String authServerUrl, String realm, String resource, String redirectUri, Credentials credentials) {
+    public KeycloakProperties(String authServerUrl, String realm, String resource, String redirectUrl, Credentials credentials) {
         this.authServerUrl = authServerUrl;
         this.realm = realm;
         this.resource = resource;
-        this.redirectUri = redirectUri;
+        this.redirectUrl = redirectUrl;
         this.credentials = credentials;
     }
 }

@@ -1,9 +1,6 @@
 package com.blog.springbootkeycloak.dto;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * Access Token 발급 요청 객체
@@ -13,6 +10,7 @@ import lombok.NoArgsConstructor;
  * @since : 25. 1. 25.
  */
 @Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AccessTokenReqDto {
 
