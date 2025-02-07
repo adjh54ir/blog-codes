@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Please explain the class!!
+ * 공통으로 사용하는 Keycloak 인스턴스를 구성합니다.
  *
  * @author : jonghoon
  * @fileName : KeycloakConfig
