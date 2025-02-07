@@ -56,8 +56,10 @@ public class KeycloakController {
                 .client_id(keycloakProperties.getResource())
                 .client_secret(keycloakProperties.getCredentials().getSecret())
                 .code(code)
-                .redirect_uri(keycloakProperties.getRedirectUri())
+                .redirect_uri(keycloakProperties.getRedirectUrl())
                 .build();
+
+        log.debug("전송하려는 데이터 : {}", accessTokenReqDto);
 
         AccessTokenResDto result = keycloakService.getAccessToken(accessTokenReqDto);
 
