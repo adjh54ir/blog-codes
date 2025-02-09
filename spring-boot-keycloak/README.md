@@ -40,15 +40,18 @@
 
 ## 2. API Endpoint
 
-| Controller         | EndPoint                                                             | HTTP Method | 설명                                            |
-|--------------------|----------------------------------------------------------------------|-------------|-----------------------------------------------|
-| AuthFlowController | http://localhost:8080/api/v1/authFlow/directAccess                   | POST        | Direct Access Grants Flow : 토큰을 즉시 요청하는 방법    |
-| AuthFlowController | http://localhost:8080/api/v1/authFlow/standardFlow                   | GET         | Standard Flow : 로그인 페이지 출력 및 로그인              |
-| AuthFlowController | http://localhost:8080/api/v1/authFlow/clientCredentials              | POST        | Client Credentials : 토큰 발급                    |
-|                    |                                                                      |             |                                               |
-| KeycloakController | http://localhost:8080/api/v1/keycloak/callback                       | GET         | Keycloak 로그인 이후 리다이렉트 URI                     |
-| KeycloakController | http://localhost:8080/api/v1/keycloak/logout                         | GET         | 특정 Realm의 사용자들을 로그아웃                          |
-|                    |                                                                      |             |                                               |
-| Keycloak 통신        | http://localhost:9001/realms/dev-realm/protocol/openid-connect/auth  | GET         | 인가 코드(Authentication Code) 발급                 |
-| Keycloak 통신        | http://localhost:9001/realms/dev-realm/protocol/openid-connect/token | POST        | 접근 토큰(Access Token) 발급                        |
-| 서비스 B로 통신          | http://localhost:8081/api/v1/keycloak/receive/token                  | GET         | spring-boot-app에서 발급된 토큰을 spring-boot-sub로 전달 |
+| Controller         | EndPoint                                                                                                                                                                     | HTTP Method | 설명                                            |
+|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|-----------------------------------------------|
+| AuthFlowController | http://localhost:8080/api/v1/authFlow/directAccess                                                                                                                           | POST        | Direct Access Grants Flow : 토큰을 즉시 요청하는 방법    |
+| AuthFlowController | http://localhost:8080/api/v1/authFlow/standardFlow                                                                                                                           | GET         | Standard Flow : 로그인 페이지 출력 및 로그인              |
+| AuthFlowController | http://localhost:8080/api/v1/authFlow/clientCredentials                                                                                                                      | POST        | Client Credentials : 토큰 발급                    |
+|                    |                                                                                                                                                                              |             |                                               |
+| KeycloakController | http://localhost:8080/api/v1/keycloak/callback                                                                                                                               | GET         | Keycloak 로그인 이후 리다이렉트 URI                     |
+| KeycloakController | http://localhost:8080/api/v1/keycloak/logout                                                                                                                                 | GET         | 특정 Realm의 사용자들을 로그아웃                          |
+|                    |                                                                                                                                                                              |             |                                               |
+| 서비스 B로 통신          | http://localhost:8081/api/v1/keycloak/receive/token                                                                                                                          | GET         | spring-boot-app에서 발급된 토큰을 spring-boot-sub로 전달 |
+|                    |                                                                                                                                                                              |             |                                               |
+| Keycloak 통신        | http://localhost:9001/realms/dev-realm/protocol/openid-connect/auth?client_id=spring-boot-app&response_type=code&redirect_uri=http://localhost:8080/api/v1/keycloak/callback | GET         | 로그인 페이지                                       |
+| Keycloak 통신        | http://localhost:9001/realms/dev-realm/protocol/openid-connect/logout?redirect_uri=http://localhost:8080/api/v1/keycloak/logout&client_id=spring-boot-app                    | GET         | 로그아웃 페이지                                      |
+
+
