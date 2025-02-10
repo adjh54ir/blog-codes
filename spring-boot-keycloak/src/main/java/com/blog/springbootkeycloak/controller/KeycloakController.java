@@ -3,7 +3,7 @@ package com.blog.springbootkeycloak.controller;
 import com.blog.springbootkeycloak.config.properties.KeycloakProperties;
 import com.blog.springbootkeycloak.dto.AccessTokenReqDto;
 import com.blog.springbootkeycloak.dto.AccessTokenResDto;
-import com.blog.springbootkeycloak.service.KeycloakService;
+import com.blog.springbootkeycloak.service.feign.KeycloakAuthFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/keycloak")
 public class KeycloakController {
 
-    private final KeycloakService keycloakService;
+    private final KeycloakAuthFeignClient keycloakAuthFeignClient;
     private final KeycloakProperties keycloakProperties;
 
     /**
@@ -61,7 +61,7 @@ public class KeycloakController {
 
         log.debug("전송하려는 데이터 : {}", accessTokenReqDto);
 
-        AccessTokenResDto result = keycloakService.getAccessToken(accessTokenReqDto);
+        AccessTokenResDto result = keycloakAuthFeignClient.getAccessToken(accessTokenReqDto);
 
 
         return new ResponseEntity<>(result, HttpStatus.OK);

@@ -4,8 +4,8 @@ import com.blog.springbootkeycloak.dto.AccessTokenReqDto;
 import com.blog.springbootkeycloak.dto.AccessTokenResDto;
 import com.blog.springbootkeycloak.dto.AuthCodeDto;
 import com.blog.springbootkeycloak.dto.KeycloakUserDto;
-import com.blog.springbootkeycloak.service.KeycloakService;
-import com.blog.springbootkeycloak.service.SubApiCallService;
+import com.blog.springbootkeycloak.service.feign.KeycloakAuthFeignClient;
+import com.blog.springbootkeycloak.service.feign.SubApiCallFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,8 +27,8 @@ import java.util.List;
 @RequestMapping("/api/v1/keycloak/authFlow")
 public class AuthFlowController {
 
-    private final KeycloakService keycloakService;
-    private final SubApiCallService subApiCallService;
+    private final KeycloakAuthFeignClient keycloakAuthFeignClient;
+    private final SubApiCallFeignClient subApiCallFeignClient;
 
     /**
      * Direct Access Grants Flow : 토큰을 즉시 요청하는 방법
@@ -39,7 +39,7 @@ public class AuthFlowController {
     @PostMapping("/directAccess")
     public ResponseEntity<Object> getDirectAccessToken(@RequestBody AccessTokenReqDto accessTokenReqDto) {
         try {
-            AccessTokenResDto resultToken = keycloakService.getAccessToken(accessTokenReqDto);
+            AccessTokenResDto resultToken = keycloakAuthFeignClient.getAccessToken(accessTokenReqDto);
             return new ResponseEntity<>(resultToken, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Token request failed", e);
@@ -73,7 +73,7 @@ public class AuthFlowController {
                 .state(state)
                 .build();
         try {
-            String authorizationUrl = keycloakService.getAuthCode(authCodeDto);
+            String authorizationUrl = keycloakAuthFeignClient.getAuthCode(authCodeDto);
             return new ResponseEntity<>(authorizationUrl, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Standard flow failed", e);
@@ -91,7 +91,7 @@ public class AuthFlowController {
     public ResponseEntity<Object> callProtectedApi(@RequestBody AccessTokenReqDto accessTokenReqDto) {
         try {
 
-            AccessTokenResDto resultToken = keycloakService.getAccessToken(accessTokenReqDto);      // Keycloak 통신 : 접근 토큰 발급
+            AccessTokenResDto resultToken = keycloakAuthFeignClient.getAccessToken(accessTokenReqDto);      // Keycloak 통신 : 접근 토큰 발급
             String accessToken = resultToken.getAccess_token();
 
             // 토큰 생성 실패 시
@@ -101,7 +101,7 @@ public class AuthFlowController {
             }
 
             // 토큰 생성 성공 => 전달
-            List<KeycloakUserDto> getUser = subApiCallService.sendAccessTokenToSubApi(accessToken);             // 외부 서비스 통신 : 접근 토큰 전달
+            List<KeycloakUserDto> getUser = subApiCallFeignClient.sendAccessTokenToSubApi(accessToken);             // 외부 서비스 통신 : 접근 토큰 전달
             log.debug("성공적으로 전달되었는가 ? : {}", getUser);
             return new ResponseEntity<>(getUser, HttpStatus.OK);
         } catch (Exception e) {
