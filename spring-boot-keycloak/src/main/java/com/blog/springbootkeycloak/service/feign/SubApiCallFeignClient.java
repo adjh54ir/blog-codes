@@ -1,4 +1,4 @@
-package com.blog.springbootkeycloak.service;
+package com.blog.springbootkeycloak.service.feign;
 
 import com.blog.springbootkeycloak.dto.KeycloakUserDto;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Service
 @FeignClient(name = "keycloak-sub-call", url = "http://localhost:8081/api/v1/keycloak/receive")
-public interface SubApiCallService {
+public interface SubApiCallFeignClient {
 
     /**
      * spring-boot-app에서 발급된 토큰을 spring-boot-sub로 전달합니다.
