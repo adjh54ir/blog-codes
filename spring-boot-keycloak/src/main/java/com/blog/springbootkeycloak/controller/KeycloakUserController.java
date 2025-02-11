@@ -1,5 +1,7 @@
 package com.blog.springbootkeycloak.controller;
 
+import com.blog.springbootkeycloak.dto.KeycloakUserResetPwDto;
+import com.blog.springbootkeycloak.dto.KeycloakUserSearchDto;
 import com.blog.springbootkeycloak.service.KeycloakUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +36,9 @@ public class KeycloakUserController {
     @PostMapping("/users")
     public ResponseEntity<Object> selectKeycloakUsers(
             @RequestHeader("Authorization") String bearerToken,
-            @RequestBody UserRepresentation usp
+            @RequestBody KeycloakUserSearchDto keycloakUserSearchDto
     ) {
-        List<UserRepresentation> result = userService.getKeycloakUsers(bearerToken, usp);
+        List<UserRepresentation> result = userService.selectKeycloakUserList(bearerToken, keycloakUserSearchDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -99,9 +101,9 @@ public class KeycloakUserController {
     @GetMapping("/chgPassword")
     public ResponseEntity<Integer> changePassword(
             @RequestHeader("Authorization") String bearerToken,
-            @RequestBody UserRepresentation userRepresentation
+            @RequestBody KeycloakUserResetPwDto keycloakUserResetPwDto
     ) {
-        int result = userService.resetPassword(bearerToken, userRepresentation);
+        int result = userService.resetPassword(bearerToken, keycloakUserResetPwDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
