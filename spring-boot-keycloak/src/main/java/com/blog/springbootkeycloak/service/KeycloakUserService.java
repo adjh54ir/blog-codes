@@ -12,8 +12,6 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 /**
  * Keycloak 비즈니스 관리를 수행합니다.
@@ -33,52 +31,27 @@ public class KeycloakUserService {
 
 
     /**
-     * Keycloak 사용자를 조회합니다.
+     * Keycloak 사용자를 전체 조회합니다.
      *
      * @param bearerToken
      * @return
      */
-    public List<UserRepresentation> getKeycloakUsers(String bearerToken, UserRepresentation userRepresentation) {
+    public List<UserRepresentation> selectKeycloakUserList(String bearerToken, KeycloakUserSearchDto kus) {
 
         // 1. [Keycloak] 토큰 유효성 체크
         this.validateToken(bearerToken);
-        UserRepresentation ur = new UserRepresentation();
 
-        // userRepresentation의 값들을 ur에 복사
-        if (userRepresentation.getUsername() != null) {
-            ur.setUsername(userRepresentation.getUsername());
-        }
-        if (userRepresentation.getEmail() != null) {
-            ur.setEmail(userRepresentation.getEmail());
-        }
-        if (userRepresentation.getFirstName() != null) {
-            ur.setFirstName(userRepresentation.getFirstName());
-        }
-        if (userRepresentation.getLastName() != null) {
-            ur.setLastName(userRepresentation.getLastName());
-        }
-        ur.setEnabled(true);
-
-        // 3. [Keycloak] 사용자 리스트 조회 : 필터링이 있는 경우
-        return keycloakUserFeignClient.getKeycloakUsers(bearerToken, ur);
-    }
-
-    /**
-     * 사용자 상세 조회
-     *
-     * @param bearerToken
-     * @param ur
-     * @return
-     */
-    public UserRepresentation getKeycloakUserDetail(String bearerToken, UserRepresentation ur) {
-        // 1. [Keycloak] 토큰 유효성 체크
-        this.validateToken(bearerToken);
-
-        // 2. [Keycloak] username 기반 ID 조회
-        String id = this.getKeycloakUserId(bearerToken, ur.getUsername());
-
-        // 3. [Keycloak] id 기반 사용자 상세 조회
-        return keycloakUserFeignClient.getKeycloakUserDetail(bearerToken, id);
+        // 2. [Keycloak] 사용자 조회
+        return keycloakUserFeignClient.selectKeycloakUserDetail(
+                bearerToken,
+                kus.getFirst(),
+                kus.getMax(),
+                kus.getSearch(),
+                kus.getUsername(),
+                kus.getEmail(),
+                kus.getEnabled(),
+                true
+        );
     }
 
     /**
@@ -117,9 +90,9 @@ public class KeycloakUserService {
      */
     public int updateUser(String bearerToken, UserRepresentation ur) {
         int result = 0;
+
         // 1. [Keycloak] 토큰 유효성 체크
         this.validateToken(bearerToken);
-
 
         // 2. [Keycloak] username 기반 ID 조회
         String id = this.getKeycloakUserId(bearerToken, ur.getUsername());
@@ -151,10 +124,12 @@ public class KeycloakUserService {
         int result = 0;
         // 1. [Keycloak] 토큰 유효성 체크
         this.validateToken(bearerToken);
+
         // 2. [Keycloak] username 기반 ID 조회
         String id = this.getKeycloakUserId(bearerToken, ur.getUsername());
 
         try {
+            // 3. [Keycloak] 사용자 삭제
             keycloakUserFeignClient.deleteUser(bearerToken, id);
             result = 1;
         } catch (FeignException.NotFound e) {
@@ -171,38 +146,29 @@ public class KeycloakUserService {
      * 비밀번호를 재설정합니다.
      *
      * @param bearerToken
-     * @param ur
+     * @param keycloakUserResetPwDto
      * @return
      */
-    public int resetPassword(String bearerToken, UserRepresentation ur) {
+    public int resetPassword(String bearerToken, KeycloakUserResetPwDto keycloakUserResetPwDto) {
         int intResult = 0;
 
         // 1. [Keycloak] 토큰 유효성 체크
         this.validateToken(bearerToken);
 
         // 2. [Keycloak] username 기반 ID 조회
-        String id = this.getKeycloakUserId(bearerToken, ur.getUsername());
+        String id = this.getKeycloakUserId(bearerToken, keycloakUserResetPwDto.getUsername());
 
         // 3. [Keycloak] username 기반의 사용자 조회
-        String userId = getKeycloakUserId(bearerToken, id);
         CredentialRepresentation result = new CredentialRepresentation();
+        result.setValue(keycloakUserResetPwDto.getValue());
         result.setType("password");
         result.setTemporary(false);
-        result.setId(userId);
+        result.setId(id);
 
         try {
             // 3. [Keycloak] 비밀번호 재설정
-            keycloakUserFeignClient.resetPassword(bearerToken, result);
+            keycloakUserFeignClient.resetPassword(bearerToken, id, result);
             intResult = 1;
-        } catch (FeignException.NotFound e) {
-            // 404: 사용자를 찾을 수 없는 경우
-            throw new IllegalArgumentException("User not found with id: " + id);
-        } catch (FeignException.BadRequest e) {
-            // 400: 비밀번호 형식이 유효하지 않은 경우
-            throw new IllegalArgumentException("Invalid password format");
-        } catch (FeignException.Unauthorized e) {
-            // 401: 인증 토큰이 유효하지 않은 경우
-            throw new SecurityException("Invalid or expired token");
         } catch (FeignException e) {
             // 기타 Feign 예외
             throw new RuntimeException("Failed to reset password: " + e.getMessage());
@@ -232,15 +198,20 @@ public class KeycloakUserService {
             throw new IllegalArgumentException("username이 존재하지 않습니다.: ");
         }
 
-        // 사용자 아이디를 기억할 수 없으므로 username을 기반으로 조회하여 id 값을 조회해옵니다.
-        UserRepresentation ur = new UserRepresentation();
-        ur.setUsername(username);
-
         // [Keycloak] username 기반의 사용자 조회
-        List<UserRepresentation> result = keycloakUserFeignClient.getKeycloakUsers(bearerToken, ur);
+        List<UserRepresentation> result = keycloakUserFeignClient.selectKeycloakUserDetail(
+                bearerToken,
+                null,
+                null,
+                null,
+                username,
+                null,
+                null,
+                true
+        );
 
         // [Validation] 유효하지 않은 사용자
-        if (result.size() == 0) {
+        if (result.isEmpty()) {
             throw new IllegalArgumentException("해당 username으로 등록된 사용자를 찾을 수 없습니다: " + username);
         }
 
