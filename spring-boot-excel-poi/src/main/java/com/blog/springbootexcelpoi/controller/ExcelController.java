@@ -1,9 +1,12 @@
 package com.blog.springbootexcelpoi.controller;
 
+import com.blog.springbootexcelpoi.ExcelService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +23,11 @@ import java.io.IOException;
  */
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/excel")
 public class ExcelController {
+
+    private final ExcelService excelService;
 
     /**
      * 엑셀 업로드 화면 출력
@@ -30,7 +36,7 @@ public class ExcelController {
      */
     @GetMapping("/upload")
     public String uploadForm() {
-        return "excelUpload";
+        return "/pages/excelUpload";
     }
 
     /**
@@ -42,37 +48,24 @@ public class ExcelController {
      */
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
-        try {
-            if (file.isEmpty()) {
-                model.addAttribute("message", "파일을 선택해주세요.");
-                return "excelUpload";
-            }
-
-            // 파일 확장자 검증
-            String filename = file.getOriginalFilename();
-            if (!filename.endsWith(".xlsx") && !filename.endsWith(".xls")) {
-                model.addAttribute("message", "Excel 파일만 업로드 가능합니다.");
-                return "excelUpload";
-            }
-
-            // Excel 파일 처리
-            Workbook workbook = WorkbookFactory.create(file.getInputStream());
-            log.debug("workbook: {}", workbook);
-            Sheet sheet = workbook.getSheetAt(0);
-            log.debug("sheetName :: {}", sheet.getSheetName());
-            log.debug("row[0] :: {}", sheet.getRow(0));
-            log.debug("row[1] :: {}", sheet.getRow(1));
-            log.debug("row[2] :: {}", sheet.getRow(2));
-            log.debug("row[3] :: {}", sheet.getRow(3));
-
-
-            workbook.close();
-            model.addAttribute("message", "파일이 성공적으로 업로드되었습니다.");
-
-        } catch (IOException e) {
-            model.addAttribute("message", "파일 처리 중 오류가 발생했습니다: " + e.getMessage());
-        }
-
-        return "excelUpload";
+        String result = excelService.excelUpload(file, model);
+        return result;
     }
+
+    /**
+     * 엑셀 다운로드 기능 구현
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/download")
+    public ResponseEntity<Resource> downloadExcel(Model model) {
+
+        Resource result = excelService.excelDownload(model);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=userList.xlsx")
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(result);
+    }
+
 }
