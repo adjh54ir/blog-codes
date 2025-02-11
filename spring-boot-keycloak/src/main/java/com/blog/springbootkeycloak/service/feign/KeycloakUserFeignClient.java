@@ -1,5 +1,6 @@
 package com.blog.springbootkeycloak.service.feign;
 
+import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -21,78 +22,57 @@ import java.util.List;
 @Service
 public interface KeycloakUserFeignClient {
     /**
-     * 사용자 정보를 전체 조회합니다.
+     * 전체 조회
      *
      * @param bearerToken
      * @return
      */
     @GetMapping("/users")
-    List<UserRepresentation> getKeycloakUsers(
-            @RequestHeader("Authorization") String bearerToken
-    );
+    List<UserRepresentation> getKeycloakUsers(@RequestHeader("Authorization") String bearerToken);
+
+    /**
+     * 전체 조회 중 필터링
+     *
+     * @param bearerToken
+     * @return
+     */
+    @GetMapping("/users")
+    List<UserRepresentation> getKeycloakUsers(@RequestHeader("Authorization") String bearerToken, @ModelAttribute UserRepresentation user);
 
     /**
      * 사용자 상세 조회
      */
-    @GetMapping("/users/{userId}")
-    UserRepresentation getKeycloakUserDetail(
-            @RequestHeader("Authorization") String bearerToken,
-            @PathVariable String userId
-    );
+    @GetMapping("/users/{id}")
+    UserRepresentation getKeycloakUserDetail(@RequestHeader("Authorization") String bearerToken, @PathVariable String id);
 
     /**
      * 사용자 등록
      */
     @PostMapping("/users")
-    void createUser(
-            @RequestHeader("Authorization") String bearerToken,
-            @RequestBody UserRepresentation userRepresentation
-    );
+    void createUser(@RequestHeader("Authorization") String bearerToken, @RequestBody UserRepresentation userRepresentation);
 
     /**
      * 사용자 수정
      */
-    @PutMapping("/users/{userId}")
+    @PutMapping("/users/{id}")
     void updateUser(
             @RequestHeader("Authorization") String bearerToken,
-            @PathVariable String userId,
+            @PathVariable String id,
             @RequestBody UserRepresentation userRepresentation
     );
 
     /**
      * 사용자 삭제
      */
-    @DeleteMapping("/users/{userId}")
-    void deleteUser(
-            @RequestHeader("Authorization") String bearerToken,
-            @PathVariable String userId
-    );
-
+    @DeleteMapping("/users/{id}")
+    void deleteUser(@RequestHeader("Authorization") String bearerToken, @PathVariable String id);
 
     /**
-     * 사용자 정보 내에 필터링을 포함하여 조회합니다.
+     * 비밀번호 재설정
      *
      * @param bearerToken
-     * @param email
-     * @param emailVerified
-     * @param enabled
-     * @param firstName
-     * @param lastName
-     * @param q
-     * @param search
-     * @param username
-     * @return
+     * @param credentialRepresentation
      */
-    @GetMapping("/users")
-    List<UserRepresentation> getKeycloakFilterUsers(
-            @RequestHeader("Authorization") String bearerToken,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) Boolean emailVerified,
-            @RequestParam(required = false) Boolean enabled,
-            @RequestParam(required = false) String firstName,
-            @RequestParam(required = false) String lastName,
-            @RequestParam(required = false) String q,
-            @RequestParam(required = false) String search,
-            @RequestParam(required = false) String username
-    );
+    @PutMapping("users/{id}/reset-password")
+    void resetPassword(@RequestHeader("Authorization") String bearerToken, @RequestBody CredentialRepresentation credentialRepresentation);
 }
