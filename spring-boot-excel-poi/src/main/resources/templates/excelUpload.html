@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Excel Upload</title>
+</head>
+<body>
+<h2>Excel File Upload</h2>
+<form method="POST" th:action="@{/excel/upload}" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".xls,.xlsx" required/>
+    <button type="submit">Upload</button>
+</form>
+
+<div th:if="${message}" th:text="${message}"></div>
+</body>
+</html>
