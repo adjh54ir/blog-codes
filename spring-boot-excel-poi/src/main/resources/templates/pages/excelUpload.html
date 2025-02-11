@@ -11,5 +11,14 @@
 </form>
 
 <div th:if="${message}" th:text="${message}"></div>
+
+<!--다운로드 화면 추가-->
+<h2>Excel File Download</h2>
+<form method="POST" th:action="@{/excel/download}">
+    <button type="submit">Download</button>
+</form>
+
+<div th:if="${downloadMessage}" th:text="${downloadMessage}"></div>
+
 </body>
 </html>
