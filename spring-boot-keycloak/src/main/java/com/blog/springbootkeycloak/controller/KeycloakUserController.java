@@ -32,23 +32,13 @@ public class KeycloakUserController {
      * @return
      */
     @PostMapping("/users")
-    public ResponseEntity<Object> keycloakUsers(@RequestHeader("Authorization") String bearerToken) {
-        List<UserRepresentation> result = userService.getKeycloakUsers(bearerToken);
+    public ResponseEntity<Object> selectKeycloakUsers(
+            @RequestHeader("Authorization") String bearerToken,
+            @RequestBody UserRepresentation usp
+    ) {
+        List<UserRepresentation> result = userService.getKeycloakUsers(bearerToken, usp);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-    /**
-     * 사용자 상세 조회
-     *
-     * @param bearerToken
-     * @param userId
-     * @return
-     */
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserRepresentation> getUserDetail(@RequestHeader("Authorization") String bearerToken, @PathVariable String userId) {
-        return ResponseEntity.ok(userService.getKeycloakUserDetail(bearerToken, userId));
-    }
-
 
     /**
      * 사용자 등록
@@ -57,36 +47,61 @@ public class KeycloakUserController {
      * @param userRepresentation
      * @return
      */
-    @PostMapping
-    public ResponseEntity<Void> createUser(@RequestHeader("Authorization") String bearerToken, @RequestBody UserRepresentation userRepresentation) {
-        userService.createUser(bearerToken, userRepresentation);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @PostMapping("/user")
+    public ResponseEntity<Integer> createUser(
+            @RequestHeader("Authorization") String bearerToken,
+            @RequestBody UserRepresentation userRepresentation
+    ) {
+        int result = userService.createUser(bearerToken, userRepresentation);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     /**
      * 사용자 수정
      *
      * @param bearerToken
-     * @param userId
      * @param userRepresentation
      * @return
      */
-    @PutMapping("/{userId}")
-    public ResponseEntity<Void> updateUser(@RequestHeader("Authorization") String bearerToken, @PathVariable String userId, @RequestBody UserRepresentation userRepresentation) {
-        userService.updateUser(bearerToken, userId, userRepresentation);
-        return ResponseEntity.ok().build();
+    @PutMapping("/user")
+    public ResponseEntity<Integer> updateUser(
+            @RequestHeader("Authorization") String bearerToken,
+            @RequestBody UserRepresentation userRepresentation
+    ) {
+        int result = userService.updateUser(bearerToken, userRepresentation);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     /**
      * 사용자 삭제
      *
      * @param bearerToken
-     * @param userId
+     * @param userRepresentation
      * @return
      */
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@RequestHeader("Authorization") String bearerToken, @PathVariable String userId) {
-        userService.deleteUser(bearerToken, userId);
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/user")
+    public ResponseEntity<Integer> deleteUser(
+            @RequestHeader("Authorization") String bearerToken,
+            @RequestBody UserRepresentation userRepresentation
+    ) {
+        int result = userService.deleteUser(bearerToken, userRepresentation);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
+    /**
+     * 비밀번호 변경
+     *
+     * @param bearerToken
+     * @param userRepresentation
+     * @return
+     */
+    @GetMapping("/chgPassword")
+    public ResponseEntity<Integer> changePassword(
+            @RequestHeader("Authorization") String bearerToken,
+            @RequestBody UserRepresentation userRepresentation
+    ) {
+        int result = userService.resetPassword(bearerToken, userRepresentation);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
