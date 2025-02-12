@@ -1,15 +1,14 @@
 package com.blog.springbootkeycloak.service.feign;
 
-import com.blog.springbootkeycloak.dto.KeycloakUserResetPwDto;
-import feign.QueryMap;
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.GroupRepresentation;
+import org.keycloak.representations.idm.MappingsRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Keycloak 서버와 통신하는 OpenFeign
@@ -44,25 +43,14 @@ public interface KeycloakUserFeignClient {
     );
 
     /**
-     * 전체 조회 중 필터링
-     *
-     * @param bearerToken
-     * @return
+     * 아이디 기반 특정 사용자 조회
      */
-    @GetMapping("/users")
-    List<UserRepresentation> selectKeycloakUsersByUsername(
-            @RequestHeader("Authorization") String bearerToken,
-            @RequestParam String username
-    );
-
-    /**
-     * 사용자 상세 조회
-     */
-    @GetMapping("/users/{id}")
-    UserRepresentation getKeycloakUserDetail(
+    @GetMapping("/{id}}")
+    void selectKeycloakUserDetail(
             @RequestHeader("Authorization") String bearerToken,
             @PathVariable String id
     );
+
 
     /**
      * 사용자 등록
@@ -104,4 +92,43 @@ public interface KeycloakUserFeignClient {
             @PathVariable String id,
             @RequestBody CredentialRepresentation credentialRepresentation
     );
+
+    /**
+     * 사용자의 그룹 목록 조회
+     */
+    @GetMapping("/users/{id}/groups")
+    List<GroupRepresentation> getUserGroups(
+            @RequestHeader("Authorization") String bearerToken,
+            @PathVariable String id
+    );
+
+    /**
+     * 사용자를 그룹에 추가
+     */
+    @PutMapping("/users/{id}/groups/{groupId}")
+    void addUserToGroup(
+            @RequestHeader("Authorization") String bearerToken,
+            @PathVariable String id,
+            @PathVariable String groupId
+    );
+
+    /**
+     * 사용자의 역할 매핑 조회
+     */
+    @GetMapping("/users/{id}/role-mappings")
+    MappingsRepresentation getRoleMappings(
+            @RequestHeader("Authorization") String bearerToken,
+            @PathVariable String id
+    );
+
+    /**
+     * 사용자 로그아웃
+     */
+    @PostMapping("/users/{id}/logout")
+    void logoutUser(
+            @RequestHeader("Authorization") String bearerToken,
+            @PathVariable String id
+    );
+
+
 }
