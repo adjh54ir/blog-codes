@@ -5,11 +5,16 @@ import com.blog.springbootkeycloak.dto.*;
 import com.blog.springbootkeycloak.service.feign.KeycloakAuthFeignClient;
 import com.blog.springbootkeycloak.service.feign.KeycloakUserFeignClient;
 import feign.FeignException;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.GroupRepresentation;
+import org.keycloak.representations.idm.MappingsRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -28,7 +33,6 @@ public class KeycloakUserService {
     private final KeycloakProperties properties;                    // Keycloak 설정 정보
     private final KeycloakUserFeignClient keycloakUserFeignClient;  // Keycloak User 통신
     private final KeycloakAuthFeignClient keycloakAuthFeignClient;  // Keycloak Auth 통신
-
 
     /**
      * Keycloak 사용자를 전체 조회합니다.
@@ -180,6 +184,115 @@ public class KeycloakUserService {
 
 
     /**
+     * 사용자 그룹을 조회합니다.
+     *
+     * @param bearerToken
+     * @param username
+     * @return
+     */
+    public List<GroupRepresentation> getUserGroups(String bearerToken, String username) {
+        // 1. [Keycloak] 토큰 유효성 체크
+        this.validateToken(bearerToken);
+
+        // 2. [Keycloak] username 기반 ID 조회
+        String id = this.getKeycloakUserId(bearerToken, username);
+
+        List<GroupRepresentation> result = keycloakUserFeignClient.getUserGroups(bearerToken, id);
+        return result;
+    }
+
+
+    /**
+     * 사용자를 그룹 내에 추가합니다.
+     *
+     * @param bearerToken
+     * @param username
+     * @param groupId
+     * @return
+     */
+    public int addUserToGroup(String bearerToken, String username, String groupId) {
+        int result = 0;
+
+        // 1. [Keycloak] 토큰 유효성 체크
+        this.validateToken(bearerToken);
+
+        // 2. [Keycloak] username 기반 ID 조회
+        String id = this.getKeycloakUserId(bearerToken, username);
+
+        try {
+            // 사용자를 그룹에 추가
+            keycloakUserFeignClient.addUserToGroup(bearerToken, id, groupId);
+            result = 1;
+        } catch (FeignException.NotFound e) {
+            throw new IllegalArgumentException("사용자 또는 그룹을 찾을 수 없습니다: " + id + ", " + groupId);
+        } catch (FeignException.Unauthorized | FeignException.Forbidden e) {
+            throw new SecurityException("인증/인가 오류가 발생했습니다: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException("그룹 추가 중 예기치 않은 오류가 발생했습니다: " + e.getMessage());
+        }
+        return result;
+    }
+
+
+    /**
+     * 사용자의 역할 매핑 조회
+     *
+     * @param bearerToken
+     * @param username
+     * @return
+     */
+    public MappingsRepresentation getRoleMappings(String bearerToken, String username) {
+        // 1. [Keycloak] 토큰 유효성 체크
+        this.validateToken(bearerToken);
+
+        // 2. [Keycloak] username 기반 ID 조회
+        String id = this.getKeycloakUserId(bearerToken, username);
+
+        try {
+            // 사용자의 역할 매핑 조회
+            return keycloakUserFeignClient.getRoleMappings(bearerToken, id);
+        } catch (FeignException.NotFound e) {
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다: " + id);
+        } catch (FeignException.Unauthorized | FeignException.Forbidden e) {
+            throw new SecurityException("인증/인가 오류가 발생했습니다: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException("역할 매핑 조회 중 예기치 않은 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 사용자 로그아웃
+     */
+    public int logoutUser(String bearerToken, String username) {
+        int result = 0;
+        // 1. [Keycloak] 토큰 유효성 체크
+        this.validateToken(bearerToken);
+
+        // 2. [Keycloak] username 기반 ID 조회
+        String id = this.getKeycloakUserId(bearerToken, username);
+
+        try {
+            // 사용자 로그아웃 요청
+            keycloakUserFeignClient.logoutUser(bearerToken, id);
+            result = 1;
+        } catch (FeignException.NotFound e) {
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다: " + id);
+        } catch (FeignException.Unauthorized | FeignException.Forbidden e) {
+            throw new SecurityException("인증/인가 오류가 발생했습니다: " + e.getMessage());
+        } catch (FeignException.BadRequest e) {
+            throw new IllegalArgumentException("잘못된 요청입니다: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException("로그아웃 처리 중 예기치 않은 오류가 발생했습니다: " + e.getMessage());
+        }
+        return result;
+    }
+
+
+    // ***********************************************************************************************************************************
+    // *************************************************** private Method ****************************************************************
+    // ***********************************************************************************************************************************
+
+    /**
      * username 기반 id 조회
      *
      * @param bearerToken
@@ -217,6 +330,7 @@ public class KeycloakUserService {
 
         return result.get(0).getId();
     }
+
 
     /**
      * TODO: 삭제 예정 - 직접 발급 예정임.
@@ -268,6 +382,5 @@ public class KeycloakUserService {
         TokenIntrospectionResDto validTokenDto = keycloakAuthFeignClient.tokenIntrospect(tokenIntrospectionReqDto);      // Keycloak : 토큰 유효성 검증
         return validTokenDto.getActive();
     }
-
 
 }
