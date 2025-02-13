@@ -25,7 +25,7 @@ import java.util.List;
 public interface KeycloakUserFeignClient {
 
     /**
-     * 전체 조회 및 필터링
+     * 전체 조회 및 필터링 
      *
      * @param bearerToken
      * @return
