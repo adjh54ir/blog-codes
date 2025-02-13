@@ -43,7 +43,7 @@ public class KeycloakUserService {
     public List<UserRepresentation> selectKeycloakUserList(String bearerToken, KeycloakUserSearchDto kus) {
 
         // 1. [Keycloak] 토큰 유효성 체크
-        this.validateToken(bearerToken);
+//        this.validateToken(bearerToken);
 
         // 2. [Keycloak] 사용자 조회
         return keycloakUserFeignClient.selectKeycloakUserDetail(
