@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Keycloak 서버와 통신하는 OpenFeign  
- *
+ * Keycloak 서버와 통신하는 OpenFeign
+ *1
  * @author : leejonghoon
  * @fileName : KeycloakUserFeignClient
  * @since : 2025. 2. 10.
