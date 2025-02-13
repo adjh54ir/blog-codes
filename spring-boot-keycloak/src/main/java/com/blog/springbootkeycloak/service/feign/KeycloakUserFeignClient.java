@@ -18,7 +18,7 @@ import java.util.List;
  * @since : 2025. 2. 10.
  */
 @FeignClient(
-        name = "keycloak-user-service",
+        name = "keycloak-user-client",
         url = "${keycloak.auth-server-url}/admin/realms/${keycloak.realm}"
 )
 @Service
