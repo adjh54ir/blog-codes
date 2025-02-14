@@ -16,7 +16,6 @@
 - [Spring Boot 환경에서 Keycloak 활용하기 -2 : OIDC 인증 흐름 구현(Direct Access Grants, Implicit Flow)](https://adjh54.tistory.com/649)
 - [Spring Boot 환경에서 Keycloak 활용하기 -3 : OIDC 인증 흐름 구현(Service Accounts Roles)](https://adjh54.tistory.com/654)
 - [Spring Boot 환경에서 Keycloak 활용하기 -4 : Identity providers Social 소셜 로그인 구현(Google)](https://adjh54.tistory.com/658)
-
 <br />
 <br />
 

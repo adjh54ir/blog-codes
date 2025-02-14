@@ -40,6 +40,7 @@ dependencies {
 
     // [OpenSource]
     implementation 'org.keycloak:keycloak-admin-client:26.0.4'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.16.1'
 
     // [Compile & Test]
     compileOnly 'org.projectlombok:lombok'

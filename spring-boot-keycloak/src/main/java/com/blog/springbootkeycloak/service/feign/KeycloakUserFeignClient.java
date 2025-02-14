@@ -12,7 +12,8 @@ import java.util.List;
 
 /**
  * Keycloak 서버와 통신하는 OpenFeign
- *1
+ * 1
+ *
  * @author : leejonghoon
  * @fileName : KeycloakUserFeignClient
  * @since : 2025. 2. 10.
@@ -25,14 +26,13 @@ import java.util.List;
 public interface KeycloakUserFeignClient {
 
     /**
-     * 전체 조회 및 필터링 
+     * 전체 조회 및 필터링
      *
      * @param bearerToken
      * @return
      */
     @GetMapping("/users")
     List<UserRepresentation> selectKeycloakUserDetail(
-            @RequestHeader("Authorization") String bearerToken,
             @RequestParam(value = "first", required = false) Integer first,
             @RequestParam(value = "max", required = false) Integer max,
             @RequestParam(value = "search", required = false) String search,
