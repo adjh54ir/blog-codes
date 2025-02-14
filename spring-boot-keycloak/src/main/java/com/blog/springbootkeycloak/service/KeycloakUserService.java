@@ -40,14 +40,13 @@ public class KeycloakUserService {
      * @param bearerToken
      * @return
      */
-    public List<UserRepresentation> selectKeycloakUserList(String bearerToken, KeycloakUserSearchDto kus) {
+    public List<UserRepresentation> selectKeycloakUserList(KeycloakUserSearchDto kus) {
 
         // 1. [Keycloak] 토큰 유효성 체크
 //        this.validateToken(bearerToken);
 
         // 2. [Keycloak] 사용자 조회
         return keycloakUserFeignClient.selectKeycloakUserDetail(
-                bearerToken,
                 kus.getFirst(),
                 kus.getMax(),
                 kus.getSearch(),
@@ -313,7 +312,6 @@ public class KeycloakUserService {
 
         // [Keycloak] username 기반의 사용자 조회
         List<UserRepresentation> result = keycloakUserFeignClient.selectKeycloakUserDetail(
-                bearerToken,
                 null,
                 null,
                 null,
