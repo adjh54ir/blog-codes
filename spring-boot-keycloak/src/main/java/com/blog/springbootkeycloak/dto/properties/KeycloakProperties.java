@@ -1,4 +1,4 @@
-package com.blog.springbootkeycloak.config.properties;
+package com.blog.springbootkeycloak.dto.properties;
 
 import lombok.Builder;
 import lombok.Getter;

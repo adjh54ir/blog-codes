@@ -1,4 +1,4 @@
-package com.blog.springbootkeycloak.config;
+package com.blog.springbootkeycloak.config.feign;
 
 import feign.Logger;
 import org.springframework.context.annotation.Bean;

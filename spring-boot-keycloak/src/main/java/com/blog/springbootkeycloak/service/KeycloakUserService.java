@@ -1,11 +1,10 @@
 package com.blog.springbootkeycloak.service;
 
-import com.blog.springbootkeycloak.config.properties.KeycloakProperties;
+import com.blog.springbootkeycloak.dto.properties.KeycloakProperties;
 import com.blog.springbootkeycloak.dto.*;
 import com.blog.springbootkeycloak.service.feign.KeycloakAuthFeignClient;
 import com.blog.springbootkeycloak.service.feign.KeycloakUserFeignClient;
 import feign.FeignException;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -13,8 +12,6 @@ import org.keycloak.representations.idm.GroupRepresentation;
 import org.keycloak.representations.idm.MappingsRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.blog.springbootkeycloak.config;
+package com.blog.springbootkeycloak.config.feign;
 
 import feign.Retryer;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,8 @@ import org.springframework.context.annotation.Configuration;
 public class FeignRetryConfiguration {
 
     /**
-     * OpenFeign 재시도 정책
+     * 공통 FeignClient 재시도 정책 설정
+     *
      * @return
      */
     @Bean

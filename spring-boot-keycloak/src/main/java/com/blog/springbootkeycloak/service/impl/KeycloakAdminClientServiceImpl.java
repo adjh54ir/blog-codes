@@ -1,11 +1,10 @@
 package com.blog.springbootkeycloak.service.impl;
 
-import com.blog.springbootkeycloak.config.properties.KeycloakProperties;
+import com.blog.springbootkeycloak.dto.properties.KeycloakProperties;
 import com.blog.springbootkeycloak.service.KeycloakAdminClientService;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
