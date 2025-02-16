@@ -1,4 +1,4 @@
-package com.blog.springbootkeycloak.config;
+package com.blog.springbootkeycloak.config.feign;
 
 import feign.RequestInterceptor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 public class FeignClientHeaderConfig {
 
     /**
-     * 공통 Header를 구성합니다.
+     * 공통 FeignClient Header 정책 설정
      *
      * @return
      */
@@ -27,10 +27,10 @@ public class FeignClientHeaderConfig {
         log.warn("요청 인터셉터 수행 시점 >>>>>>>>>>>>>>>>>>");
         return requestTemplate -> {
             // Bearer 토큰 추가
-            requestTemplate.header("Authorization", "Bearer " + getTempAccessToken());
-            // 공통 헤더 추가
-            requestTemplate.header("x-api-key", "your-api-key");
-            requestTemplate.header("Custom-Header", "common-value");
+//            requestTemplate.header("Authorization", "Bearer " + getTempAccessToken());
+//            // 공통 헤더 추가
+//            requestTemplate.header("x-api-key", "your-api-key");
+//            requestTemplate.header("Custom-Header", "common-value");
         };
     }
 

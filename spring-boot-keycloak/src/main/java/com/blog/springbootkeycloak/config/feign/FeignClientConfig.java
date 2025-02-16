@@ -1,4 +1,4 @@
-package com.blog.springbootkeycloak.config;
+package com.blog.springbootkeycloak.config.feign;
 
 import com.blog.springbootkeycloak.FeignCustomErrorDecoder;
 import feign.Logger;

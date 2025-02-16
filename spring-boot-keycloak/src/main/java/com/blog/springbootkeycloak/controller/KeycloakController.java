@@ -1,6 +1,6 @@
 package com.blog.springbootkeycloak.controller;
 
-import com.blog.springbootkeycloak.config.properties.KeycloakProperties;
+import com.blog.springbootkeycloak.dto.properties.KeycloakProperties;
 import com.blog.springbootkeycloak.dto.AccessTokenReqDto;
 import com.blog.springbootkeycloak.dto.AccessTokenResDto;
 import com.blog.springbootkeycloak.service.feign.KeycloakAuthFeignClient;
