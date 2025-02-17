@@ -29,7 +29,6 @@ public class ExcelService {
     /**
      * 엑셀 다운로드
      *
-     * @param file
      * @param model
      * @return
      */
@@ -89,6 +88,66 @@ public class ExcelService {
         model.addAttribute("downloadMessage", "다운로드가 완료되었습니다.");
         return resource;
 
+    }
+
+    /**
+     * 엑셀 업로드를 수행
+     *
+     * @param file
+     * @param model
+     * @return
+     */
+    public String excelUpload(MultipartFile file, Model model) {
+        // 파일 정보 출력
+        log.debug("파일명: {}", file.getOriginalFilename());
+        log.debug("파일 크기: {} bytes", file.getSize());
+
+        try {
+            if (file.isEmpty()) {
+                model.addAttribute("message", "파일을 선택해주세요.");
+                return "/pages/excelUpload";
+            }
+
+            // 파일 확장자 검증
+            String filename = file.getOriginalFilename();
+            if (!filename.endsWith(".xlsx") && !filename.endsWith(".xls")) {
+                model.addAttribute("message", "Excel 파일만 업로드 가능합니다.");
+                return "/pages/excelUpload";
+            }
+
+            List<UserDto> userDtoList = new ArrayList<>();
+
+            // Excel 파일 처리
+            Workbook workbook = WorkbookFactory.create(file.getInputStream());
+            Sheet sheet = workbook.getSheetAt(0);
+
+            // 헤더 행 읽기
+            Row headerRow = sheet.getRow(0);
+            for (Cell cell : headerRow) {
+                log.debug("{}\\t", cell.getStringCellValue());
+            }
+            // 데이터 행 읽기
+            for (int i = 1; i <= 10; i++) {
+                Row row = sheet.getRow(i);
+
+                // 행 들을 리스트 객체로 구성
+                userDtoList.add(UserDto.builder()
+                        .number((int) row.getCell(0).getNumericCellValue()) // 순번
+                        .name(row.getCell(1).getStringCellValue())          // 이름
+                        .age((int) row.getCell(2).getNumericCellValue())    // 나이
+                        .gender(row.getCell(3).getStringCellValue())        // 성별
+                        .contact(row.getCell(4).getStringCellValue())       // 연락처
+                        .build());
+            }
+            log.debug("구성한 리스트 객체 :: {}", userDtoList.toString());
+            log.debug("=================================================");
+
+            workbook.close();
+            model.addAttribute("message", "파일이 성공적으로 업로드되었습니다.");
+        } catch (IOException e) {
+            model.addAttribute("message", "파일 처리 중 오류가 발생했습니다: " + e.getMessage());
+        }
+        return "/pages/excelUpload";
     }
 
 }
