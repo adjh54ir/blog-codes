@@ -1,6 +1,5 @@
 package com.blog.springbootkeycloak.service.feign;
 
-import com.blog.springbootkeycloak.config.feign.CustomFeignClientConfig;
 import com.blog.springbootkeycloak.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;

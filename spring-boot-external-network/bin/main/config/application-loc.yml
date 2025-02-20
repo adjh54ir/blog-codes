@@ -1,0 +1,25 @@
+feign:
+  client:
+    config:
+      default: # 모든 feign client에 적용
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
+        defaultRequestHeaders:
+          Custom-Header: "global-header-value"
+          Accept: "application/json"
+
+
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connect-timeout: 5000   # 연결 타임아웃
+            read-timeout: 5000      # 읽기 타임 아웃
+            logger-level: full      # 전체 모두 기록
+          keycloak-auth-client:
+            connect-timeout: 6000   # 연결 타임아웃
+            read-timeout: 6000      # 읽기 타임아웃
+            logger-level: none      # 기록하지 않음
