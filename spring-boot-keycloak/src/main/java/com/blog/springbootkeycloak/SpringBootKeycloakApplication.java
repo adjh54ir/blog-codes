@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients // FeignClient 사용을 선언합니다.
-@ConfigurationPropertiesScan("com.blog.springbootkeycloak.config.properties")
+@ConfigurationPropertiesScan("com.blog.springbootkeycloak.dto.properties")
 public class SpringBootKeycloakApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringBootKeycloakApplication.class, args);
