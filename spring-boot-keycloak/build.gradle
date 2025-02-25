@@ -41,6 +41,8 @@ dependencies {
     // [OpenSource]
     implementation 'org.keycloak:keycloak-admin-client:26.0.4'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.16.1'
+    implementation 'io.github.openfeign:feign-jackson:13.5'
+
 
     // [Compile & Test]
     compileOnly 'org.projectlombok:lombok'

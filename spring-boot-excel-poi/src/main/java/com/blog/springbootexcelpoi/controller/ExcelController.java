@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 /**
- * Please explain the class!!
+ * 엑셀 처리를 관리하는 Controller
  *
  * @author : leejonghoon
  * @fileName : ExcelController
@@ -35,8 +35,18 @@ public class ExcelController {
      * @return
      */
     @GetMapping("/upload")
-    public String uploadForm() {
+    public String excelUploadPage() {
         return "/pages/excelUpload";
+    }
+
+    /**
+     * 엑셀 다운로드 화면 출력
+     *
+     * @return
+     */
+    @GetMapping("/download")
+    public String excelDownloadPage() {
+        return "/pages/excelDownload";
     }
 
     /**
@@ -54,6 +64,7 @@ public class ExcelController {
 
     /**
      * 엑셀 다운로드 기능 구현
+     *
      * @return
      * @throws IOException
      */
@@ -67,5 +78,22 @@ public class ExcelController {
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(result);
     }
+
+
+    /**
+     * 엑셀 템플릿 다운로드
+     *
+     * @param model
+     * @return
+     */
+    @PostMapping("/template-download")
+    public ResponseEntity<Resource> downloadExcelTemplate(Model model) {
+        Resource resource = excelService.downloadExcelTemplate(model);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=사용자 등록(양식).xlsx")
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(resource);
+    }
+
 
 }

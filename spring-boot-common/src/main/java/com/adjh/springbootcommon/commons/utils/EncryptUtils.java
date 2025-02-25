@@ -1,8 +1,5 @@
 package com.adjh.springbootcommon.commons.utils;
 
-import com.adjh.springbootcommon.commons.modules.ASE256Modules;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Base64;
