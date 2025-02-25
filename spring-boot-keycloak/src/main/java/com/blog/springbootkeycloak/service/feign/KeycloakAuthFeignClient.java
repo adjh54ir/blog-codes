@@ -1,6 +1,5 @@
 package com.blog.springbootkeycloak.service.feign;
 
-import com.blog.springbootkeycloak.config.feign.CustomFeignClientConfig;
 import com.blog.springbootkeycloak.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -18,8 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @FeignClient(
         name = "keycloak-auth-client",
-        url = "http://localhost:9001/realms/dev-realm/protocol/openid-connect",
-        configuration = CustomFeignClientConfig.class
+        url = "http://localhost:9001/realms/dev-realm/protocol/openid-connect"
 )
 @Service
 public interface KeycloakAuthFeignClient {

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Template Download</title>
+    <script th:inline="javascript">
+        const downloadExcel = async () => {
+            await fetch('/excel/template-download', {
+                method: "POST",
+                mode: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = '사용자 등록(양식).xlsx';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    a.remove();
+                })
+                .catch((error) => {
+                    console.log("엑셀 다운로드 중에 오류가 발생하였습니다.", error);
+                    return
+                });
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2>사용자 등록 템플릿 다운로드</h2>
+    <button type="button" onclick="downloadExcel()">템플릿 다운로드</button>
+</div>
+</body>
+</html>

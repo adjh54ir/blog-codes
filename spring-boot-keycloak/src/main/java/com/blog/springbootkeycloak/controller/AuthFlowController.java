@@ -1,11 +1,13 @@
 package com.blog.springbootkeycloak.controller;
 
+import com.blog.springbootkeycloak.config.feign.cryption.EncryptionEncoder;
 import com.blog.springbootkeycloak.dto.AccessTokenReqDto;
 import com.blog.springbootkeycloak.dto.AccessTokenResDto;
 import com.blog.springbootkeycloak.dto.AuthCodeDto;
 import com.blog.springbootkeycloak.dto.KeycloakUserDto;
 import com.blog.springbootkeycloak.service.feign.KeycloakAuthFeignClient;
 import com.blog.springbootkeycloak.service.feign.SubApiCallFeignClient;
+import com.blog.springbootkeycloak.utils.AESEncryption;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -39,6 +41,13 @@ public class AuthFlowController {
     @PostMapping("/directAccess")
     public ResponseEntity<Object> getDirectAccessToken(@RequestBody AccessTokenReqDto accessTokenReqDto) {
         try {
+
+            AESEncryption aesEncryption = new AESEncryption();
+            String encryption = aesEncryption.encrypt("하이이잇!!");
+            String decryption = aesEncryption.decrypt(encryption);
+            log.debug("encryption :: {}", encryption);
+            log.debug("decryption :: {}", decryption);
+
             AccessTokenResDto resultToken = keycloakAuthFeignClient.getAccessToken(accessTokenReqDto);
             return new ResponseEntity<>(resultToken, HttpStatus.OK);
         } catch (Exception e) {
