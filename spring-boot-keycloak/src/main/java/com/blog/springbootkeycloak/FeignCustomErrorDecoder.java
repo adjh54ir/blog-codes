@@ -13,22 +13,15 @@ import org.springframework.stereotype.Component;
  * @since : 2025. 2. 14.
  */
 //@Component
-public class FeignCustomErrorDecoder
-//        implements ErrorDecoder
-{
-//    @Override
-//    public Exception decode(String s, Response response) {
-//        return null;
-//    }
+public class FeignCustomErrorDecoder {
 
-
-//    /**
-//     * 반환되는 상태 값에 따라 Exception을 사용합니다.
-//     *
-//     * @param methodKey
-//     * @param response
-//     * @return
-//     */
+    /**
+     * 반환되는 상태 값에 따라 Exception을 사용합니다.
+     *
+     * @param methodKey
+     * @param response
+     * @return
+     */
 //    @Override
 //    public Exception decode(String methodKey, Response response) {
 //        switch (response.status()) {

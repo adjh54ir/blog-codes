@@ -1,26 +1,30 @@
 package com.blog.springbootkeycloak.config.feign;
 
 import feign.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * OpenFeign Custom 설정 클래스
+ * OpenFeign 설정 클래스
  *
  * @author : jonghoon
- * @fileName : CustomFeignClientConfig
+ * @fileName : FeignClientConfig
  * @since : 25. 2. 13.
  */
+@Slf4j
 @Configuration
-public class CustomFeignClientConfig {
+public class FeignClientConfig {
 
     /**
-     * 로깅 설정 : 커스텀 설정
+     * 로깅 설정 : 전역
      *
      * @return
      */
     @Bean
-    Logger.Level customFeignLoggerLevel() {
-        return Logger.Level.BASIC;
+    Logger.Level feignLoggerLevel() {
+        return Logger.Level.FULL;
     }
+
+
 }
