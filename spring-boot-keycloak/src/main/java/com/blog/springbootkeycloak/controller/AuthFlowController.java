@@ -1,6 +1,5 @@
 package com.blog.springbootkeycloak.controller;
 
-import com.blog.springbootkeycloak.config.feign.cryption.EncryptionEncoder;
 import com.blog.springbootkeycloak.dto.AccessTokenReqDto;
 import com.blog.springbootkeycloak.dto.AccessTokenResDto;
 import com.blog.springbootkeycloak.dto.AuthCodeDto;

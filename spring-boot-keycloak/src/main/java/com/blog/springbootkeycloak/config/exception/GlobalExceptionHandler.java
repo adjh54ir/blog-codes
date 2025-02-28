@@ -25,7 +25,7 @@ import java.io.IOException;
  * Controller 내에서 발생하는 Exception 대해서 Catch 하여 응답값(Response)을 보내주는 기능을 수행함.
  */
 @Slf4j
-@RestControllerAdvice
+//@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     private final HttpStatus httpStatusOK = HttpStatus.OK;

@@ -34,7 +34,7 @@ public class KeycloakUserService {
     /**
      * Keycloak 사용자를 전체 조회합니다.
      *
-     * @param bearerToken
+     * @param kus
      * @return
      */
     public List<UserRepresentation> selectKeycloakUserList(KeycloakUserSearchDto kus) {
