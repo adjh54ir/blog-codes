@@ -8,9 +8,6 @@
             await fetch('/excel/template-download', {
                 method: "POST",
                 mode: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
             })
                 .then(response => response.blob())
                 .then(blob => {

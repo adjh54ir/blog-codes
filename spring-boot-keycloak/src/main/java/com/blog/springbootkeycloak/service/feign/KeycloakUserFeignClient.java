@@ -96,7 +96,7 @@ public interface KeycloakUserFeignClient {
     /**
      * 사용자의 그룹 목록 조회
      */
-    @GetMapping("/users/{id}/groups")
+    @GetMapping("/users/{id}/groups3485903485203984203984")
     List<GroupRepresentation> getUserGroups(
             @RequestHeader("Authorization") String bearerToken,
             @PathVariable String id
