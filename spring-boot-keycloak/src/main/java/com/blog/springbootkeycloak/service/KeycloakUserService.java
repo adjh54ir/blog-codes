@@ -13,6 +13,7 @@ import org.keycloak.representations.idm.MappingsRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,13 +38,14 @@ public class KeycloakUserService {
      * @param kus
      * @return
      */
-    public List<UserRepresentation> selectKeycloakUserList(KeycloakUserSearchDto kus) {
+    public List<UserRepresentation> selectKeycloakUserList(String bearerToken, KeycloakUserSearchDto kus) {
 
         // 1. [Keycloak] 토큰 유효성 체크
-//        this.validateToken(bearerToken);
+        this.validateToken(bearerToken);
 
         // 2. [Keycloak] 사용자 조회
         return keycloakUserFeignClient.selectKeycloakUserDetail(
+                bearerToken,
                 kus.getFirst(),
                 kus.getMax(),
                 kus.getSearch(),
@@ -193,8 +195,8 @@ public class KeycloakUserService {
         // 2. [Keycloak] username 기반 ID 조회
         String id = this.getKeycloakUserId(bearerToken, username);
 
-        List<GroupRepresentation> result = keycloakUserFeignClient.getUserGroups(bearerToken, id);
-        return result;
+        // [Keycloak] 사용자 소속 그룹 조회
+        return keycloakUserFeignClient.getUserGroups(bearerToken, id);
     }
 
 
@@ -309,6 +311,7 @@ public class KeycloakUserService {
 
         // [Keycloak] username 기반의 사용자 조회
         List<UserRepresentation> result = keycloakUserFeignClient.selectKeycloakUserDetail(
+                bearerToken,
                 null,
                 null,
                 null,

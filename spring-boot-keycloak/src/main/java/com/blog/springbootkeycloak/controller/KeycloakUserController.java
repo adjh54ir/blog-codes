@@ -37,9 +37,10 @@ public class KeycloakUserController {
      */
     @PostMapping("/users")
     public ResponseEntity<Object> selectKeycloakUsers(
+            @RequestHeader("Authorization") String bearerToken,
             @RequestBody KeycloakUserSearchDto keycloakUserSearchDto
     ) {
-        List<UserRepresentation> result = userService.selectKeycloakUserList( keycloakUserSearchDto);
+        List<UserRepresentation> result = userService.selectKeycloakUserList(bearerToken, keycloakUserSearchDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
