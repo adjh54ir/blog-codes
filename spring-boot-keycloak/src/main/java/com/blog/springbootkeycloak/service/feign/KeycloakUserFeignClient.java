@@ -12,7 +12,6 @@ import java.util.List;
 
 /**
  * Keycloak 서버와 통신하는 OpenFeign
- * 1
  *
  * @author : leejonghoon
  * @fileName : KeycloakUserFeignClient
@@ -21,6 +20,7 @@ import java.util.List;
 @FeignClient(
         name = "keycloak-user-client",
         url = "${keycloak.auth-server-url}/admin/realms/${keycloak.realm}"
+//        configuration = FeignClientGlobalErrorDecoder.class
 )
 @Service
 public interface KeycloakUserFeignClient {
@@ -33,6 +33,7 @@ public interface KeycloakUserFeignClient {
      */
     @GetMapping("/users")
     List<UserRepresentation> selectKeycloakUserDetail(
+            @RequestHeader("Authorization") String bearerToken,
             @RequestParam(value = "first", required = false) Integer first,
             @RequestParam(value = "max", required = false) Integer max,
             @RequestParam(value = "search", required = false) String search,
@@ -96,7 +97,7 @@ public interface KeycloakUserFeignClient {
     /**
      * 사용자의 그룹 목록 조회
      */
-    @GetMapping("/users/{id}/groups3485903485203984203984")
+    @DeleteMapping("/users/{id}/groups")
     List<GroupRepresentation> getUserGroups(
             @RequestHeader("Authorization") String bearerToken,
             @PathVariable String id
