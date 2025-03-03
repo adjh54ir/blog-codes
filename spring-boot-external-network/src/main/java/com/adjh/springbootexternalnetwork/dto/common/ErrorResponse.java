@@ -8,110 +8,111 @@ import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * Global Exception Handler에서 발생한 에러에 대한 응답 처리를 관리
+ * OpenFeign 에러 응답 처리 클래스
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ErrorResponse {
-    private int status;                 // 에러 상태 코드
-    private String code;        // 에러 구분 코드
-    private String resultMsg;           // 에러 메시지
-    private List<FieldError> errors;    // 상세 에러 메시지
-    private String reason;              // 에러 이유
+
+    private int status;             // 상태 코드
+    private String errorCode;       // 에러 구분 코드
+    private String errorMsg;        // 에러 메시지
+    private String errorDtlMsg;     // 에러 상세 메시지
+
 
     /**
-     * ErrorResponse 생성자-1
+     * 기본 생성자 - ErrorCode만 받는 경우
      *
-     * @param code ErrorCode
+     * @param code
      */
     @Builder
     protected ErrorResponse(final ErrorCode code) {
-        this.resultMsg = code.getMessage();
+        this.errorMsg = code.getMessage();
         this.status = code.getStatus();
-        this.code = code.getCode();
-        this.errors = new ArrayList<>();
+        this.errorCode = code.getCode();
     }
 
+
     /**
-     * ErrorResponse 생성자-2
+     * 생성자 - ErrorCode와 reason을 받는 경우
      *
-     * @param code   ErrorCode
-     * @param reason String
+     * @param code
+     * @param reason
      */
     @Builder
     protected ErrorResponse(final ErrorCode code, final String reason) {
-        this.resultMsg = code.getMessage();
+        this.errorMsg = code.getMessage();
         this.status = code.getStatus();
-        this.code = code.getCode();
-        this.reason = reason;
+        this.errorCode = code.getCode();
+        this.errorDtlMsg = reason;
     }
 
+
     /**
-     * ErrorResponse 생성자-3
+     * 생성자 - ErrorCode와 필드 에러 목록을 받는 경우
      *
-     * @param code   ErrorCode
-     * @param errors List<FieldError>
+     * @param code
+     * @param errors
      */
     @Builder
     protected ErrorResponse(final ErrorCode code, final List<FieldError> errors) {
-        this.resultMsg = code.getMessage();
+        this.errorMsg = code.getMessage();
         this.status = code.getStatus();
-        this.code = code.getCode();
-        this.errors = errors;
+        this.errorCode = code.getCode();
     }
 
-
     /**
-     * Global Exception 전송 타입-1
+     * 팩토리 메소드 - BindingResult에서 ErrorResponse 생성
      *
-     * @param code          ErrorCode
-     * @param bindingResult BindingResult
-     * @return ErrorResponse
+     * @param code
+     * @param bindingResult
+     * @return
      */
     public static ErrorResponse of(final ErrorCode code, final BindingResult bindingResult) {
         return new ErrorResponse(code, FieldError.of(bindingResult));
     }
 
+
     /**
-     * Global Exception 전송 타입-2
+     * 팩토리 메소드 - BindingResult에서 ErrorResponse 생성
      *
-     * @param code ErrorCode
-     * @return ErrorResponse
+     * @param code
+     * @return
      */
     public static ErrorResponse of(final ErrorCode code) {
         return new ErrorResponse(code);
     }
 
     /**
-     * Global Exception 전송 타입-3
+     * 팩토리 메소드 - ErrorCode와 상세 이유로 ErrorResponse 생성
      *
-     * @param code   ErrorCode
-     * @param reason String
-     * @return ErrorResponse
+     * @param code
+     * @param reason
+     * @return
      */
     public static ErrorResponse of(final ErrorCode code, final String reason) {
         return new ErrorResponse(code, reason);
     }
 
-
     /**
-     * 에러를 e.getBindingResult() 형태로 전달 받는 경우 해당 내용을 상세 내용으로 변경하는 기능을 수행한다.
+     * 유효성 검증 오류 정보를 담는 내부 클래스
      */
     @Getter
     public static class FieldError {
-        private final String field;
-        private final String value;
-        private final String reason;
+        private final String field;     // 오류 필드명
+        private final String value;     // 오류 값
+        private final String reason;    // 오류 이유
 
+        // 단일 필드 오류 생성
         public static List<FieldError> of(final String field, final String value, final String reason) {
             List<FieldError> fieldErrors = new ArrayList<>();
             fieldErrors.add(new FieldError(field, value, reason));
             return fieldErrors;
         }
 
+        // BindingResult에서 필드 오류 목록 추출
         private static List<FieldError> of(final BindingResult bindingResult) {
             final List<org.springframework.validation.FieldError> fieldErrors = bindingResult.getFieldErrors();
             return fieldErrors.stream()
@@ -119,7 +120,7 @@ public class ErrorResponse {
                             error.getField(),
                             error.getRejectedValue() == null ? "" : error.getRejectedValue().toString(),
                             error.getDefaultMessage()))
-                    .collect(Collectors.toList());
+                    .toList();
         }
 
         @Builder
