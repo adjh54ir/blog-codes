@@ -1,12 +1,6 @@
-package com.blog.springbootkeycloak.config.feign.exception;
+package com.adjh.springbootexternalnetwork.config.feign.exception;
 
-import feign.Response;
-import feign.codec.ErrorDecoder;
-import jakarta.ws.rs.BadRequestException;
-import jakarta.ws.rs.InternalServerErrorException;
-import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 /**
  * OpenFeign Client Error 전역 예외처리를 관리합니다.

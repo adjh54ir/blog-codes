@@ -1,5 +1,6 @@
 package com.blog.springbootkeycloak.service.feign;
 
+import com.blog.springbootkeycloak.config.feign.exception.FeignClientGlobalErrorDecoder;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.GroupRepresentation;
 import org.keycloak.representations.idm.MappingsRepresentation;
@@ -19,8 +20,8 @@ import java.util.List;
  */
 @FeignClient(
         name = "keycloak-user-client",
-        url = "${keycloak.auth-server-url}/admin/realms/${keycloak.realm}"
-//        configuration = FeignClientGlobalErrorDecoder.class
+        url = "${keycloak.auth-server-url}/admin/realms/${keycloak.realm}",
+        configuration = FeignClientGlobalErrorDecoder.class
 )
 @Service
 public interface KeycloakUserFeignClient {

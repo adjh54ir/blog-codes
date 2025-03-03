@@ -1,4 +1,4 @@
-package com.blog.springbootkeycloak.config.feign.exception;
+package com.adjh.springbootexternalnetwork.config.feign.exception;
 
 import feign.FeignException;
 import feign.Response;

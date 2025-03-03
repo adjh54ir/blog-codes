@@ -1,7 +1,7 @@
-package com.blog.springbootkeycloak.config.exception;
+package com.adjh.springbootexternalnetwork.config.exception;
 
-import com.blog.springbootkeycloak.dto.common.ErrorCode;
-import com.blog.springbootkeycloak.dto.common.ErrorResponse;
+import com.adjh.springbootexternalnetwork.dto.common.ErrorCode;
+import com.adjh.springbootexternalnetwork.dto.common.ErrorResponse;
 import feign.FeignException;
 import feign.RetryableException;
 import lombok.extern.slf4j.Slf4j;
