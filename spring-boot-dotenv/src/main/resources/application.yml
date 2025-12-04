@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: spring-boot-dotenv
+  config:
+    import: optional:file:.env[.properties]
+
+custom:
+  appEnv: ${APP_ENV}
+  dbHost: ${DB_HOST}
+  dbUser: ${DB_USER}
+  testKey: ${TEST_KEY}
+
+
+
+
+
+
+
+
+

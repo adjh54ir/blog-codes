@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    vault:
+      uri: http://localhost:8200
+      # 인증방식 : TOKEN, APPROLE, APPID, NONE
+      authentication: TOKEN
+      token: ${VAULT_MAIN_TOKEN}   # 구성한 환경변수를 불러옵니다.
+      connection-timeout: 5000
+      read-timeout: 15000
+
+      kv:
+        enabled: true
+        backend: kv2          # ⬅️ Vault 엔진 이름과 정확히 동일해야 함
+        default-context: loc  # ⬅️ Secret 경로 이름
+        application-name: ''
+
