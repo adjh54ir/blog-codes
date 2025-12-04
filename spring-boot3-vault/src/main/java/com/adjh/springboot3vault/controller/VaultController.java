@@ -2,6 +2,7 @@ package com.adjh.springboot3vault.controller;
 
 import com.adjh.springboot3vault.properties.VaultKVProperties;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since : 25. 11. 25.
  */
 @RestController
+@RequestMapping("/api/v1/vault")
 public class VaultController {
 
     private final VaultKVProperties vaultKVProperties;
@@ -20,7 +22,7 @@ public class VaultController {
         this.vaultKVProperties = vaultKVProperties;
     }
 
-    @GetMapping("/")
+    @GetMapping("/kv")
     public String main() {
         System.out.println("Getter appEnv : " + vaultKVProperties.getAppEnv());
         System.out.println("Getter dbHost : " + vaultKVProperties.getDbHost());
