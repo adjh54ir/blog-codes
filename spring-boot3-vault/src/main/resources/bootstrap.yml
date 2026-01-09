@@ -1,19 +1,35 @@
+server:
+  port: 8000
 spring:
   cloud:
     vault:
       uri: http://localhost:8200
-      # 인증방식 : TOKEN, APPROLE, APPID, USERPASS, NONE
-      authentication: TOKEN
-      token: ${VAULT_MAIN_TOKEN}   # Root Token
-      connection-timeout: 5000
-      read-timeout: 15000
+      # 인증방식 : APPID, APPROLE, AWS_EC2, AWS_IAM, AZURE_MSI, CERT, CUBBYHOLE, GCP_GCE, GCP_IAM, KUBERNETES, NONE, PCF, TOKEN;
+      authentication: APPROLE                           # Vault 인증 방식 (TOKEN, APPROLE, APPID 등)
+      connection-timeout: 5000                          # Vault 서버 연결 시도 타임아웃(ms)
+      read-timeout: 1000                                # Vault 데이터 읽기 타임아웃(ms)
 
+      # Vault AppRole 인증 방식
+      app-role:
+        role-id: ${VAULT_APP_ROLE_ID}                   # 환경변수에서 Vault 접근 role-id를 불러옴
+        secret-id: ${VAULT_APP_ROLE_SECRET}             # 환경변수에서 Vault 접근 role-secret를 불러옴
+        role: dev-approle-policy                        # 사전에 할당된 role을 불러옴
+
+      # Vault KV Engine 접속 정보
       kv:
-        enabled: true
-        backend: kv2          # Vault 엔진 이름
-        default-context: loc  # Secret 경로 이름
-        application-name: ''
+        enabled: true                                   # KV(키-값) 비밀 엔진 사용 여부
+        backend: kv2                                    # KV Secret Engine 이름(ex: kv2)
+        default-context: loc                            # 기본 Secret 경로 (예: kv2/loc/data/application 같은 구조가 됨)
+        application-name: ''                            # Spring 애플리케이션 이름을 Secret 경로에 추가할지 여부
 
-
-
+      # Vault Database Engine 접속 정보
+      database:
+        enabled: true                                   # Vault Database Secret Engine 사용 여부 (DB 계정을 Vault에서 동적으로 발급받아 사용)
+        role: testRole                                  # Vault에서 DB 계정을 생성할 때 사용할 Database Role 이름
+        backend: app-db                                 # Vault에 Database Secret Engine이 마운트된 경로
+        username-property: spring.datasource.username   # Vault 응답에서 DB 사용자명으로 사용할 필드 이름
+        password-property: spring.datasource.password   # Vault 응답에서 DB 비밀번호로 사용할 필드 이름
+logging:
+  level:
+    org.springframework.cloud.vault: DEBUG
 

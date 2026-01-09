@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.adjh.springboot3vault.mapper.UserMapper">
+
+    <select id="findByUserSq" parameterType="com.adjh.springboot3vault.dto.UserDto" resultType="com.adjh.springboot3vault.dto.UserDto">
+        SELECT *
+        FROM tb_user
+        WHERE user_sq = #{userSq}
+    </select>
+
+    <select id="findByUserId" parameterType="com.adjh.springboot3vault.dto.UserDto" resultType="com.adjh.springboot3vault.dto.UserDto">
+        SELECT *
+        FROM tb_user
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectUser" parameterType="com.adjh.springboot3vault.dto.UserDto" resultType="com.adjh.springboot3vault.dto.UserDto">
+        SELECT *
+        FROM tb_user
+        ORDER BY user_sq DESC
+    </select>
+
+</mapper>

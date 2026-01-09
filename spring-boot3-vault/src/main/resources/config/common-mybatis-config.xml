@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!--
+    해당 파일은 Mybatis 관련 환경 설정을 하는 파일입니다.
+-->
+<configuration>
+    <settings>
+        <!-- column name to camel case-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 쿼리 결과 필드가 null인 경우, 누락이 되서 나오지 않게 설정-->
+        <setting name="callSettersOnNulls" value="true"/>
+        <!-- 쿼리에 보내는 파라미터가 null인 경우, 오류가 발생하는 것 방지 -->
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
+</configuration>

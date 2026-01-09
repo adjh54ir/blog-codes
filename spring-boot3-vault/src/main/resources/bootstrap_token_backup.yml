@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    vault:
+      uri: http://localhost:8200
+      # 인증방식 : TOKEN, APPROLE, APPID, USERPASS, NONE
+      authentication: TOKEN
+      token: ${VAULT_MAIN_TOKEN}   # Root Token
+      connection-timeout: 5000
+      read-timeout: 15000
+
+      kv:
+        enabled: true
+        backend: kv2          # Vault 엔진 이름
+        default-context: loc  # Secret 경로 이름
+        application-name: ''
+
+
+
+

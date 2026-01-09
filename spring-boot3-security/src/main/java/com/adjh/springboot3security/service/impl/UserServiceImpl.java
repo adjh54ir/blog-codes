@@ -24,6 +24,8 @@ public class UserServiceImpl implements UserService {
 
     private final SqlSession sqlSession;
 
+    private final String USER_USE_KEY = "fgjhgj1948581sfg";
+
     public UserServiceImpl(SqlSession ss) {
         this.sqlSession = ss;
     }
@@ -42,6 +44,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> selectUserList(UserDto userDto) {
         UserMapper um = sqlSession.getMapper(UserMapper.class);
+        System.out.println("USER_USE_KEY: " + USER_USE_KEY);
         return um.selectUserList(userDto);
     }
 }

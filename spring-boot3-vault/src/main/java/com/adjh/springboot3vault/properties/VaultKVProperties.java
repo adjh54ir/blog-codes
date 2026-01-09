@@ -21,4 +21,7 @@ public class VaultKVProperties {
     private String dbHost;
     private String dbPassword;
     private String dbUser;
+    private String dbUrl;
+    private String dbPort;
+    private String dbName;
 }

@@ -1,0 +1,22 @@
+[
+ {
+  "RuleID": "generic-api-key",
+  "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+  "StartLine": 33,
+  "EndLine": 33,
+  "StartColumn": 4,
+  "EndColumn": 43,
+  "Match": "secret: 7Hs9x2mK4Lp6Rw3tYzAqBcDfGjNvXeUi",
+  "Secret": "7Hs9x2mK4Lp6Rw3tYzAqBcDfGjNvXeUi",
+  "File": "src/main/resources/config/application-loc.yml",
+  "SymlinkFile": "",
+  "Commit": "",
+  "Entropy": 5,
+  "Author": "",
+  "Email": "",
+  "Date": "",
+  "Message": "",
+  "Tags": [],
+  "Fingerprint": "src/main/resources/config/application-loc.yml:generic-api-key:33"
+ }
+]
