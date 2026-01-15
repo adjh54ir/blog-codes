@@ -245,6 +245,7 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
+.env
 ### Gradle ###
 .gradle
 **/build/
