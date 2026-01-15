@@ -30,20 +30,21 @@ repositories {
 dependencies {
 
     // [Spring Boot Starter]
-    implementation 'org.springframework.boot:spring-boot-starter-web'           // Spring Boot Web
-    implementation 'org.springframework.boot:spring-boot-starter-web'           // Spring Boot Web
-    implementation "org.springframework.boot:spring-boot-starter-jdbc"          // Spring Boot JDBC
+    implementation 'org.springframework.boot:spring-boot-starter-web'               // Spring Boot Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'               // Spring Boot Web
+    implementation "org.springframework.boot:spring-boot-starter-jdbc"              // Spring Boot JDBC
 
     // [Spring Cloud]
-    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'   // Spring Cloud BootStrap
-    implementation 'org.springframework.cloud:spring-cloud-starter-vault-config'// Spring Cloud Vault
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'       // Spring Cloud BootStrap
+    implementation 'org.springframework.cloud:spring-cloud-starter-vault-config'    // Spring Cloud Vault
+    implementation 'org.springframework.cloud:spring-cloud-vault-config-databases'  // Spring Cloud Vault Database
 
     // [Library]
-    implementation("org.postgresql:postgresql:42.7.8")                          // PostgresSQL
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'  // Mybatis
+    implementation("org.postgresql:postgresql:42.7.8")                              // PostgresSQL
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'      // Mybatis
 
-    compileOnly 'org.projectlombok:lombok'                                      // Lombok Compile
-    annotationProcessor 'org.projectlombok:lombok'                              // Lombok Annotation
+    compileOnly 'org.projectlombok:lombok'                                          // Lombok Compile
+    annotationProcessor 'org.projectlombok:lombok'                                  // Lombok Annotation
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

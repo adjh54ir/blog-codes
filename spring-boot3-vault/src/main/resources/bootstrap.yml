@@ -1,6 +1,8 @@
 server:
   port: 8000
 spring:
+  config:
+    import: vault://   # ⭐⭐⭐ 이게 핵심 ⭐⭐⭐
   cloud:
     vault:
       uri: http://localhost:8200
@@ -13,6 +15,7 @@ spring:
       app-role:
         role-id: ${VAULT_APP_ROLE_ID}                   # 환경변수에서 Vault 접근 role-id를 불러옴
         secret-id: ${VAULT_APP_ROLE_SECRET}             # 환경변수에서 Vault 접근 role-secret를 불러옴
+        app-role-path: approle/                         # Role Path
         role: dev-approle-policy                        # 사전에 할당된 role을 불러옴
 
       # Vault KV Engine 접속 정보
@@ -26,10 +29,12 @@ spring:
       database:
         enabled: true                                   # Vault Database Secret Engine 사용 여부 (DB 계정을 Vault에서 동적으로 발급받아 사용)
         role: testRole                                  # Vault에서 DB 계정을 생성할 때 사용할 Database Role 이름
-        backend: app-db                                 # Vault에 Database Secret Engine이 마운트된 경로
+        backend: database                                 # Vault에 Database Secret Engine이 마운트된 경로
         username-property: spring.datasource.username   # Vault 응답에서 DB 사용자명으로 사용할 필드 이름
         password-property: spring.datasource.password   # Vault 응답에서 DB 비밀번호로 사용할 필드 이름
 logging:
   level:
-    org.springframework.cloud.vault: DEBUG
+    org.springframework.cloud.vault: TRACE
+    org.springframework.cloud.vault.config: TRACE
+    org.springframework.cloud.vault.config.database: TRACE
 

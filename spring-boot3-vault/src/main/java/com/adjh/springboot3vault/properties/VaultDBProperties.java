@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * Database Secret Engine 데이터 객체 매핑
  *
  * @author : leejonghoon
- * @fileName : VaultDbProperties
+ * @fileName : VaultDBProperties
  * @since : 25. 12. 22.
  */
 
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @ConfigurationProperties(prefix = "spring.datasource")
-public class VaultDbProperties {
+public class VaultDBProperties {
     private String username;
     private String password;
 }

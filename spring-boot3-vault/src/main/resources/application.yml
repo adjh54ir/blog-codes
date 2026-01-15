@@ -1,0 +1,9 @@
+#spring:
+#  config:
+#    import: vault://
+#  datasource:
+#    url: jdbc:postgresql://${vault.db_url}:${vault.db_port}/${vault.db_name}
+#    driver-class-name: org.postgresql.Driver
+#logging:
+#  level:
+#    org.springframework.boot.context.config: DEBUG

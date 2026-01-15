@@ -1,6 +1,6 @@
 package com.adjh.springboot3vault.config;
 
-import com.adjh.springboot3vault.properties.VaultDbProperties;
+import com.adjh.springboot3vault.properties.VaultDBProperties;
 import com.adjh.springboot3vault.properties.VaultKVProperties;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -14,7 +14,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
 
-
 /**
  * 최초 데이터 베이스 연결 설정을 구성하는 설정 클래스입니다.
  */
@@ -23,38 +22,44 @@ public class DBConfig {
 
     private final ApplicationContext applicationContext;
     private final VaultKVProperties kvProperties;
-    private final VaultDbProperties dbProperties;
+    private final VaultDBProperties dbProperties;
 
-    public DBConfig(ApplicationContext applicationContext, VaultKVProperties kvProperties, VaultDbProperties dbProperties) {
+    public DBConfig(ApplicationContext applicationContext, VaultKVProperties kvProperties, VaultDBProperties dbProperties) {
         this.applicationContext = applicationContext;
         this.kvProperties = kvProperties;
         this.dbProperties = dbProperties;
     }
 
+    /**
+     * DataSource 구성
+     *
+     * @return
+     */
     @Bean
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
 
+        // 1. KV Secret Engine에서 조회된 값
         System.out.println("kvProperties = " + kvProperties.getDbUrl());
         System.out.println("kvProperties = " + kvProperties.getDbPort());
         System.out.println("kvProperties = " + kvProperties.getDbName());
-        // KV Secret Engine 내에 조회한 속성을 조회하여 세팅함.
+
+        // 2. KV Secret Engine 내에 조회한 속성을 조회하여 세팅함.
+        // [구조예시] jdbc:postgresql://localhost:5432/testdb
         hikariConfig.setJdbcUrl(
                 String.format("jdbc:postgresql://%s:%s/%s",
                         kvProperties.getDbUrl(),
                         kvProperties.getDbPort(),
                         kvProperties.getDbName())
         );
-        // DB Secret Engine 내에서 조회한 속성을 조회하여 세팅함.(동적 사용자, 비밀번호)
+        // 3. DB Secret Engine 내에서 조회한 속성을 조회하여 HikariCP에 세팅함.(동적 사용자, 비밀번호)
         hikariConfig.setUsername(dbProperties.getUsername());
         hikariConfig.setPassword(dbProperties.getPassword());
 
-        String username = hikariConfig.getUsername();
-        String password = hikariConfig.getPassword();
+        System.out.println("dbProperties username = " + dbProperties.getUsername());
+        System.out.println("dbProperties password= " + dbProperties.getPassword());
 
-        System.out.println("동적 사용자 >> " + username);
-        System.out.println("동적 패스워드 >> " + password);
-        // 기타 HikariCP 설정
+        // 4. 기타 HikariCP 설정
         hikariConfig.setDriverClassName("org.postgresql.Driver");
         hikariConfig.setConnectionTimeout(10000); //커넥션 풀에서 새로운 커넥션을 가져올 때 최대 몇 ms까지 기다릴지를 설정 (단위: 밀리초)
         hikariConfig.setValidationTimeout(13000); //커넥션이 유효한지 테스트할 때 (connection.isValid()) 검증 쿼리가 완료될 때까지 기다릴 최대 시간 (단위: 밀리초)
@@ -67,6 +72,13 @@ public class DBConfig {
         return new HikariDataSource(hikariConfig);
     }
 
+    /**
+     * MyBatis 구성
+     *
+     * @param dataSource
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean session = new SqlSessionFactoryBean();
